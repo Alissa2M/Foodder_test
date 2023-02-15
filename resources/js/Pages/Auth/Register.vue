@@ -1,10 +1,9 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import BaseButton from '@/Components/BaseButton.vue';
 
 const form = useForm({
     name: '',
@@ -23,82 +22,72 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
-
-        <form @submit.prevent="submit">
+        <Head title="会員登録" />
+        <form @submit.prevent="submit" class="form_style">
             <div>
-                <InputLabel for="name" value="Name" />
-
+                <p class="length">{{form.name.length}}/30文字</p>
                 <TextInput
-                    id="name"
                     type="text"
-                    class="mt-1 block w-full"
                     v-model="form.name"
                     required
                     autofocus
                     autocomplete="name"
+                    placeholder="ユーザーネーム"
+                    maxlength="30"
                 />
-
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError :message="form.errors.name" />
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
+            <div>
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
                     v-model="form.email"
                     required
                     autocomplete="username"
+                    placeholder="メールアドレス"
                 />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError :message="form.errors.email" />
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
+            <div>
                 <TextInput
                     id="password"
                     type="password"
-                    class="mt-1 block w-full"
                     v-model="form.password"
                     required
                     autocomplete="new-password"
+                    placeholder="パスワード"
                 />
-
-                <InputError class="mt-2" :message="form.errors.password" />
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-
+            <div>
                 <TextInput
                     id="password_confirmation"
                     type="password"
-                    class="mt-1 block w-full"
                     v-model="form.password_confirmation"
                     required
                     autocomplete="new-password"
+                    placeholder="パスワード確認用"
                 />
-
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
+                <InputError :message="form.errors.password" />
+                <InputError :message="form.errors.password_confirmation" />
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    :href="route('login')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </PrimaryButton>
-            </div>
+            <BaseButton button-name="新規登録"/>
+            <p>アカウントをすでにお持ちな方は<Link :href="route('login')" class="click_here">こちら</Link></p>          
         </form>
     </GuestLayout>
 </template>
+
+<style scoped>
+.form_style{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 12px;
+    text-align: center;
+}
+.length{
+    text-align: right;
+}
+.click_here{
+    color:#0000ee;
+}
+</style>
