@@ -32,6 +32,7 @@ const buttonClick = () => {
 <style scoped>
 .button_box{
     height:40px;
+    margin-top: 10px;
 }
 button{
     width: 100%;
