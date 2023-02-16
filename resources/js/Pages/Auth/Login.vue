@@ -38,9 +38,7 @@ const submit = () => {
             </div>
             <div>
                 <TextInput
-                    id="password"
                     type="password"
-                    class="mt-1 block w-full"
                     v-model="form.password"
                     required
                     autocomplete="current-password"
