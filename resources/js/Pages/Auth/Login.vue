@@ -1,21 +1,18 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import BaseButton from '@/Components/BaseButton.vue';
 
 defineProps({
     canResetPassword: Boolean,
-    status: String,
 });
 
 const form = useForm({
     email: '',
     password: '',
-    remember: false,
+    remember: true,
 });
 
 const submit = () => {
@@ -27,32 +24,19 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
-
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
+        <Head title="ログイン" />
+        <form @submit.prevent="submit" class="form_style">
             <div>
-                <InputLabel for="email" value="Email" />
-
                 <TextInput
-                    id="email"
                     type="email"
-                    class="mt-1 block w-full"
                     v-model="form.email"
                     required
                     autofocus
                     autocomplete="username"
+                    placeholder="メールアドレス"
                 />
-
-                <InputError class="mt-2" :message="form.errors.email" />
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
+            <div>
                 <TextInput
                     id="password"
                     type="password"
@@ -60,46 +44,93 @@ const submit = () => {
                     v-model="form.password"
                     required
                     autocomplete="current-password"
+                    placeholder="パスワード"
                 />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
+                <InputError :message="form.errors.email" />
+                <InputError :message="form.errors.password" />
+            </div>         
+            <BaseButton button-name="ログイン"/>
+            <div class="reset_password">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="click_here"
                 >
-                    Forgot your password?
+                    ※パスワードを忘れた場合
                 </Link>
-
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
-                
             </div>
         </form>
-        <div class="form-group row mt-2">
-            <div class="col-md-8 offset-md-4">
-                <a href="/login/google" class="btn btn-secondary" role="button">
-                    Google Login
-                </a>
-            </div>
+        <hr>
+        <div class="sns_login_group">
+            <a href="/" class="sns_login twitter" role="button">
+                Twitterでログイン
+            </a>
+            <a href="/login/facebook" class="sns_login facebook" role="button">
+                Facebookでログイン
+            </a>
+            <a href="/login/google" class="sns_login google" role="button">
+                Googleでログイン
+            </a>
         </div>
-        <div class="form-group row mt-2">
-            <div class="col-md-8 offset-md-4">
-                <a href="/login/facebook" class="btn btn-secondary" role="button">
-                    Facebook Login
-                </a>
-            </div>
-        </div>
+        <p class="to_resigter">アカウントをお持ちでない方は<Link :href="route('register')" class="click_here">こちら</Link></p>
     </GuestLayout>
 </template>
+
+<style scoped>
+.form_style{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.reset_password{
+    width: 100%;
+    text-align: right;
+}
+.to_resigter{
+    font-size: 12px;
+    text-align: center;
+}
+.click_here{
+    color:#0000ee;
+}
+hr{
+    margin: 10px 0;
+}
+.sns_login_group{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 15px 0;
+}
+.sns_login{
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 6px 0;
+}
+
+.twitter{
+    background-image: url(../../../../public/img/Twitter_icon.png);
+    background-repeat: no-repeat;
+    background-size:20px;
+    background-position:5% 50% ;
+}
+.facebook{
+    background-image: url(../../../../public/img/facebook_icon.png);
+    background-repeat: no-repeat;
+    background-size:25px;
+    background-position:4% 50% ; 
+}
+.google{
+    background-image: url(../../../../public/img/google_icon.png);
+    background-repeat: no-repeat;
+    background-size:20px;
+    background-position:5% 50% ;
+}
+</style>
