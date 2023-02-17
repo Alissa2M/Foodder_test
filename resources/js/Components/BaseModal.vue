@@ -1,19 +1,18 @@
 <script setup>
-import { computed, onMounted, onUnmounted, watch } from 'vue';
+import { onMounted, onUnmounted, watch } from 'vue';
 
 const props = defineProps({
     show: {
         type: Boolean,
         default: false,
     },
-    maxWidth: {
-        type: String,
-        default: '2xl',
-    },
     closeable: {
         type: Boolean,
         default: true,
     },
+    modalTitle:{
+        type: String,
+    }
 });
 
 const emit = defineEmits(['close']);
@@ -48,21 +47,13 @@ onUnmounted(() => {
     document.body.style.overflow = null;
 });
 
-const maxWidthClass = computed(() => {
-    return {
-        sm: 'sm:max-w-sm',
-        md: 'sm:max-w-md',
-        lg: 'sm:max-w-lg',
-        xl: 'sm:max-w-xl',
-        '2xl': 'sm:max-w-2xl',
-    }[props.maxWidth];
-});
 </script>
 
 <template>
     <teleport to="body">
         <transition leave-active-class="duration-200">
-            <div v-show="show" class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50" scroll-region>
+            <div v-show="show" class="fixed inset-0 px-4 pt-40" scroll-region>
+                <!-- 背景 -->
                 <transition
                     enter-active-class="ease-out duration-300"
                     enter-from-class="opacity-0"
@@ -71,11 +62,11 @@ const maxWidthClass = computed(() => {
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0"
                 >
-                    <div v-show="show" class="fixed inset-0 transform transition-all" @click="close">
-                        <div class="absolute inset-0 bg-gray-500 opacity-75" />
+                    <div v-show="show" class="fixed inset-0" @click="close">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
                     </div>
                 </transition>
-
+                <!-- モーダルの中身 -->
                 <transition
                     enter-active-class="ease-out duration-300"
                     enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -86,13 +77,23 @@ const maxWidthClass = computed(() => {
                 >
                     <div
                         v-show="show"
-                        class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
-                        :class="maxWidthClass"
+                        class="text-sm text-center bg-white rounded-lg shadow-xl transform transition-all px-6 pt-8 pb-6"
                     >
-                        <slot v-if="show" />
+                        <!-- モーダルのタイトル -->
+                        <h2>{{ modalTitle }}</h2>
+                        <!-- モーダルのコンテンツ -->
+                        <slot />
                     </div>
                 </transition>
             </div>
         </transition>
     </teleport>
 </template>
+
+<style scoped>
+h2{
+    font-size: 21px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+</style>

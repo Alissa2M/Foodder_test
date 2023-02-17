@@ -11,6 +11,8 @@ defineProps({
     }
 });
 
+const emit = defineEmits(['handleButton']);
+
 const isShadow = ref(true);
 const buttonClick = () => {
     isShadow.value = false;
