@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
@@ -10,7 +9,6 @@ import BaseModal from '@/Components/BaseModal.vue';
 const props = defineProps({
     status: String,
 });
-
 
 const form = useForm({
     email: '',
@@ -42,12 +40,14 @@ const submit = () => {
                 />
                 <InputError :message="form.errors.email" />
             </div>
-            <BaseButton v-bind:type="button" button-name="再設定メールを送信" v-on:handle-button="clickSend"/>
+            <BaseButton v-bind:type="button" button-name="再設定メールを送信"/>
         </form>
         <p class="to_login"><Link :href="route('login')">ログイン画面へ戻る</Link></p>
-        <BaseModal v-bind:show="props.status === 'パスワードリセットメールを送信しました。'" v-on:close="closeModal" modal-title="メールをご確認ください">
+        <BaseModal v-bind:show="props.status" v-on:close="closeModal" modal-title="メールをご確認ください">
             <p>{{ props.status }}<br>メールの内容に従ってパスワードを再設定してください。</p>
-            <div class="return"><a href="/forgot-password">戻る</a></div>
+            <div class="return">
+                <a href="/forgot-password">戻る</a>
+            </div>
         </BaseModal>
     </GuestLayout>
 </template>
@@ -56,10 +56,12 @@ const submit = () => {
 .title{
     font-size: 18px;
     font-weight: bold;
+    text-align: center;
     margin-bottom: 10px
 }
 .password_reset{
     font-size: 14px;
+    text-align: center;
     margin-bottom: 30px;
 }
 .to_login{
@@ -67,9 +69,6 @@ const submit = () => {
     text-align: center;
     margin-top: 15px;
     color:#0000ee;
-}
-.modal_email{
-    color: #FF6F00;
 }
 .return{
     text-align: center;
