@@ -1,11 +1,12 @@
 <script setup>
 import { computed } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import BaseButton from '@/Components/BaseButton.vue';
 
 const props = defineProps({
     status: String,
+    email: String,
 });
 
 const form = useForm({});
@@ -19,31 +20,52 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 
 <template>
     <GuestLayout>
-        <Head title="Email Verification" />
-
-        <div class="mb-4 text-sm text-gray-600">
-            Thanks for signing up! Before getting started, could you verify your email address by clicking on the link
-            we just emailed to you? If you didn't receive the email, we will gladly send you another.
-        </div>
-
-        <div class="mb-4 font-medium text-sm text-green-600" v-if="verificationLinkSent">
-            A new verification link has been sent to the email address you provided during registration.
-        </div>
-
+        <Head title="メールアドレス認証" />
+        <div class="title">メールアドレスの認証</div>
+        <hr>
+        <p class="email">{{ props.email }}宛てに認証メールが送信されました</p>
+        <p class="verify_email">登録されているメールアドレスは認証が完了していません。メール受信箱を確認し、認証を完了してください。</p>
+        <p v-if="verificationLinkSent" class="resend_email">
+           ※認証メールを再送しましたので、ご確認ください。
+        </p>
         <form @submit.prevent="submit">
-            <div class="mt-4 flex items-center justify-between">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Resend Verification Email
-                </PrimaryButton>
-
+            <BaseButton button-name="認証メールを再送信"/>
+            <div class="to_logout">
                 <Link
                     :href="route('logout')"
                     method="post"
                     as="button"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >Log Out</Link
-                >
+                >ログアウトする</Link>
             </div>
         </form>
     </GuestLayout>
 </template>
+
+<style scoped>
+.title{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px
+}
+.email{
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.verify_email{
+    font-size: 14px;
+    margin: 20px 0;
+}
+.to_logout{
+    color: #0000ee;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 15px;
+}
+.resend_email{
+    font-size: 12px;
+    text-align: center;
+    color: #FF6F00;
+}
+</style>
