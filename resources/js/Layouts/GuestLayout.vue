@@ -19,7 +19,6 @@ import { Link } from '@inertiajs/vue3';
     flex-direction: column;
     justify-content: center;
     height: 100vh;
-    background-color: #FFF3E0;
 }
 .logo{
     width: 13rem;
