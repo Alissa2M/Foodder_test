@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -36,6 +39,19 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+
+        $current_password = $request->password;
+        if($current_password !== null){
+            $validated = $request->validate([
+                'current_password' => ['required','current_password'],
+                'password' => ['required',Password::defaults(), 'confirmed'],
+            ]);
+
+            $request->user()->update([
+                'password' => Hash::make($validated['password']),
+            ]);
+        }
+
 
         return Redirect::route('profile.edit');
     }

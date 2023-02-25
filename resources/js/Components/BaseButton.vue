@@ -11,8 +11,6 @@ defineProps({
     }
 });
 
-const emit = defineEmits(['handleButton']);
-
 const isShadow = ref(true);
 const buttonClick = () => {
     isShadow.value = false;
@@ -20,7 +18,6 @@ const buttonClick = () => {
         isShadow.value = true}
         ,200
       )
-    $emit('handleButton')
 }
 
 </script>
