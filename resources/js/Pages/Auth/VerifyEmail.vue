@@ -21,10 +21,10 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 <template>
     <GuestLayout>
         <Head title="メールアドレス認証" />
-        <div class="title">メールアドレスの認証</div>
-        <hr>
+        <div class="title">メールを確認してください！</div>
+        <img src="../../../../public/img/email_send.png" alt="メール送信済み" class="email_send">
         <p class="email">{{ props.email }}宛てに認証メールが送信されました</p>
-        <p class="verify_email">登録されているメールアドレスは認証が完了していません。メール受信箱を確認し、認証を完了してください。</p>
+        <p class="verify_email">登録されているメールアドレスは認証が完了していません。メールを確認し、認証を完了してください。</p>
         <p v-if="verificationLinkSent" class="resend_email">
            ※認証メールを再送しましたので、ご確認ください。
         </p>
@@ -35,7 +35,9 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                     :href="route('logout')"
                     method="post"
                     as="button"
-                >ログアウトする</Link>
+                >ログアウト
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </Link>
             </div>
         </form>
     </GuestLayout>
@@ -46,7 +48,6 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
     font-size: 18px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 10px
 }
 .email{
     text-align: center;
@@ -58,14 +59,16 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
     margin: 20px 0;
 }
 .to_logout{
-    color: #0000ee;
     font-size: 12px;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 .resend_email{
     font-size: 12px;
     text-align: center;
     color: #FF6F00;
+}
+.email_send{
+    margin: 0 auto;
 }
 </style>
