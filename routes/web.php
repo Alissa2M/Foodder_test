@@ -17,14 +17,20 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
+
+Route::get('/', [App\Http\Controllers\CalenderController::class, 'index']);
+Route::get('/show', [App\Http\Controllers\CalenderController::class, 'show']);
+Route::post('/new', [App\Http\Controllers\CalenderController::class, 'store']);
+Route::patch('/{appointment}/edit', [App\Http\Controllers\CalenderController::class, 'update']);
+Route::delete('/{appointment}', [App\Http\Controllers\CalenderController::class, 'destroy']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
