@@ -5,17 +5,22 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+const clickDate = ref('');
+
 const calendarOptions = ref({
     plugins: [ dayGridPlugin, interactionPlugin ],
     initialView: 'dayGridMonth',
-    // locale: 'ja',
     height: "60vh",
     headerToolbar: {
         right: 'prev,next',
         left: 'title'
     },
-    // contentHeight:"auto"
-})     
+    // 日付マスのクリックイベント
+    dateClick: (e)=>{
+		clickDate.value = e.dateStr;
+        window.location.href='/dashboard'
+	},
+})
 
 </script>
 
@@ -25,7 +30,7 @@ const calendarOptions = ref({
         <!-- カレンダー -->
         <div class="calender_box">
             <FullCalendar 
-                :options="calendarOptions" 
+                :options="calendarOptions"
                 class="fullcalendar"
             />
         </div>
@@ -47,7 +52,7 @@ const calendarOptions = ref({
 <style scoped>
 
 .calender_box{
-    padding: 10px 18px 18px;
+    padding: 18px;
     background-color: #fff;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
@@ -120,7 +125,4 @@ footer{
 .mark_position{
     width: 1.3rem;
 }
-
-
-
 </style>

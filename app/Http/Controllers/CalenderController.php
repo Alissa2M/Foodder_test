@@ -53,11 +53,7 @@ class CalenderController extends Controller
      */
     public function show(Request $request)
     {
-        if (auth()->user()->isAdmin) {
-            return Calender::with('user:id,name,lastname')->get();
-        } else {
-            return Calender::where('user_id', auth()->user()->id)->get();
-        }
+        return Inertia::render('Dashboard');
     }
 
     /**
