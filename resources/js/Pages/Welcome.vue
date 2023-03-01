@@ -48,7 +48,7 @@ const submit = (e) => {
         </div>
     </main>
     <footer>
-        <Link href="/dashboard" class="circle_button">
+        <Link :href="route('dashboard')" class="circle_button">
             <div class="mark_position">
                 <img src="../../../public/img/plus.png" alt="投稿する">
             </div>

@@ -6,6 +6,7 @@ use App\Models\Calender;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class CalenderController extends Controller
 {
@@ -58,7 +59,13 @@ class CalenderController extends Controller
     public function show(Request $request)
     {
       $category = Category::all();
-      return Inertia::render('Dashboard', ['date'=> $request->date, 'category' => $category]);
+      $date = $request->date;
+      $today = new Carbon('today');
+      if($date){
+        return Inertia::render('Dashboard', ['date'=> $request->date, 'category' => $category]);
+      }else{
+        return Inertia::render('Dashboard', ['date'=> $today->toDateString(), 'category' => $category]);
+      }
     }
 
     /**
