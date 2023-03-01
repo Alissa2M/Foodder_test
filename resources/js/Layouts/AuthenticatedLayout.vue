@@ -25,11 +25,15 @@ const props = defineProps(['href']);
 
 <style scoped>
 header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin: 10px;
 }
 .back_page{
     font-size: 14px;
     padding-left: 18px;
+    margin: auto 0;
     background-image: url(../../../public/img/back.png);
     background-repeat: no-repeat;
     background-position: 0 50%;

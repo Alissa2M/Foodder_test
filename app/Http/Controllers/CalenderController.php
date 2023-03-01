@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Calender;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,23 +27,26 @@ class CalenderController extends Controller
      */
     public function store(Request $request)
     {
-        $assignee =
-        $request->assignee && auth()->user()->isAdmin ?
-        $request->assignee :
-        $assignee = auth()->user()->id;
+      return redirect()->route('dashboard',['date' => $request->date]);
 
-        $calender = new Calender([
-            'start' => $request->start,
-            'title' => $request->title,
-            'description' => $request->description,
-            'img_path' => $request->img,
-            'user_id' => $assignee,
-            'category_id' => $request->category
-        ]);
 
-        $calender->save();
+        // $assignee =
+        // $request->assignee && auth()->user()->isAdmin ?
+        // $request->assignee :
+        // $assignee = auth()->user()->id;
 
-        return $event;
+        // $calender = new Calender([
+        //     'start' => $request->start,
+        //     'title' => $request->title,
+        //     'description' => $request->description,
+        //     'img_path' => $request->img,
+        //     'user_id' => $assignee,
+        //     'category_id' => $request->category
+        // ]);
+
+        // $calender->save();
+
+        // return $event;
     }
 
     /**
@@ -53,7 +57,8 @@ class CalenderController extends Controller
      */
     public function show(Request $request)
     {
-        return Inertia::render('Dashboard');
+      $category = Category::all();
+      return Inertia::render('Dashboard', ['date'=> $request->date, 'category' => $category]);
     }
 
     /**
