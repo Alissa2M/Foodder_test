@@ -1,11 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-
-const clickDate = ref('');
 
 const calendarOptions = ref({
     plugins: [ dayGridPlugin, interactionPlugin ],
@@ -17,11 +15,18 @@ const calendarOptions = ref({
     },
     // 日付マスのクリックイベント
     dateClick: (e)=>{
-		clickDate.value = e.dateStr;
-        window.location.href='/dashboard'
+		form.date = e.dateStr;
+        submit(form.date)
 	},
 })
 
+const form = useForm({
+    date: ''
+});
+
+const submit = (e) => {
+    form.post('/dashboard',e);
+}
 </script>
 
 <template>
@@ -29,10 +34,13 @@ const calendarOptions = ref({
     <main>
         <!-- カレンダー -->
         <div class="calender_box">
-            <FullCalendar 
-                :options="calendarOptions"
-                class="fullcalendar"
-            />
+            <form @submit.prevent="submit">
+                <FullCalendar 
+                    :options="calendarOptions"
+                    class="fullcalendar"
+                />
+                <input type="hidden" name="date" value="form.date">
+            </form>
         </div>
         <!-- 投稿 -->
         <div>
@@ -40,7 +48,7 @@ const calendarOptions = ref({
         </div>
     </main>
     <footer>
-        <Link href="/dashboard" class="circle_button">
+        <Link :href="route('dashboard')" class="circle_button">
             <div class="mark_position">
                 <img src="../../../public/img/plus.png" alt="投稿する">
             </div>

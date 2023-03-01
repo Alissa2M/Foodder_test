@@ -219,7 +219,7 @@ const checkUsername = (event) => {
 .chose_edit{
     display: flex;
     gap: 0 5px; 
-    justify-content: end;
+    justify-content: flex-end;
     font-size: 12px;
     margin-top: 5px;
     color: #fff;
