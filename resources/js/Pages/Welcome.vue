@@ -25,7 +25,8 @@ const form = useForm({
 });
 
 const submit = (e) => {
-    form.post('/dashboard',e);
+    form.post(route('post'),e);
+
 }
 </script>
 

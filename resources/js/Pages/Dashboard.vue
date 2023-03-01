@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    date: Date,
+    date: String,
     category: Array,
 });
 
@@ -13,16 +13,18 @@ const form = useForm({
     description:'',
     start:props.date,
     img_path:'',
-    // user_id:'',
     category_id:2,
-
 });
 
-// const submit = () => {
-//     // form.post(route('login'), {
-//     //     onFinish: () => form.reset('password'),
-//     // });
-// };
+const clickSend = () => {
+    submit()
+}
+
+const submit = () => {
+    form.post(route('dashboard.store'), {
+        forceFormData: true
+});
+};
 
 const chooseCategoryColor = ref(2);
 const chooseCategoryName = ref("昼");
@@ -55,75 +57,91 @@ onBeforeUnmount(()=>{
     removeEventListener('click',detectOutsideClick);
 })
 
-const addMore = () => {
-    console.log("追加")
+
+const photoPreview = ref('');
+const file = ref('');
+const photoUrl = ref('');
+const showPhoto = ref(false);
+
+const uploadPhoto = () => {
+    file.value = photoPreview.value.files[0];
+    photoUrl.value = URL.createObjectURL(file.value);
+    showPhoto.value = true;
+    form.img_path = photoPreview.value.files[0];
 }
+
 
 </script>
 
 <template>
     <Head title="投稿画面" />
-
-    <AuthenticatedLayout v-bind:href="'/'">
-        <template #header>
-            <Link href="/profile">
-                <i class="fa-solid fa-circle-user"></i>
-            </Link>
-        </template>
-        <template #main>
-            <form @submit.prevent="submit" class="form_style">
-                <div class="top">
-                    <span class="top_circle"></span>
-                    <span class="top_circle"></span>
-                    <span class="top_circle"></span>
-                </div>
-                <div class="input_content">
-                    <div class="date_category">
-                        <!-- 日付 -->
-                        <input type="date" v-model="form.start" name="start" class="input_form date_form">
-                        <!-- カテゴリ -->
-                        <div class="index_option" @click="clickSelect" v-show="showSelect">
-                            <span class="category_color" :class="(chooseCategoryColor === 1)?'category_blue':(chooseCategoryColor === 2)?'category_green':(chooseCategoryColor === 3)?'category_yellow':(chooseCategoryColor === 4)?'category_purple':''"></span>
-                            <span>{{ chooseCategoryName }}</span>
-                            <input type="hidden" name="category_id" v-model="form.category_id">
-                        </div>
-                        <div class="select_box" v-show="showOption">
-                            <div v-for="(value, key) in props.category" class="category_color_box" :key="key"  @click="clickOption(value.id)" :class="value.category_name === chooseCategoryName?'selected_category':''">
-                                <span class="category_color" :class="(value.color==='青')?'category_blue':(value.color === '緑')?'category_green':(value.color === '黄')?'category_yellow':(value.color === '紫')?'category_purple':''"></span>
-                                <span class="category_name">{{ value.category_name }}</span>
-                                <input type="hidden" :value="value.id">
+    <form @submit.prevent="submit">
+        <AuthenticatedLayout :href="'/'" v-on:click-button="clickSend">
+            <template #header>
+                <Link href="/profile">
+                    <i class="fa-solid fa-circle-user"></i>
+                </Link>
+            </template>
+            <template #main>
+                <div class="form_style">
+                    <div class="top">
+                        <span class="top_circle"></span>
+                        <span class="top_circle"></span>
+                        <span class="top_circle"></span>
+                    </div>
+                    <div class="input_content">
+                        <div class="date_category">
+                            <!-- 日付 -->
+                            <input type="date" v-model="form.start" name="start" class="input_form date_form">
+                            <!-- カテゴリ -->
+                            <div class="index_option" @click="clickSelect" v-show="showSelect">
+                                <span class="category_color" :class="(chooseCategoryColor === 1)?'category_green':(chooseCategoryColor === 2)?'category_yellow':(chooseCategoryColor === 3)?'category_blue':(chooseCategoryColor === 4)?'category_purple':''"></span>
+                                <span>{{ chooseCategoryName }}</span>
+                                <input type="hidden" name="category_id" v-model="form.category_id">
+                            </div>
+                            <div class="select_box" v-show="showOption">
+                                <div v-for="(value, key) in props.category" class="category_color_box" :key="key"  @click="clickOption(value.id)" :class="value.category_name === chooseCategoryName?'selected_category':''">
+                                    <span class="category_color" :class="(value.color==='青')?'category_blue':(value.color === '緑')?'category_green':(value.color === '黄')?'category_yellow':(value.color === '紫')?'category_purple':''"></span>
+                                    <span class="category_name">{{ value.category_name }}</span>
+                                    <input type="hidden" :value="value.id">
+                                </div>
                             </div>
                         </div>
+                        <div>
+                            <!-- フード名 -->
+                            <input type="text" v-model="form.title" name="title" placeholder="フード名" class="input_form">
+                            <span class="word_length">{{form.title.length}}/30文字</span>
+                        </div>
+                        <div>
+                            <!-- メモ -->
+                            <input type="text" v-model="form.description" name="description" placeholder="メモ" class="input_form">
+                            <span class="word_length">{{form.description.length}}/30文字</span>
+                        </div>
+                        <!-- 写真 -->
+                        <label for="photo" class="photo_label">
+                            画像をアップロード
+                            <input id="photo" type="file" name="img_path" accept="image/*;capture=camera" class="photo_input" @change="uploadPhoto" ref="photoPreview">
+                        </label>
                     </div>
-                    <div>
-                        <!-- フード名 -->
-                        <input type="text" v-model="form.title" name="title" placeholder="フード名" class="input_form">
-                        <span class="word_length">{{form.title.length}}/30文字</span>
-                    </div>
-                    <div>
-                        <!-- メモ -->
-                        <input type="text" v-model="form.description" name="description" placeholder="メモ" class="input_form">
-                        <span class="word_length">{{form.description.length}}/30文字</span>
-                    </div>
-                    <!-- 写真 -->
-                    <label for="photo" class="photo_label">
-                        画像をアップロード
-                        <input id="photo" type="file" name="image" accept="image/*;capture=camera" class="photo_input">
-                    </label>
                 </div>
-            </form>
-            <div class="add_more">
-                <span @click="addMore">
-                    <i class="fa-solid fa-circle-plus"></i>
-                    追加する
-                </span>
-            </div>
-        </template>
-        
-        <template #footer>
-            <i class="fa-solid fa-paper-plane send_icon"></i>
-        </template>
-    </AuthenticatedLayout>
+                <div class="preview_hr"></div>
+                <div class="input_confirm">
+                    <div class="photo_box">
+                        <img :src="photoUrl" alt="画像表示" class="photo_review" v-if="showPhoto">
+                    </div>
+                    <div class="preview_content">
+                        <span class="food_name">{{ form.title }}</span>
+                        <p class="memo_review">{{ form.description }}</p>
+                        <span class="ate_day">{{ form.start }}</span>
+                    </div>
+                </div>
+            </template>
+            
+            <template #footer>
+                <i class="fa-solid fa-paper-plane send_icon"></i>
+            </template>
+        </AuthenticatedLayout>
+    </form>
 </template>
 
 <style scoped>
@@ -207,9 +225,11 @@ const addMore = () => {
 }
 .photo_label{
     width: 100%;
+    font-size: 14px;
     color: #fff;
     text-align: center;
     padding: 5px;
+    margin-top: 10px;
     background-color: #FF6F00;
     border-radius: 5px;
 }
@@ -273,9 +293,60 @@ const addMore = () => {
 .category_purple{
     background-color:purple;
 }
-.add_more{
+.preview_hr{
+    width: 90vw;
+    margin: 30px auto 20px;
+    border-bottom: 2px dashed #FFC107;
+}
+
+.input_confirm{
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    height: 80px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px; 
+    overflow: hidden;
+
+}
+.photo_box{
+    width: 80px;
+    height:80px;
+    background-image: url(../../../public/img/no_image.png);
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #D9D9D9;
+    flex-shrink: 0;
+}
+.photo_review{
+    width: 80px;
+    height: 80px;
+    object-fit:cover;
+    object-position: 50% 50%;
+    flex-shrink: 0;
+}
+
+.preview_content{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 5px 10px;
+    overflow-y: auto;
+}
+.food_name{
+    font-weight: bold;
+}
+.memo_review{
     font-size: 14px;
+}
+.ate_day{
+    display: block;
     text-align: end;
-    margin: 5px 25px 20px 0;
+    font-size: 12px;
+    color: #908D8D;
+    margin-top: auto;
 }
 </style>

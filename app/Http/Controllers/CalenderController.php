@@ -20,6 +20,29 @@ class CalenderController extends Controller
         return Inertia::render('Welcome');
     }
 
+    public function post(Request $request)
+    {
+      return redirect()->route('dashboard',['date' => $request->date]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Calender  $calender
+     * @return \Illuminate\Http\Response
+    */
+    public function show(Request $request)
+    {
+      $category = Category::all();
+      $date = $request->date;
+      $today = new Carbon('today');
+      if($date){
+        return Inertia::render('Dashboard', ['date'=> $request->date, 'category' => $category]);
+      }else{
+        return Inertia::render('Dashboard', ['date'=> $today->toDateString(), 'category' => $category]);
+      }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -28,7 +51,13 @@ class CalenderController extends Controller
      */
     public function store(Request $request)
     {
-      return redirect()->route('dashboard',['date' => $request->date]);
+      dd("aaa");
+      // $request->validate([
+      //   'title' => 'required|string|max:30',
+      //   'description' => 'string|max:30',
+      // ]);
+
+      return redirect('/');
 
 
         // $assignee =
@@ -48,24 +77,6 @@ class CalenderController extends Controller
         // $calender->save();
 
         // return $event;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Calender  $calender
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request)
-    {
-      $category = Category::all();
-      $date = $request->date;
-      $today = new Carbon('today');
-      if($date){
-        return Inertia::render('Dashboard', ['date'=> $request->date, 'category' => $category]);
-      }else{
-        return Inertia::render('Dashboard', ['date'=> $today->toDateString(), 'category' => $category]);
-      }
     }
 
     /**

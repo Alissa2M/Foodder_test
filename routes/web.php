@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', [App\Http\Controllers\CalenderController::class, 'index']);
+Route::get('/', [App\Http\Controllers\CalenderController::class, 'index'])->name('home');
+Route::post('/', [App\Http\Controllers\CalenderController::class, 'post'])->name('post');
 Route::get('/dashboard', [App\Http\Controllers\CalenderController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::post('/dashboard', [App\Http\Controllers\CalenderController::class, 'store']);
+Route::post('/dashboard', [App\Http\Controllers\CalenderController::class, 'store'])->name('dashboard.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
