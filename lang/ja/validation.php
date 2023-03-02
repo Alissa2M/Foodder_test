@@ -17,6 +17,8 @@ return [
         'name' => 'ユーザー名',
         'email' => 'メールアドレス',
         'password' => 'パスワード',
+        'title' => 'フード名',
+        'description' => 'メモ',
     ],
     'before'               => ':Attributeには、:dateより前の日付を指定してください。',
     'before_or_equal'      => ':Attributeには、:date以前の日付を指定してください。',

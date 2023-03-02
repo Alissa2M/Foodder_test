@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import InputError from '@/Components/InputError.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -109,11 +110,13 @@ const uploadPhoto = () => {
                         </div>
                         <div>
                             <!-- フード名 -->
+                            <InputError :message="form.errors.title" />
                             <input type="text" v-model="form.title" name="title" placeholder="フード名" class="input_form">
                             <span class="word_length">{{form.title.length}}/30文字</span>
                         </div>
                         <div>
                             <!-- メモ -->
+                            <InputError :message="form.errors.description" />
                             <input type="text" v-model="form.description" name="description" placeholder="メモ" class="input_form">
                             <span class="word_length">{{form.description.length}}/30文字</span>
                         </div>
