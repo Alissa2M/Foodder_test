@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Calender;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Carbon\Carbon;
+
 
 class CalenderController extends Controller
 {
@@ -20,34 +23,9 @@ class CalenderController extends Controller
         return Inertia::render('Welcome');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function post(Request $request)
     {
       return redirect()->route('dashboard',['date' => $request->date]);
-
-
-        // $assignee =
-        // $request->assignee && auth()->user()->isAdmin ?
-        // $request->assignee :
-        // $assignee = auth()->user()->id;
-
-        // $calender = new Calender([
-        //     'start' => $request->start,
-        //     'title' => $request->title,
-        //     'description' => $request->description,
-        //     'img_path' => $request->img,
-        //     'user_id' => $assignee,
-        //     'category_id' => $request->category
-        // ]);
-
-        // $calender->save();
-
-        // return $event;
     }
 
     /**
@@ -55,7 +33,7 @@ class CalenderController extends Controller
      *
      * @param  \App\Models\Calender  $calender
      * @return \Illuminate\Http\Response
-     */
+    */
     public function show(Request $request)
     {
       $category = Category::all();
@@ -66,6 +44,39 @@ class CalenderController extends Controller
       }else{
         return Inertia::render('Dashboard', ['date'=> $today->toDateString(), 'category' => $category]);
       }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
+      $request->validate([
+        'title' => 'required|max:30',
+        'description' => 'max:30',
+      ]);
+
+      $dir = 'img';
+      $file_name = $request->file('img_path')->getClientOriginalName();
+      $file_path = $request->file('img_path')->storeAs('public/' . $dir, $file_name);
+
+      $calender = new Calender([
+        'title' => $request->title,
+        'description' => $request->description,
+        'start' => $request->start,
+        'img_path' => 'storage/' . $dir . '/' . $file_name,
+        'user_id' => Auth::id(),
+        'category_id' => $request->category_id,
+      ]);
+
+      $calender->save();
+
+      return Redirect::route('home');
+
     }
 
     /**

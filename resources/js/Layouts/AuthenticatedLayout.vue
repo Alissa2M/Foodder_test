@@ -2,6 +2,11 @@
 import { Link } from '@inertiajs/vue3';
 
 const props = defineProps(['href']);
+const emit = defineEmits(['clickButton']);
+
+const onClick = () => {
+    emit('clickButton')
+}
 </script>
 
 <template>
@@ -14,7 +19,7 @@ const props = defineProps(['href']);
             <slot name="main"/>
         </main>
         <footer>
-            <Link :href="href" class="circle_button">
+            <Link :href="href" class="circle_button" @click="onClick">
                 <div class="mark_position">
                     <slot name="footer"/>
                 </div>
