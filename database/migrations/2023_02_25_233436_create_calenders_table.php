@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->text('title');
             $table->text('description')->nullable();
-            $table->dateTime('start')->nullable();
+            $table->String('start')->nullable();
             $table->string('img_path')->nullable();
             $table->foreignId('user_id');
             $table->foreignId('category_id');

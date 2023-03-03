@@ -135,7 +135,7 @@ const uploadPhoto = () => {
                     <div class="preview_content">
                         <span class="food_name">{{ form.title }}</span>
                         <p class="memo_review">{{ form.description }}</p>
-                        <span class="ate_day">{{ form.start }}</span>
+                        <span class="ate_day">{{ form.start.replace(/-/g,'/') }}</span>
                     </div>
                 </div>
             </template>

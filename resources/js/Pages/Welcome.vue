@@ -5,6 +5,11 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+const props = defineProps({
+    calenders : Array,
+});
+
+
 const calendarOptions = ref({
     plugins: [ dayGridPlugin, interactionPlugin ],
     initialView: 'dayGridMonth',
@@ -44,8 +49,15 @@ const submit = (e) => {
             </form>
         </div>
         <!-- 投稿 -->
-        <div>
-
+        <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key">
+            <div class="photo_box">
+                <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path">
+            </div>
+            <div class="preview_content">
+                <span class="food_name">{{ value.title }}</span>
+                <p class="memo_review">{{ value.description }}</p>
+                <span class="ate_day">{{ value.start.replace(/-/g,'/') }}</span>
+            </div>
         </div>
     </main>
     <footer>
@@ -59,7 +71,9 @@ const submit = (e) => {
 </template>
 
 <style scoped>
-
+main{
+    margin-bottom: 100px;
+}
 .calender_box{
     padding: 18px;
     background-color: #fff;
@@ -108,6 +122,57 @@ const submit = (e) => {
 ::v-deep .fc .fc-daygrid-body-natural .fc-daygrid-day-events{
     margin-bottom: 0;
 }
+.input_confirm{
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    height: 80px;
+    margin: 20px auto;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px; 
+    overflow: hidden;
+
+}
+.photo_box{
+    width: 80px;
+    height:80px;
+    background-image: url(../../../public/img/no_image.png);
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #D9D9D9;
+    flex-shrink: 0;
+}
+.photo_review{
+    width: 80px;
+    height: 80px;
+    object-fit:cover;
+    object-position: 50% 50%;
+    flex-shrink: 0;
+}
+
+.preview_content{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 5px 10px;
+    overflow-y: auto;
+}
+.food_name{
+    font-weight: bold;
+}
+.memo_review{
+    font-size: 14px;
+}
+.ate_day{
+    display: block;
+    text-align: end;
+    font-size: 12px;
+    color: #908D8D;
+    margin-top: auto;
+}
+
 footer{
     position: fixed;
     bottom: 0;
