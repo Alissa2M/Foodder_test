@@ -4,6 +4,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import BaseModal from '@/Components/BaseModal.vue';
 
 const props = defineProps({
     calenders : Array,
@@ -33,6 +34,19 @@ const submit = (e) => {
     form.post(route('post'),e);
 
 }
+
+const showImageBig = ref(false);
+const photoUrl = ref('');
+
+const clickImage = (e) => {
+    showImageBig.value = true;
+    photoUrl.value = e;
+}
+
+const closeModal = () => {
+    showImageBig.value = false;
+}
+
 </script>
 
 <template>
@@ -51,7 +65,7 @@ const submit = (e) => {
         <!-- 投稿 -->
         <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key">
             <div class="photo_box">
-                <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path">
+                <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path" @click="clickImage(value.img_path)">
             </div>
             <div class="preview_content">
                 <span class="food_name">{{ value.title }}</span>
@@ -67,7 +81,9 @@ const submit = (e) => {
             </div>
         </Link>
     </footer>
-
+    <BaseModal v-bind:show="showImageBig" v-bind:show-title="false" v-on:close="closeModal">
+        <img :src="photoUrl" alt="フード">
+    </BaseModal>
 </template>
 
 <style scoped>
@@ -75,9 +91,11 @@ main{
     margin-bottom: 100px;
 }
 .calender_box{
+    position: relative;
     padding: 18px;
     background-color: #fff;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    z-index: -1;
 }
 ::v-deep .fc .fc-toolbar-title{
     font-size: 20px;
