@@ -2,6 +2,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
+import BaseModal from '@/Components/BaseModal.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -63,14 +64,24 @@ const photoPreview = ref('');
 const file = ref('');
 const photoUrl = ref('');
 const showPhoto = ref(false);
+const showImageBig = ref(false);
+const showDefaultImg = ref(true);
 
 const uploadPhoto = () => {
     file.value = photoPreview.value.files[0];
     photoUrl.value = URL.createObjectURL(file.value);
     showPhoto.value = true;
+    showDefaultImg.value = false;
     form.img_path = photoPreview.value.files[0];
 }
 
+const clickImage = () => {
+    showImageBig.value = true;
+}
+
+const closeModal = () => {
+    showImageBig.value = false;
+}
 
 </script>
 
@@ -129,7 +140,8 @@ const uploadPhoto = () => {
                 </div>
                 <div class="preview_hr"></div>
                 <div class="input_confirm">
-                    <div class="photo_box">
+                    <div @click="clickImage">
+                        <div class="default_img" v-if="showDefaultImg"></div>
                         <img :src="photoUrl" alt="画像表示" class="photo_review" v-if="showPhoto">
                     </div>
                     <div class="preview_content">
@@ -139,12 +151,14 @@ const uploadPhoto = () => {
                     </div>
                 </div>
             </template>
-            
             <template #footer>
                 <i class="fa-solid fa-paper-plane send_icon"></i>
             </template>
         </AuthenticatedLayout>
     </form>
+    <BaseModal v-bind:show="showImageBig" v-bind:show-title="false" v-on:close="closeModal">
+        <img :src="photoUrl" alt="フード">
+    </BaseModal>
 </template>
 
 <style scoped>
@@ -314,16 +328,6 @@ const uploadPhoto = () => {
     overflow: hidden;
 
 }
-.photo_box{
-    width: 80px;
-    height:80px;
-    background-image: url(../../../public/img/no_image.png);
-    background-size: contain;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-color: #D9D9D9;
-    flex-shrink: 0;
-}
 .photo_review{
     width: 80px;
     height: 80px;
@@ -331,7 +335,15 @@ const uploadPhoto = () => {
     object-position: 50% 50%;
     flex-shrink: 0;
 }
-
+.default_img{
+    width: 80px;
+    height: 80px;
+    background-color: #D9D9D9;
+    background-image: url(../../../public/img/no_image.png);
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
 .preview_content{
     display: flex;
     flex-direction: column;

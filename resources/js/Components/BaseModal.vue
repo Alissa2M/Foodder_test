@@ -12,6 +12,10 @@ const props = defineProps({
     },
     modalTitle:{
         type: String,
+    },
+    showTitle:{
+        type: Boolean,
+        default: true,
     }
 });
 
@@ -80,7 +84,7 @@ onUnmounted(() => {
                         class="text-sm text-center bg-white rounded-lg shadow-xl transform transition-all px-6 pt-8 pb-6"
                     >
                         <!-- モーダルのタイトル -->
-                        <h2>{{ modalTitle }}</h2>
+                        <h2 v-if="props.showTitle">{{ modalTitle }}</h2>
                         <!-- モーダルのコンテンツ -->
                         <slot />
                     </div>
