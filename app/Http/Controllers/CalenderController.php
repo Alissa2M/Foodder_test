@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Carbon\Carbon;
 
@@ -20,7 +21,8 @@ class CalenderController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Welcome');
+      $calenders = DB::table('calenders')->where('user_id',Auth::id())->latest()->take(5)->get();
+      return Inertia::render('Welcome',['calenders' => $calenders]);
     }
 
     public function post(Request $request)
@@ -62,13 +64,13 @@ class CalenderController extends Controller
 
       $dir = 'img';
       $file_name = $request->file('img_path')->getClientOriginalName();
-      $file_path = $request->file('img_path')->storeAs('public/' . $dir, $file_name);
+      $file_path = $request->file('img_path')->storeAs('public', $file_name);
 
       $calender = new Calender([
         'title' => $request->title,
         'description' => $request->description,
         'start' => $request->start,
-        'img_path' => 'storage/' . $dir . '/' . $file_name,
+        'img_path' => '/storage' . '/' . $file_name,
         'user_id' => Auth::id(),
         'category_id' => $request->category_id,
       ]);
