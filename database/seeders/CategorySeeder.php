@@ -16,19 +16,19 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $category = Category::create([
-            'color' => '緑',
+            'color' => 'green',
             'category_name' => '朝',
         ]);
         $category = Category::create([
-            'color' => '黄',
+            'color' => 'yellow',
             'category_name' => '昼',
         ]);
         $category = Category::create([
-            'color' => '青',
+            'color' => 'blue',
             'category_name' => '夜',
         ]);
         $category = Category::create([
-            'color' => '紫',
+            'color' => 'purple',
             'category_name' => 'その他',
         ]);
     }

@@ -8,13 +8,14 @@ import BaseModal from '@/Components/BaseModal.vue';
 
 const props = defineProps({
     calenders : Array,
+    events : Array,
 });
-
 
 const calendarOptions = ref({
     plugins: [ dayGridPlugin, interactionPlugin ],
     initialView: 'dayGridMonth',
     height: "60vh",
+    events: props.events,
     headerToolbar: {
         right: 'prev,next',
         left: 'title'
@@ -24,6 +25,10 @@ const calendarOptions = ref({
 		form.date = e.dateStr;
         submit(form.date)
 	},
+    // イベントのクリックイベント
+    eventClick: (info)=>{
+        console.log(info.event.title)
+    }
 })
 
 const form = useForm({
@@ -140,6 +145,9 @@ main{
 ::v-deep .fc .fc-daygrid-body-natural .fc-daygrid-day-events{
     margin-bottom: 0;
 }
+::v-deep .fc-event-time{
+    display: none;
+} 
 .input_confirm{
     display: flex;
     flex-direction: row;

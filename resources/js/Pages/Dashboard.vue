@@ -113,7 +113,7 @@ const closeModal = () => {
                             </div>
                             <div class="select_box" v-show="showOption">
                                 <div v-for="(value, key) in props.category" class="category_color_box" :key="key"  @click="clickOption(value.id)" :class="value.category_name === chooseCategoryName?'selected_category':''">
-                                    <span class="category_color" :class="(value.color==='青')?'category_blue':(value.color === '緑')?'category_green':(value.color === '黄')?'category_yellow':(value.color === '紫')?'category_purple':''"></span>
+                                    <span class="category_color" :class="(value.color==='blue')?'category_blue':(value.color === 'green')?'category_green':(value.color === 'yellow')?'category_yellow':(value.color === 'purple')?'category_purple':''"></span>
                                     <span class="category_name">{{ value.category_name }}</span>
                                     <input type="hidden" :value="value.id">
                                 </div>
