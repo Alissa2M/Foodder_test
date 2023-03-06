@@ -22,7 +22,18 @@ class CalenderController extends Controller
     public function index()
     {
       $calenders = DB::table('calenders')->where('user_id',Auth::id())->latest()->take(5)->get();
-      return Inertia::render('Welcome',['calenders' => $calenders]);
+      $events = array();
+      $posts = Calender::with('category')->where('user_id',Auth::id())->get();
+      foreach($posts as $post){
+        $events[] = [
+          'id' => $post->id,
+          'title' => $post->title,
+          'date' => new Carbon($post->start),
+          'backgroundColor' => $post->category->find($post->category_id)->color,
+        ];
+      }
+      return Inertia::render('Welcome',['calenders' => $calenders, 'events' => $events, 'posts' => $posts]);
+
     }
 
     public function post(Request $request)
