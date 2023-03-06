@@ -26,12 +26,13 @@ class CalenderController extends Controller
       $posts = Calender::with('category')->where('user_id',Auth::id())->get();
       foreach($posts as $post){
         $events[] = [
+          'id' => $post->id,
           'title' => $post->title,
           'date' => new Carbon($post->start),
           'backgroundColor' => $post->category->find($post->category_id)->color,
         ];
       }
-      return Inertia::render('Welcome',['calenders' => $calenders, 'events' => $events]);
+      return Inertia::render('Welcome',['calenders' => $calenders, 'events' => $events, 'posts' => $posts]);
 
     }
 

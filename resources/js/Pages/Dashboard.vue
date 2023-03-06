@@ -66,6 +66,7 @@ const photoUrl = ref('');
 const showPhoto = ref(false);
 const showImageBig = ref(false);
 const showDefaultImg = ref(true);
+const showPost = ref(false);
 
 const uploadPhoto = () => {
     file.value = photoPreview.value.files[0];
@@ -81,8 +82,13 @@ const clickImage = () => {
 
 const closeModal = () => {
     showImageBig.value = false;
+    showPost.value = false;
+
 }
 
+const postClick = () => {
+    showPost.value = true;
+}
 </script>
 
 <template>
@@ -144,7 +150,7 @@ const closeModal = () => {
                         <div class="default_img" v-if="showDefaultImg"></div>
                         <img :src="photoUrl" alt="画像表示" class="photo_review" v-if="showPhoto">
                     </div>
-                    <div class="preview_content">
+                    <div class="preview_content" @click="postClick">
                         <span class="food_name">{{ form.title }}</span>
                         <p class="memo_review">{{ form.description }}</p>
                         <span class="ate_day">{{ form.start.replace(/-/g,'/') }}</span>
@@ -159,6 +165,13 @@ const closeModal = () => {
     <BaseModal v-bind:show="showImageBig" v-bind:show-title="false" v-on:close="closeModal">
         <img :src="photoUrl" alt="フード">
     </BaseModal>
+    <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
+        <img :src="photoUrl">
+        <span class="food_name modal_food">{{ form.title }}</span>
+        <p class="memo_review">{{ form.description }}</p>
+        <span class="ate_day">{{ form.start.replace(/-/g,'/') }}</span>
+    </BaseModal>
+
 </template>
 
 <style scoped>
@@ -211,12 +224,12 @@ const closeModal = () => {
 .input_form{
     width: 100%;
     padding: 5px 5px 0;
-    background: #FFFFFF;
+    background: #FFF3E0;
     border: none;
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .input_form::placeholder{
-    color: #D9D9D9;
+    color: #908D8D;
 }
 .date_category{
     position: relative;
@@ -363,5 +376,10 @@ const closeModal = () => {
     font-size: 12px;
     color: #908D8D;
     margin-top: auto;
+}
+.modal_food{
+    display: block;
+    font-size: 18px;
+    margin: 10px auto;
 }
 </style>

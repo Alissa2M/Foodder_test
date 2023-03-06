@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -9,9 +9,12 @@ import BaseModal from '@/Components/BaseModal.vue';
 const props = defineProps({
     calenders : Array,
     events : Array,
+    posts: Array,
 });
 
-const calendarOptions = ref({
+const showPostInfo = ref();
+
+const calendarOptions = reactive({
     plugins: [ dayGridPlugin, interactionPlugin ],
     initialView: 'dayGridMonth',
     height: "60vh",
@@ -27,7 +30,8 @@ const calendarOptions = ref({
 	},
     // イベントのクリックイベント
     eventClick: (info)=>{
-        console.log(info.event.title)
+        showPost.value = true;
+        showPostInfo.value = info.event.id;
     }
 })
 
@@ -50,15 +54,22 @@ const clickImage = (e) => {
 
 const closeModal = () => {
     showImageBig.value = false;
+    showPost.value = false;
 }
 
+const showPost = ref(false);
+
+const postClick = (e) => {
+    showPost.value = true;
+    showPostInfo.value = e;
+}
 </script>
 
 <template>
     <Head title="カレンダー" />
     <main>
         <!-- カレンダー -->
-        <div class="calender_box">
+        <div class="calender_box" :class="{'position_relative':showImageBig || showPost}">
             <form @submit.prevent="submit">
                 <FullCalendar 
                     :options="calendarOptions"
@@ -72,7 +83,7 @@ const closeModal = () => {
             <div class="photo_box">
                 <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path" @click="clickImage(value.img_path)">
             </div>
-            <div class="preview_content">
+            <div class="preview_content" @click="postClick(value.id)">
                 <span class="food_name">{{ value.title }}</span>
                 <p class="memo_review">{{ value.description }}</p>
                 <span class="ate_day">{{ value.start.replace(/-/g,'/') }}</span>
@@ -89,18 +100,29 @@ const closeModal = () => {
     <BaseModal v-bind:show="showImageBig" v-bind:show-title="false" v-on:close="closeModal">
         <img :src="photoUrl" alt="フード">
     </BaseModal>
+    <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
+        <template v-for="(value, key) in props.posts" :key="key">
+            <div v-if="String(value.id) === String(showPostInfo)">
+                <img :src="value.img_path">
+                <span class="food_name modal_food">{{ value.title }}</span>
+                <p class="memo_review">{{ value.description }}</p>
+                <span class="ate_day">{{ value.start.replace(/-/g,'/') }}</span>
+            </div>
+        </template>
+    </BaseModal>
 </template>
-
 <style scoped>
 main{
     margin-bottom: 100px;
 }
 .calender_box{
-    position: relative;
     padding: 18px;
     background-color: #fff;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     z-index: -1;
+}
+.position_relative{
+    position: relative;
 }
 ::v-deep .fc .fc-toolbar-title{
     font-size: 20px;
@@ -224,5 +246,10 @@ footer{
 }
 .mark_position{
     width: 1.3rem;
+}
+.modal_food{
+    display: block;
+    font-size: 18px;
+    margin: 10px auto;
 }
 </style>
