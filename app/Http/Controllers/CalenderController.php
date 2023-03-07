@@ -126,13 +126,11 @@ class CalenderController extends Controller
      * @param  \App\Models\Calender  $calender
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Calender $calender)
+    public function destroy(Request $request)
     {
-        $user = auth()->user();
-        if ($calender->user_id === $user->id || $user->isAdmin) {
-          $calender->delete();
-        } else {
-          abort(403);
-        }
+        $calender = Calender::where('id',$request->calenderId);
+        $calender->delete();
+        return Inertia::render('Welcome')->with('result','削除しました');
+
     }
 }
