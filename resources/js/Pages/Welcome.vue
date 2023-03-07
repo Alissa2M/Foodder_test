@@ -10,6 +10,7 @@ const props = defineProps({
     calenders : Array,
     events : Array,
     posts: Array,
+    result: String,
 });
 
 const showPostInfo = ref();
@@ -36,7 +37,8 @@ const calendarOptions = reactive({
 })
 
 const form = useForm({
-    date: ''
+    date: '',
+    calenderId: '',
 });
 
 const submit = (e) => {
@@ -55,6 +57,9 @@ const clickImage = (e) => {
 const closeModal = () => {
     showImageBig.value = false;
     showPost.value = false;
+    if(props.result){
+        location.reload();
+    }
 }
 
 const showPost = ref(false);
@@ -62,6 +67,17 @@ const showPost = ref(false);
 const postClick = (e) => {
     showPost.value = true;
     showPostInfo.value = e;
+}
+
+const deletePost = () => {
+    form.post(route('delete'),{
+        onSuccess: () => closeModal(),
+    });
+}
+
+const clickDelete = (e) => {
+    form.calenderId = e;
+    deletePost()
 }
 </script>
 
@@ -77,6 +93,12 @@ const postClick = (e) => {
                 />
                 <input type="hidden" name="date" value="form.date">
             </form>
+        </div>
+        <div class="nav">
+            <img src="../../../public/img/Foodder_logo.png" alt="" class="foodder_logo">
+            <Link href="/profile" class="to_profile">
+                <i class="fa-solid fa-circle-user"></i>
+            </Link>
         </div>
         <!-- 投稿 -->
         <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key">
@@ -101,14 +123,17 @@ const postClick = (e) => {
         <img :src="photoUrl" alt="フード">
     </BaseModal>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
-        <template v-for="(value, key) in props.posts" :key="key">
-            <div v-if="String(value.id) === String(showPostInfo)">
-                <img :src="value.img_path">
-                <span class="food_name modal_food">{{ value.title }}</span>
-                <p class="memo_review">{{ value.description }}</p>
-                <span class="ate_day">{{ value.start.replace(/-/g,'/') }}</span>
-            </div>
-        </template>
+        <form @submit.prevent="deletePost">
+            <template v-for="(value, key) in props.posts" :key="key">
+                <div v-if="String(value.id) === String(showPostInfo)">
+                    <span class="delete_btn" @click="clickDelete(value.id)">削除<i class="fa-solid fa-trash-can ml-1"></i></span>
+                    <img :src="value.img_path">
+                    <span class="food_name modal_food">{{ value.title }}</span>
+                    <p class="memo_review">{{ value.description }}</p>
+                    <span class="ate_day">{{ value.start.replace(/-/g,'/') }}</span>
+                </div>
+            </template>
+        </form>
     </BaseModal>
 </template>
 <style scoped>
@@ -182,6 +207,20 @@ main{
     overflow: hidden;
 
 }
+.nav{
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    margin: 10px auto;
+}
+.foodder_logo{
+    display: inline-block;
+    width: 40%;
+}
+.to_profile{
+    display: inline-block;
+    margin: auto 0 0 auto;
+}
 .photo_box{
     width: 80px;
     height:80px;
@@ -250,6 +289,13 @@ footer{
 .modal_food{
     display: block;
     font-size: 18px;
-    margin: 10px auto;
+    margin: 15px auto 10px;
+}
+.delete_btn{
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    font-size: 10px;
+    font-weight: normal;
 }
 </style>
