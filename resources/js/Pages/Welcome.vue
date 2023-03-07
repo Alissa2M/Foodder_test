@@ -5,6 +5,7 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import BaseModal from '@/Components/BaseModal.vue';
+import BasePost from '@/Components/BasePost.vue';
 
 const props = defineProps({
     calenders : Array,
@@ -46,16 +47,7 @@ const submit = (e) => {
 
 }
 
-const showImageBig = ref(false);
-const photoUrl = ref('');
-
-const clickImage = (e) => {
-    showImageBig.value = true;
-    photoUrl.value = e;
-}
-
 const closeModal = () => {
-    showImageBig.value = false;
     showPost.value = false;
     if(props.result){
         location.reload();
@@ -85,7 +77,7 @@ const clickDelete = (e) => {
     <Head title="カレンダー" />
     <main>
         <!-- カレンダー -->
-        <div class="calender_box" :class="{'position_relative':showImageBig || showPost}">
+        <div class="calender_box" :class="{'position_relative':showPost}">
             <form @submit.prevent="submit">
                 <FullCalendar 
                     :options="calendarOptions"
@@ -101,14 +93,12 @@ const clickDelete = (e) => {
             </Link>
         </div>
         <!-- 投稿 -->
-        <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key">
+        <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key" @click="postClick(value.id)">
             <div class="photo_box">
-                <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path" @click="clickImage(value.img_path)">
+                <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path">
             </div>
-            <div class="preview_content" @click="postClick(value.id)">
-                <span class="food_name">{{ value.title }}</span>
-                <p class="memo_review">{{ value.description }}</p>
-                <span class="ate_day">{{ value.start.replace(/-/g,'/') }}</span>
+            <div class="preview_content" >
+                <BasePost v-bind:three-point="true" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start"/>
             </div>
         </div>
     </main>
@@ -119,18 +109,13 @@ const clickDelete = (e) => {
             </div>
         </Link>
     </footer>
-    <BaseModal v-bind:show="showImageBig" v-bind:show-title="false" v-on:close="closeModal">
-        <img :src="photoUrl" alt="フード">
-    </BaseModal>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
         <form @submit.prevent="deletePost">
             <template v-for="(value, key) in props.posts" :key="key">
                 <div v-if="String(value.id) === String(showPostInfo)">
                     <span class="delete_btn" @click="clickDelete(value.id)">削除<i class="fa-solid fa-trash-can ml-1"></i></span>
                     <img :src="value.img_path">
-                    <span class="food_name modal_food">{{ value.title }}</span>
-                    <p class="memo_review">{{ value.description }}</p>
-                    <span class="ate_day">{{ value.start.replace(/-/g,'/') }}</span>
+                    <BasePost v-bind:three-point="false" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" v-bind:modal="true"/>
                 </div>
             </template>
         </form>
@@ -244,22 +229,8 @@ main{
     flex-direction: column;
     flex-grow: 1;
     padding: 5px 10px;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
-.food_name{
-    font-weight: bold;
-}
-.memo_review{
-    font-size: 14px;
-}
-.ate_day{
-    display: block;
-    text-align: end;
-    font-size: 12px;
-    color: #908D8D;
-    margin-top: auto;
-}
-
 footer{
     position: fixed;
     bottom: 0;
@@ -286,11 +257,7 @@ footer{
 .mark_position{
     width: 1.3rem;
 }
-.modal_food{
-    display: block;
-    font-size: 18px;
-    margin: 15px auto 10px;
-}
+
 .delete_btn{
     position: absolute;
     top: 12px;
