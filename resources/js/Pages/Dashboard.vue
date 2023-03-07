@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import BasePost from '@/Components/BasePost.vue';
 
 const props = defineProps({
     date: String,
@@ -64,7 +65,6 @@ const photoPreview = ref('');
 const file = ref('');
 const photoUrl = ref('');
 const showPhoto = ref(false);
-const showImageBig = ref(false);
 const showDefaultImg = ref(true);
 const showPost = ref(false);
 
@@ -76,14 +76,8 @@ const uploadPhoto = () => {
     form.img_path = photoPreview.value.files[0];
 }
 
-const clickImage = () => {
-    showImageBig.value = true;
-}
-
 const closeModal = () => {
-    showImageBig.value = false;
     showPost.value = false;
-
 }
 
 const postClick = () => {
@@ -145,15 +139,13 @@ const postClick = () => {
                     </div>
                 </div>
                 <div class="preview_hr"></div>
-                <div class="input_confirm">
-                    <div @click="clickImage">
+                <div class="input_confirm" @click="postClick">
+                    <div>
                         <div class="default_img" v-if="showDefaultImg"></div>
                         <img :src="photoUrl" alt="画像表示" class="photo_review" v-if="showPhoto">
                     </div>
-                    <div class="preview_content" @click="postClick">
-                        <span class="food_name">{{ form.title }}</span>
-                        <p class="memo_review">{{ form.description }}</p>
-                        <span class="ate_day">{{ form.start.replace(/-/g,'/') }}</span>
+                    <div class="preview_content">
+                        <BasePost :three-point="true" :title="form.title" :description="form.description" :start="form.start"/>
                     </div>
                 </div>
             </template>
@@ -162,14 +154,9 @@ const postClick = () => {
             </template>
         </AuthenticatedLayout>
     </form>
-    <BaseModal v-bind:show="showImageBig" v-bind:show-title="false" v-on:close="closeModal">
-        <img :src="photoUrl" alt="フード">
-    </BaseModal>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
         <img :src="photoUrl">
-        <span class="food_name modal_food">{{ form.title }}</span>
-        <p class="memo_review">{{ form.description }}</p>
-        <span class="ate_day">{{ form.start.replace(/-/g,'/') }}</span>
+        <BasePost :three-point="false" :title="form.title" :description="form.description" :start="form.start" :modal="true"/>
     </BaseModal>
 
 </template>
@@ -339,7 +326,6 @@ const postClick = () => {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px; 
     overflow: hidden;
-
 }
 .photo_review{
     width: 80px;
@@ -363,23 +349,5 @@ const postClick = () => {
     flex-grow: 1;
     padding: 5px 10px;
     overflow-y: auto;
-}
-.food_name{
-    font-weight: bold;
-}
-.memo_review{
-    font-size: 14px;
-}
-.ate_day{
-    display: block;
-    text-align: end;
-    font-size: 12px;
-    color: #908D8D;
-    margin-top: auto;
-}
-.modal_food{
-    display: block;
-    font-size: 18px;
-    margin: 10px auto;
 }
 </style>
