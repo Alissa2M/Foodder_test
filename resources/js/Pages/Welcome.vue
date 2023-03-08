@@ -163,6 +163,7 @@ main{
 }
 ::v-deep .fc .fc-button .fc-icon{
     font-size: 1rem;
+    vertical-align:baseline;
 }
 ::v-deep .fc .fc-scroller-harness{
     font-size: 12px;
@@ -209,7 +210,7 @@ main{
 .photo_box{
     width: 80px;
     height:80px;
-    background-image: url(../../../public/img/no_image.png);
+    background-image: url("../../../public/img/no_image.png");
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;

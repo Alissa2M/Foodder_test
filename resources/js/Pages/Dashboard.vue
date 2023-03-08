@@ -338,7 +338,7 @@ const postClick = () => {
     width: 80px;
     height: 80px;
     background-color: #D9D9D9;
-    background-image: url(../../../public/img/no_image.png);
+    background-image: url("../../../public/img/no_image.png");
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;
