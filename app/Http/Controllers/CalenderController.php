@@ -67,21 +67,19 @@ class CalenderController extends Controller
      */
     public function store(Request $request)
     {
-
       $request->validate([
         'title' => 'required|max:30',
         'description' => 'max:30',
       ]);
-
       $dir = 'img';
       $file_name = $request->file('img_path')->getClientOriginalName();
       $file_path = $request->file('img_path')->storeAs('public', $file_name);
-
       $calender = new Calender([
         'title' => $request->title,
         'description' => $request->description,
         'start' => $request->start,
         'img_path' => '/storage' . '/' . $file_name,
+        'anonymous' => $request->anonymous,
         'user_id' => Auth::id(),
         'category_id' => $request->category_id,
       ]);
@@ -135,7 +133,6 @@ class CalenderController extends Controller
 
     public function timeline()
     {
-      // $calenders = DB::table('calenders')->latest()->get();
       $calenders = Calender::with('user')->latest()->get();
       return Inertia::render('Timeline',['calenders' => $calenders]);
     }

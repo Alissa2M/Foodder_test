@@ -13,12 +13,12 @@ const props = defineProps({
     <main>
         <div v-for="(value, key) in props.calenders" class="posts_box">
             <!-- 匿名ユーザー -->
-            <div class="user_info" v-if="!value.user">
+            <div class="user_info" v-if="value.anonymous">
                 <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
                 <span>匿名ユーザー</span>
             </div>
             <!-- 一般ユーザー -->
-            <div class="user_info" v-if="value.user">
+            <div class="user_info" v-else>
                 <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
                 <span>{{ value.user.name }}</span>
             </div>

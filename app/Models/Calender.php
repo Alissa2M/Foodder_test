@@ -18,7 +18,12 @@ class Calender extends Model
         'start',
         'img_path',
         'user_id',
-        'category_id'
+        'category_id',
+        'anonymous'
+    ];
+
+    protected $casts = [
+        'anonymous' => 'boolean',
     ];
 
     public function category()
