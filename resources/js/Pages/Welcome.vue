@@ -21,6 +21,7 @@ const calendarOptions = reactive({
     initialView: 'dayGridMonth',
     height: "60vh",
     events: props.events,
+    dayMaxEvents:true,
     headerToolbar: {
         right: 'prev,next',
         left: 'title'
@@ -114,8 +115,8 @@ const clickDelete = (e) => {
             <template v-for="(value, key) in props.posts" :key="key">
                 <div v-if="String(value.id) === String(showPostInfo)">
                     <span class="delete_btn" @click="clickDelete(value.id)">削除<i class="fa-solid fa-trash-can ml-1"></i></span>
-                    <img :src="value.img_path">
-                    <BasePost v-bind:three-point="false" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" v-bind:modal="true"/>
+                    <img :src="value.img_path" class="modal_image">
+                    <BasePost v-bind:three-point="false" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" v-bind:modal="true" class="modal_text"/>
                 </div>
             </template>
         </form>
@@ -186,12 +187,11 @@ main{
     flex-direction: row;
     width: 90vw;
     height: 80px;
-    margin: 20px auto;
+    margin: 10px auto 20px;
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px; 
     overflow: hidden;
-
 }
 .nav{
     display: flex;
@@ -266,4 +266,11 @@ footer{
     font-size: 10px;
     font-weight: normal;
 }
+.modal_image{
+    max-height: 40vh;
+    width: auto;
+    margin: 0 auto;
+    object-fit: cover;
+}
+
 </style>

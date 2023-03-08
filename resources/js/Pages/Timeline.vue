@@ -1,15 +1,36 @@
 <script setup>
+import { ref } from 'vue';
+import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
-import { Link } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     calenders:Array,
 });
 
+const clickFoodder = () => {
+    location.href='/';
+}
+
+const photoUrl = ref('');
+const showPost = ref(false);
+
+const clickImage = (e) => {
+    showPost.value = true;
+    photoUrl.value = e;
+}
+
+const closeModal = () => {
+    showPost.value = false;
+}
+
 </script>
 
 <template>
-    <header></header>
+    <Head title="タイムライン" />
+    <header>
+        <img src="../../../public/img/Foodder_logo.png" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
+    </header>
     <main>
         <div v-for="(value, key) in props.calenders" class="posts_box">
             <!-- 匿名ユーザー -->
@@ -22,7 +43,9 @@ const props = defineProps({
                 <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
                 <span>{{ value.user.name }}</span>
             </div>
-            <img :src="value.img_path" class="food_img" v-if="value.img_path">
+            <div class="img_box" v-if="value.img_path" @click="clickImage(value.img_path)">
+                <img :src="value.img_path" class="food_img" >
+            </div>
             <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at"/>
         </div>
     </main>
@@ -33,16 +56,18 @@ const props = defineProps({
             </div>
         </Link>
     </footer>
+    <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
+        <img :src="photoUrl" alt="モーダル写真" class="modal_image">
+    </BaseModal>
 </template>
 
 <style scoped>
 header{
-    height: 4vh;
     width: 90vw;
     margin: 10px auto;
-    background-image: url("../../../public/img/Foodder_logo.png");
-    background-repeat: no-repeat;
-    background-size: contain;
+}
+.foodder_logo{
+    height: 4vh;
 }
 main{
     margin-bottom: 100px;
@@ -74,9 +99,19 @@ main{
     object-fit: cover;
     margin-right: 5px;
 }
-.food_img{
+.img_box{
+    position: relative;
+    width: 100%;
+    height: 50vw;
     margin: 8px 0;
+    background-color: #c9c9c9;
     border: 1px solid #c9c9c9;
+    overflow: hidden;
+}
+.food_img{
+    height: 50vw;
+    width: 100%;
+    object-fit: cover;
 }
 footer{
     position: fixed;
@@ -103,5 +138,12 @@ footer{
 }
 .mark_position{
     width: 1.3rem;
+}
+
+.modal_image{
+    max-height: 40vh;
+    width: auto;
+    margin: 0 auto;
+    object-fit: cover;
 }
 </style>
