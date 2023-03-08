@@ -17,6 +17,7 @@ const form = useForm({
     start:props.date,
     img_path:'',
     category_id:2,
+    anonymous:true,
 });
 
 const clickSend = () => {
@@ -130,6 +131,11 @@ const postClick = () => {
                             <InputError :message="form.errors.description" />
                             <input type="text" v-model="form.description" name="description" placeholder="メモ" class="input_form">
                             <span class="word_length">{{form.description.length}}/30文字</span>
+                        </div>
+                        <!-- 匿名 -->
+                        <div class="anonymous_box">
+                            <input type="checkbox" id="anonymous" name="anonymous" v-model="form.anonymous">
+                            <label for="anonymous" class="check_label">匿名投稿</label>
                         </div>
                         <!-- 写真 -->
                         <label for="photo" class="photo_label">
@@ -249,6 +255,20 @@ const postClick = () => {
     margin-top: 10px;
     background-color: #FF6F00;
     border-radius: 5px;
+}
+.anonymous_box{
+    margin-left: auto;
+}
+[type='checkbox']:checked{
+    background-color: #FF6F00;
+}
+[type='checkbox']:focus{
+    box-shadow: none;
+}
+.check_label{
+    font-size: 14px;
+    margin-left: 5px;
+    vertical-align: middle;
 }
 .index_option{
     position: relative;

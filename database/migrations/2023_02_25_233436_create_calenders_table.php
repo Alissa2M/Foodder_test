@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->String('start')->nullable();
             $table->string('img_path')->nullable();
+            $table->boolean('anonymous')->default(true);
             $table->foreignId('user_id');
             $table->foreignId('category_id');
         });
