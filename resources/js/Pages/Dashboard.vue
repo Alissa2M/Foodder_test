@@ -161,8 +161,10 @@ const postClick = () => {
         </AuthenticatedLayout>
     </form>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
-        <img :src="photoUrl">
-        <BasePost :three-point="false" :title="form.title" :description="form.description" :start="form.start" :modal="true"/>
+        <div class="img_box" v-if="photoUrl">
+            <img :src="photoUrl" class="food_img">
+        </div>
+        <BasePost :three-point="false" :title="form.title" :description="form.description" :start="form.start" :modal="true" :text-position="true"/>
     </BaseModal>
 
 </template>
@@ -369,5 +371,19 @@ const postClick = () => {
     flex-grow: 1;
     padding: 5px 10px;
     overflow-y: auto;
+}
+.img_box{
+    position: relative;
+    width: 100%;
+    height: 50vw;
+    margin: 8px 0;
+    background-color: #c9c9c9;
+    border: 1px solid #c9c9c9;
+    overflow: hidden;
+}
+.food_img{
+    height: 50vw;
+    width: 100%;
+    object-fit: cover;
 }
 </style>

@@ -8,12 +8,16 @@ const props = defineProps({
         type:Boolean,
         default:false,
     },
+    textPosition: {
+        type:Boolean,
+        default:false,
+    }
 });
 </script>
 
 <template>
-    <span class="food_name" :class="{'three_point':props.threePoint,'modal_food':modal}">{{ props.title }}</span>
-    <p class="memo_review" :class="{'three_point':props.threePoint}">{{ props.description }}</p>
+    <span class="food_name" :class="{'three_point':props.threePoint,'modal_food':modal,'text_position':textPosition}">{{ props.title }}</span>
+    <p class="memo_review" :class="{'three_point':props.threePoint,'text_position':textPosition}">{{ props.description }}</p>
     <span class="ate_day">{{ props.start.replace(/-/g,'/') }}</span>
 </template>
 
@@ -42,5 +46,7 @@ const props = defineProps({
     font-size: 18px;
     margin: 15px auto 10px;
 }
-
+.text_position{
+    text-align: start;
+}
 </style>

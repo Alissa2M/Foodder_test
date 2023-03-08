@@ -71,14 +71,18 @@ class CalenderController extends Controller
         'title' => 'required|max:30',
         'description' => 'max:30',
       ]);
-      $dir = 'img';
-      $file_name = $request->file('img_path')->getClientOriginalName();
-      $file_path = $request->file('img_path')->storeAs('public', $file_name);
+      if($request->file('img_path')){
+        $file_name = $request->file('img_path')->getClientOriginalName();
+        $file_path = $request->file('img_path')->storeAs('public', $file_name);
+        $img_path = '/storage' . '/' . $file_name;
+      }else{
+        $img_path = '';
+      }
       $calender = new Calender([
         'title' => $request->title,
         'description' => $request->description,
         'start' => $request->start,
-        'img_path' => '/storage' . '/' . $file_name,
+        'img_path' => $img_path,
         'anonymous' => $request->anonymous,
         'user_id' => Auth::id(),
         'category_id' => $request->category_id,

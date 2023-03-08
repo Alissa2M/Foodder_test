@@ -56,7 +56,7 @@ onUnmounted(() => {
 <template>
     <teleport to="body">
         <transition leave-active-class="duration-200">
-            <div v-show="show" class="fixed inset-0 px-4 pt-40" scroll-region>
+            <div v-show="show" class="fixed inset-0" scroll-region>
                 <!-- 背景 -->
                 <transition
                     enter-active-class="ease-out duration-300"
@@ -81,7 +81,7 @@ onUnmounted(() => {
                 >
                     <div
                         v-show="show"
-                        class="text-sm text-center bg-white rounded-lg shadow-xl transform transition-all px-6 pt-8 pb-6"
+                        class="absolute inset-0 h-fit max-h-[70vh] w-[90vw] mx-auto my-auto text-sm text-center bg-white rounded-lg shadow-xl transform transition-all px-6 pt-8 pb-5"
                     >
                         <!-- モーダルのタイトル -->
                         <h2 v-if="props.showTitle">{{ modalTitle }}</h2>
