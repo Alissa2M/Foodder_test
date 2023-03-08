@@ -39,7 +39,7 @@ header{
     font-size: 14px;
     padding-left: 18px;
     margin: auto 0;
-    background-image: url(../../../public/img/back.png);
+    background-image: url("../../../public/img/back.png");
     background-repeat: no-repeat;
     background-position: 0 50%;
     background-size: 13px;

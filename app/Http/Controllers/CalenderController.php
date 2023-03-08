@@ -128,9 +128,15 @@ class CalenderController extends Controller
      */
     public function destroy(Request $request)
     {
-        $calender = Calender::where('id',$request->calenderId);
-        $calender->delete();
-        return Inertia::render('Welcome')->with('result','削除しました');
+      $calender = Calender::where('id',$request->calenderId);
+      $calender->delete();
+      return Inertia::render('Welcome')->with('result','削除しました');
+    }
 
+    public function timeline()
+    {
+      // $calenders = DB::table('calenders')->latest()->get();
+      $calenders = Calender::with('user')->latest()->get();
+      return Inertia::render('Timeline',['calenders' => $calenders]);
     }
 }
