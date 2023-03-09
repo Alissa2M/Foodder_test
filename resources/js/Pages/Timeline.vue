@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import TheFooter from '@/Components/TheFooter.vue';
 
 const props = defineProps({
     calenders:Array,
@@ -49,13 +50,9 @@ const closeModal = () => {
             <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at"/>
         </div>
     </main>
-    <footer>
-        <Link :href="route('dashboard')" class="circle_button">
-            <div class="mark_position">
-                <img src="../../../public/img/plus.png" alt="投稿する">
-            </div>
-        </Link>
-    </footer>
+    <TheFooter :href="route('dashboard')" :timeline-page="true">
+        <img src="../../../public/img/plus.png" alt="投稿する">
+    </TheFooter>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
         <img :src="photoUrl" alt="モーダル写真" class="modal_image">
     </BaseModal>
@@ -113,33 +110,6 @@ main{
     width: 100%;
     object-fit: cover;
 }
-footer{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #FFC107;
-    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
-}
-.circle_button{
-    position: absolute;
-    top: -25px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    margin: 0 auto;
-    background-color: #FF6F00;
-    border-radius: 100px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-}
-.mark_position{
-    width: 1.3rem;
-}
-
 .modal_image{
     max-height: 40vh;
     width: auto;
