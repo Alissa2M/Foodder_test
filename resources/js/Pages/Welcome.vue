@@ -6,6 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
+import TheFooter from '@/Components/TheFooter.vue';
 
 const props = defineProps({
     calenders : Array,
@@ -63,7 +64,7 @@ const postClick = (e) => {
 }
 
 const deletePost = () => {
-    form.post(route('delete'),{
+    form.delete(route('delete'),{
         onSuccess: () => closeModal(),
     });
 }
@@ -103,20 +104,16 @@ const clickDelete = (e) => {
             </div>
         </div>
     </main>
-    <footer>
-        <Link :href="route('dashboard')" class="circle_button">
-            <div class="mark_position">
-                <img src="../../../public/img/plus.png" alt="投稿する">
-            </div>
-        </Link>
-    </footer>
+    <TheFooter :href="route('dashboard')" :calender-page="true">
+        <img src="../../../public/img/plus.png" alt="投稿する">
+    </TheFooter>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
         <form @submit.prevent="deletePost">
             <template v-for="(value, key) in props.posts" :key="key">
                 <div v-if="String(value.id) === String(showPostInfo)">
                     <span class="delete_btn" @click="clickDelete(value.id)">削除<i class="fa-solid fa-trash-can ml-1"></i></span>
                     <img :src="value.img_path" class="modal_image">
-                    <BasePost v-bind:three-point="false" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" v-bind:modal="true" class="modal_text"/>
+                    <BasePost v-bind:three-point="false" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" v-bind:modal="true"/>
                 </div>
             </template>
         </form>
@@ -231,32 +228,6 @@ main{
     flex-grow: 1;
     padding: 5px 10px;
     overflow-y: hidden;
-}
-footer{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #FFC107;
-    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
-}
-.circle_button{
-    position: absolute;
-    top: -25px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    margin: 0 auto;
-    background-color: #FF6F00;
-    border-radius: 100px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-}
-.mark_position{
-    width: 1.3rem;
 }
 
 .delete_btn{

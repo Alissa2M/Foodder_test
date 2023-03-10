@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import TheFooter from '@/Components/TheFooter.vue';
 
 const props = defineProps(['href']);
 const emit = defineEmits(['clickButton']);
@@ -18,13 +18,9 @@ const onClick = () => {
         <main>
             <slot name="main"/>
         </main>
-        <footer>
-            <Link :href="href" class="circle_button" @click="onClick">
-                <div class="mark_position">
-                    <slot name="footer"/>
-                </div>
-            </Link>
-        </footer>
+        <TheFooter :href="href" @click="onClick">
+            <slot name="footer"/>
+        </TheFooter>
     </div>
 </template>
 
@@ -43,31 +39,5 @@ header{
     background-repeat: no-repeat;
     background-position: 0 50%;
     background-size: 13px;
-}
-footer{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #FFC107;
-    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
-}
-.circle_button{
-    position: absolute;
-    top: -25px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    margin: 0 auto;
-    background-color: #FF6F00;
-    border-radius: 100px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-}
-.mark_position{
-    width: 1.3rem;
 }
 </style>

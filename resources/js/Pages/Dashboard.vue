@@ -146,7 +146,7 @@ const postClick = () => {
                 </div>
                 <div class="preview_hr"></div>
                 <div class="input_confirm" @click="postClick">
-                    <div>
+                    <div class="photo_box">
                         <div class="default_img" v-if="showDefaultImg"></div>
                         <img :src="photoUrl" alt="画像表示" class="photo_review" v-if="showPhoto">
                     </div>
@@ -348,6 +348,11 @@ const postClick = () => {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px; 
     overflow: hidden;
+}
+.photo_box{
+    width: 80px;
+    height:80px;
+    flex-shrink: 0;
 }
 .photo_review{
     width: 80px;

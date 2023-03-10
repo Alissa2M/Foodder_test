@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [App\Http\Controllers\CalenderController::class, 'index'])->name('home');
 Route::post('/', [App\Http\Controllers\CalenderController::class, 'post'])->name('post');
-Route::post('/', [App\Http\Controllers\CalenderController::class, 'destroy'])->name('delete');
+Route::delete('/', [App\Http\Controllers\CalenderController::class, 'destroy'])->name('delete');
 Route::get('/dashboard', [App\Http\Controllers\CalenderController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::post('/dashboard', [App\Http\Controllers\CalenderController::class, 'store'])->name('dashboard.store');
 Route::get('/timeline', [App\Http\Controllers\CalenderController::class, 'timeline'])->name('timeline');
