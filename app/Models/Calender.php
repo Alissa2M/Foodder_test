@@ -19,7 +19,8 @@ class Calender extends Model
         'img_path',
         'user_id',
         'category_id',
-        'anonymous'
+        'anonymous',
+        'shop_name',
     ];
 
     protected $casts = [

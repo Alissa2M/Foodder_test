@@ -100,7 +100,7 @@ const clickDelete = (e) => {
                 <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path">
             </div>
             <div class="preview_content" >
-                <BasePost v-bind:three-point="true" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start"/>
+                <BasePost v-bind:three-point="true" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" :shop-name="value.shop_name"/>
             </div>
         </div>
     </main>
@@ -113,7 +113,7 @@ const clickDelete = (e) => {
                 <div v-if="String(value.id) === String(showPostInfo)">
                     <span class="delete_btn" @click="clickDelete(value.id)">削除<i class="fa-solid fa-trash-can ml-1"></i></span>
                     <img :src="value.img_path" class="modal_image">
-                    <BasePost v-bind:three-point="false" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" v-bind:modal="true"/>
+                    <BasePost v-bind:three-point="false" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" v-bind:modal="true" :shop-name="value.shop_name"/>
                 </div>
             </template>
         </form>

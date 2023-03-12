@@ -17,6 +17,7 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD2CYYH2ADybStaE1le_M5njhHExqT4Izg&callback=Function.prototype"></script> -->
     </head>
     <body class="bg-[#FFF3E0]">
         @inertia

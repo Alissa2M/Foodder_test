@@ -21,6 +21,7 @@ return new class extends Migration
             $table->String('start')->nullable();
             $table->string('img_path')->nullable();
             $table->boolean('anonymous')->default(true);
+            $table->String('shop_name')->nullable();
             $table->foreignId('user_id');
             $table->foreignId('category_id');
         });

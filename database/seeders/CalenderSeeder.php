@@ -22,6 +22,7 @@ class CalenderSeeder extends Seeder
             'img_path' => null,
             'user_id' => '2',
             'category_id' => '3',
+            'shop_name' => '縁',
         ]);
         $calender = Calender::create([
             'title' => '海鮮丼',
@@ -30,6 +31,7 @@ class CalenderSeeder extends Seeder
             'img_path' => null,
             'user_id' => '1',
             'category_id' => '3',
+            'shop_name' => null,
         ]);
         $calender = Calender::create([
             'title' => 'ピザ',
@@ -38,6 +40,7 @@ class CalenderSeeder extends Seeder
             'img_path' => null,
             'user_id' => '1',
             'category_id' => '2',
+            'shop_name' => 'ドミノピザ',
         ]);
         $calender = Calender::create([
             'title' => '角煮',
@@ -46,6 +49,7 @@ class CalenderSeeder extends Seeder
             'img_path' => null,
             'user_id' => '1',
             'category_id' => '1',
+            'shop_name' => null,
         ]);
     }
 }
