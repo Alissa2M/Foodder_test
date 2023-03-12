@@ -86,6 +86,7 @@ class CalenderController extends Controller
         'anonymous' => $request->anonymous,
         'user_id' => Auth::id(),
         'category_id' => $request->category_id,
+        'shop_name' => $request->shop_name,
       ]);
 
       $calender->save();

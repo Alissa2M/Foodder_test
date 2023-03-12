@@ -4,6 +4,7 @@ const props = defineProps({
     title: String,
     description: String,
     start: String,
+    shopName: String,
     modal: {
         type:Boolean,
         default:false,
@@ -18,7 +19,13 @@ const props = defineProps({
 <template>
     <span class="food_name" :class="{'three_point':props.threePoint,'modal_food':modal,'text_position':textPosition}">{{ props.title }}</span>
     <p class="memo_review" :class="{'three_point':props.threePoint,'text_position':textPosition}">{{ props.description }}</p>
-    <span class="ate_day">{{ props.start.replace(/-/g,'/') }}</span>
+    <div class="box">
+        <div class="shop_box">
+            <i class="fa-solid fa-location-dot shop_icon" v-if="props.shopName"></i>
+            <span class="shop_name three_point">{{ props.shopName }}</span>
+        </div>
+        <span class="ate_day">{{ props.start.replace(/-/g,'/') }}</span>
+    </div>
 </template>
 
 <style scoped>
@@ -29,12 +36,32 @@ const props = defineProps({
 .memo_review{
     font-size: 14px;
 }
+.box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-top: auto;
+}
+.shop_box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+.shop_icon{
+    color: #FF6F00;
+    margin: auto 0;
+}
+.shop_name{
+    white-space: nowrap;
+    margin-left: 2px;
+}
 .ate_day{
     display: block;
     text-align: end;
-    font-size: 12px;
     color: #908D8D;
-    margin-top: auto;
 }
 .three_point{
     overflow: hidden;

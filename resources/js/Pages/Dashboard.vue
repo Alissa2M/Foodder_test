@@ -18,6 +18,7 @@ const form = useForm({
     img_path:'',
     category_id:2,
     anonymous:true,
+    shop_name: '',
 });
 
 const clickSend = () => {
@@ -54,8 +55,21 @@ const detectOutsideClick = (event) => {
         showSelect.value = true;
     }
 }
+
+const origin = ref();
 onMounted(()=>{
     addEventListener('click',detectOutsideClick);
+    // 店舗検索
+    // const options = {
+    //     componentRestrictions: {country: 'jp'} ,
+    //     types: ["establishment"],
+    //     fields: ["name"],       
+    // };
+    // const autocomplete = new google.maps.places.Autocomplete(origin.value, options);
+    // autocomplete.addListener("place_changed", () => {
+    //     const place = autocomplete.getPlace();
+    //     form.shop_name = place.name;
+    // })
 })
 onBeforeUnmount(()=>{
     removeEventListener('click',detectOutsideClick);
@@ -123,7 +137,7 @@ const postClick = () => {
                         <div>
                             <!-- フード名 -->
                             <InputError :message="form.errors.title" />
-                            <input type="text" v-model="form.title" name="title" placeholder="フード名" class="input_form">
+                            <input type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="input_form">
                             <span class="word_length">{{form.title.length}}/30文字</span>
                         </div>
                         <div>
@@ -132,10 +146,14 @@ const postClick = () => {
                             <input type="text" v-model="form.description" name="description" placeholder="メモ" class="input_form">
                             <span class="word_length">{{form.description.length}}/30文字</span>
                         </div>
-                        <!-- 匿名 -->
-                        <div class="anonymous_box">
-                            <input type="checkbox" id="anonymous" name="anonymous" v-model="form.anonymous">
-                            <label for="anonymous" class="check_label">匿名投稿</label>
+                        <div class="option_box">
+                            <!-- 位置検索 -->
+                            <input type="text" placeholder="店舗名" ref="origin" v-model="form.shop_name" class="input_form shop_name"/>
+                            <!-- 匿名 -->
+                            <div class="anonymous_box">
+                                <input type="checkbox" id="anonymous" name="anonymous" v-model="form.anonymous">
+                                <label for="anonymous" class="check_label">匿名投稿</label>
+                            </div>
                         </div>
                         <!-- 写真 -->
                         <label for="photo" class="photo_label">
@@ -145,13 +163,14 @@ const postClick = () => {
                     </div>
                 </div>
                 <div class="preview_hr"></div>
+                <!-- 投稿プレビュー -->
                 <div class="input_confirm" @click="postClick">
                     <div class="photo_box">
                         <div class="default_img" v-if="showDefaultImg"></div>
                         <img :src="photoUrl" alt="画像表示" class="photo_review" v-if="showPhoto">
                     </div>
                     <div class="preview_content">
-                        <BasePost :three-point="true" :title="form.title" :description="form.description" :start="form.start"/>
+                        <BasePost :three-point="true" :title="form.title" :description="form.description" :start="form.start" :shop-name="form.shop_name"/>
                     </div>
                 </div>
             </template>
@@ -164,7 +183,7 @@ const postClick = () => {
         <div class="img_box" v-if="photoUrl">
             <img :src="photoUrl" class="food_img">
         </div>
-        <BasePost :three-point="false" :title="form.title" :description="form.description" :start="form.start" :modal="true" :text-position="true"/>
+        <BasePost :three-point="false" :title="form.title" :description="form.description" :start="form.start" :modal="true" :text-position="true" :shop-name="form.shop_name"/>
     </BaseModal>
 
 </template>
@@ -257,6 +276,13 @@ const postClick = () => {
     margin-top: 10px;
     background-color: #FF6F00;
     border-radius: 5px;
+}
+.option_box{
+    display:flex;
+    flex-direction: row;
+}
+.shop_name{
+    width: 65%;
 }
 .anonymous_box{
     margin-left: auto;

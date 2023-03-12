@@ -34,20 +34,26 @@ const closeModal = () => {
     </header>
     <main>
         <div v-for="(value, key) in props.calenders" class="posts_box">
-            <!-- 匿名ユーザー -->
-            <div class="user_info" v-if="value.anonymous">
-                <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
-                <span>匿名ユーザー</span>
-            </div>
-            <!-- 一般ユーザー -->
-            <div class="user_info" v-else>
-                <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
-                <span>{{ value.user.name }}</span>
+            <div class="top_box">
+                <!-- 匿名ユーザー -->
+                <div class="user_info" v-if="value.anonymous">
+                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
+                    <span>匿名ユーザー</span>
+                </div>
+                <!-- 一般ユーザー -->
+                <div class="user_info" v-else>
+                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
+                    <span>{{ value.user.name }}</span>
+                </div>
+                <div class="shop_box">
+                    <i class="fa-solid fa-location-dot shop_icon" v-if="value.shop_name"></i>
+                    <span class="shop_name three_point">{{value.shop_name }}</span>
+                </div>
             </div>
             <div class="img_box" v-if="value.img_path" @click="clickImage(value.img_path)">
                 <img :src="value.img_path" class="food_img" >
             </div>
-            <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at"/>
+            <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at" />
         </div>
     </main>
     <TheFooter :href="route('dashboard')" :timeline-page="true">
@@ -77,6 +83,34 @@ main{
     box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
     border-radius: 0.5rem;
 }
+.top_box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    font-size: 12px;
+}
+.shop_box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: end;
+    overflow: hidden;
+    width: 50%;
+}
+.shop_icon{
+    color: #FF6F00;
+    margin: auto 3px 3px 0;
+}
+.shop_name{
+    white-space: nowrap;
+    margin-top: auto;
+}
+.three_point{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 ::v-deep .ate_day{
     display: none;
 }
@@ -84,7 +118,6 @@ main{
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: 12px;
     margin-bottom: 5px;
 }
 .user_icon{
@@ -100,7 +133,7 @@ main{
     position: relative;
     width: 100%;
     height: 50vw;
-    margin: 8px 0;
+    margin: 0 0 8px;
     background-color: #c9c9c9;
     border: 1px solid #c9c9c9;
     overflow: hidden;
