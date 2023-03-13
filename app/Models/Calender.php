@@ -21,6 +21,7 @@ class Calender extends Model
         'category_id',
         'anonymous',
         'shop_name',
+        'good',
     ];
 
     protected $casts = [
