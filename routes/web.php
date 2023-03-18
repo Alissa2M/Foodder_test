@@ -23,6 +23,8 @@ Route::delete('/', [App\Http\Controllers\CalenderController::class, 'destroy'])-
 Route::get('/dashboard', [App\Http\Controllers\CalenderController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::post('/dashboard', [App\Http\Controllers\CalenderController::class, 'store'])->name('dashboard.store');
 Route::get('/timeline', [App\Http\Controllers\CalenderController::class, 'timeline'])->name('timeline');
+Route::post('/timeline', [App\Http\Controllers\LikeController::class, 'like'])->name('like');
+Route::delete('/timeline', [App\Http\Controllers\LikeController::class, 'unlike'])->name('like.destroy');
 
 
 Route::middleware('auth')->group(function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Calender;
 use App\Models\Category;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
@@ -133,12 +134,14 @@ class CalenderController extends Controller
     {
       $calender = Calender::where('id',$request->calenderId);
       $calender->delete();
+      
       return Inertia::render('Welcome')->with('result','削除しました');
     }
 
     public function timeline()
     {
       $calenders = Calender::with('user')->latest()->get();
+
       return Inertia::render('Timeline',['calenders' => $calenders]);
     }
 }

@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import BaseGoodButton from '@/Components/BaseGoodButton.vue';
+import { Head, usePage } from '@inertiajs/vue3';
 import TheFooter from '@/Components/TheFooter.vue';
 
 const props = defineProps({
@@ -25,6 +26,7 @@ const closeModal = () => {
     showPost.value = false;
 }
 
+const user = usePage().props.auth.user;
 </script>
 
 <template>
@@ -54,6 +56,7 @@ const closeModal = () => {
                 <img :src="value.img_path" class="food_img" >
             </div>
             <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at" />
+            <BaseGoodButton :calender-id="value.id" :like-number="value.likes_count" :like-check="value.liked_by_user" :user-check="user"/>
         </div>
     </main>
     <TheFooter :href="route('dashboard')" :timeline-page="true">
@@ -94,7 +97,7 @@ main{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: end;
+    justify-content: flex-end;
     overflow: hidden;
     width: 50%;
 }
