@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/login/google', [App\Http\Controllers\LoginController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback', [App\Http\Controllers\LoginController::class, 'handleGoogleCallback']);
-Route::get('login/facebook', [App\Http\Controllers\LoginController::class, 'redirectToProvider']);
-Route::get('login/facebook/callback', [App\Http\Controllers\LoginController::class, 'handleProviderCallback']);
+// Route::get('login/facebook', [App\Http\Controllers\LoginController::class, 'redirectToProvider']);
+// Route::get('login/facebook/callback', [App\Http\Controllers\LoginController::class, 'handleProviderCallback']);
 
 require __DIR__.'/auth.php';

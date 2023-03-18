@@ -44,20 +44,20 @@ class LoginController extends Controller
         return $user;
     }
     
-    public function redirectToProvider()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
+    // public function redirectToProvider()
+    // {
+    //     return Socialite::driver('facebook')->redirect();
+    // }
 
-    /**
-     * Obtain the user information from GitHub.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function handleProviderCallback()
-    {
-        $user = Socialite::driver('facebook')->user();
+    // /**
+    //  * Obtain the user information from GitHub.
+    // *
+    // * @return \Illuminate\Http\Response
+    // */
+    // public function handleProviderCallback()
+    // {
+    //     $user = Socialite::driver('facebook')->user();
 
-        dd($user); // Facebookから取得した情報を表示
-    }
+    //     dd($user); // Facebookから取得した情報を表示
+    // }
 }
