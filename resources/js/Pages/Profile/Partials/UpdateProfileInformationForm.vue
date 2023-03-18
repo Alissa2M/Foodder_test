@@ -50,7 +50,6 @@ const updateProfile = () => {
     form.put(route('profile.update'), {
         preserveScroll: true,
         onSuccess: () => {
-            form.reset();
             editUsername.value = false;
             editPassword.value = false;
             editEmail.value = false;
@@ -106,7 +105,7 @@ const checkUsername = (event) => {
         </div>
         <!-- コンテンツ -->
         <div class="profile_contents">
-            <div v-if="form.recentlySuccessful" class="success text-green-700">変更しました</div>
+            <div v-if="form.recentlySuccessful" class="success text-green-700">保存しました</div>
             <InputLabel v-if="editEmail" for="email" value="メールアドレス" />
             <TextInput
                 v-if="editEmail"

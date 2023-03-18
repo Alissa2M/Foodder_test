@@ -23,6 +23,7 @@ class CalenderSeeder extends Seeder
             'user_id' => '2',
             'category_id' => '3',
             'shop_name' => '縁',
+            'anonymous' => false,
         ]);
         $calender = Calender::create([
             'title' => '海鮮丼',
