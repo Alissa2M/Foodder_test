@@ -38,8 +38,6 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
-        $request->user()->save();
-
         $current_password = $request->password;
         if($current_password !== null){
             $validated = $request->validate([
@@ -52,6 +50,25 @@ class ProfileController extends Controller
             ]);
         }
 
+        if($request->file('user_header')){
+            $file_name = $request->file('user_header')->getClientOriginalName();
+            $file_path = $request->file('user_header')->storeAs('public', $file_name);
+            $user_header = '/storage' . '/' . $file_name;
+            $request->user()->update([
+                'user_header' => $user_header,
+            ]);
+        }
+
+        if($request->file('user_icon')){
+            $file_name = $request->file('user_icon')->getClientOriginalName();
+            $file_path = $request->file('user_icon')->storeAs('public', $file_name);
+            $user_icon = '/storage' . '/' . $file_name;
+            $request->user()->update([
+                'user_icon' => $user_icon,
+            ]);
+        }
+
+        $request->user()->save();
 
         return Redirect::route('profile.edit');
     }

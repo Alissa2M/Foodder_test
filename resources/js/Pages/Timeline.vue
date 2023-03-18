@@ -47,7 +47,8 @@ const user = usePage().props.auth.user;
                 </div>
                 <!-- 一般ユーザー -->
                 <div class="user_info" v-else>
-                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
+                    <img :src="value.user.user_icon" alt="ユーザーアイコン" class="user_icon" v-if="value.user.user_icon">
+                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon" v-else>
                     <span>{{ value.user.name }}</span>
                 </div>
                 <div class="shop_box">
@@ -135,7 +136,7 @@ main{
 }
 .user_icon{
     height: 25px;
-    width: auto;
+    width: 25px;
     background-color: #fff;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
     border-radius: 100%;
