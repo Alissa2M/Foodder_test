@@ -2,35 +2,63 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-    goodDefault:{
-        type:Number,
-        defualt:0,
-    }
+    userCheck:{
+        type:Object,
+        defualt:null,
+    },
+    calenderId:Number,
+    likeNumber:Number,
+    likeCheck:Boolean,
 })
 
-const defaultHeart = ref(true);
-const activeHeart = ref(false);
-const goodNumber = ref(props.goodDefault);
+//いいね付与
+const like = async(id) => {
+    await axios.post('/timeline',{
+        calenderId: props.calenderId,
+    }).catch((e)=>{
+        console.error(e)
+    });
+}
 
-const clickHeart = () => {
-    defaultHeart.value = !defaultHeart.value;
-    activeHeart.value = !activeHeart.value;
-    if(activeHeart.value){
-        goodNumber.value += 1; 
+//いいね解除
+const unlike = async(id) => {
+    const payload = {
+        calenderId: props.calenderId,
+    }
+    await axios.delete('/timeline',{
+        data:payload
+    }).catch((e)=>{
+        console.error(e)
+    })
+
+}
+
+const goodNumber = ref(props.likeNumber);
+const goodCheck = ref(props.likeCheck);
+
+const clickHeart = (id) => {
+    if(props.userCheck === null){
+        location.href='/login';
+    }
+    else if(goodCheck.value){
+        unlike(id)
+        goodNumber.value -= 1,
+        goodCheck.value = false
     }else{
-        goodNumber.value -= 1;
+        like(id)
+        goodNumber.value += 1,
+        goodCheck.value = true
     }
 }
+
 </script>
 
 <template>
-    <div>
-        <div class="good_box">
-            <span  @click="clickHeart">
-                {{ goodNumber }}
-                <i class="fa-solid fa-heart common_button" :class="{'heart':defaultHeart,'heart_active':activeHeart}"></i>
-            </span>
-        </div>
+    <div class="good_box" >
+        <span  @click="clickHeart(props.calenderId)" >
+            {{ goodNumber }}
+            <i class="fa-solid fa-heart common_button heart" :class="{'heart_active':goodCheck}"></i>
+        </span>
     </div>
 </template>
 
