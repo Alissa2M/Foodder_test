@@ -60,12 +60,9 @@ const submit = () => {
         </form>
         <hr>
         <div class="sns_login_group">
-            <a href="/" class="sns_login twitter" role="button">
-                Twitterでログイン
-            </a>
-            <a href="/login/facebook" class="sns_login facebook" role="button">
+            <!-- <a href="/login/facebook" class="sns_login facebook" role="button">
                 Facebookでログイン
-            </a>
+            </a> -->
             <a href="/login/google" class="sns_login google" role="button">
                 Googleでログイン
             </a>
