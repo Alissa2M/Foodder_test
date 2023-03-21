@@ -263,7 +263,7 @@ const postClick = () => {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 .date_form{
     width: fit-content;
