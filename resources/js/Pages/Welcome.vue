@@ -183,7 +183,7 @@ main{
 .nav{
     display: flex;
     flex-direction: row;
-    width: 90vw;
+    width: 90%;
     margin: 10px auto;
 }
 .foodder_logo{
@@ -198,7 +198,7 @@ main{
 .input_confirm{
     display: flex;
     flex-direction: row;
-    width: 90vw;
+    width: 90%;
     height: 80px;
     margin: 10px auto 20px;
     background: #FFFFFF;

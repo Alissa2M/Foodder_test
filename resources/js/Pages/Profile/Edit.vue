@@ -45,7 +45,7 @@ defineProps({
     margin: 30px auto;
 }
 .form{
-    width: 90vw;
+    width: 90%;
     margin: 0 auto;
     padding: 25px;
     background-color: #fff;

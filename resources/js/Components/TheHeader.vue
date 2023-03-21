@@ -16,7 +16,7 @@ header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 90vw;
+    width: 90%;
     margin: 10px auto;
 }
 .back_page{

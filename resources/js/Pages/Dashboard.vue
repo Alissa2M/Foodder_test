@@ -192,7 +192,7 @@ const postClick = () => {
 /* 投稿 */
 .form_style{
     position: relative;
-    width: 90vw;
+    width: 90%;
     height: auto;
     margin: 30px auto 0;
     padding: 25px;
@@ -230,7 +230,7 @@ const postClick = () => {
     display: flex;
     flex-direction: column;
     gap: 10px 0;
-    margin-top: 2vh;
+    margin-top: 15px;
 }
 .input_form{
     width: 100%;
@@ -373,7 +373,7 @@ const postClick = () => {
 }
 /* 点線 */
 .preview_hr{
-    width: 90vw;
+    width: 90%;
     margin: 30px auto 20px;
     border-bottom: 2px dashed #FFC107;
 }
@@ -381,7 +381,7 @@ const postClick = () => {
 .input_confirm{
     display: flex;
     flex-direction: row;
-    width: 90vw;
+    width: 90%;
     height: 80px;
     margin: 0 auto;
     background: #FFFFFF;

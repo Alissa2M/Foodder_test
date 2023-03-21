@@ -93,11 +93,11 @@ const clickUser = (e) => {
 header{
     display: flex;
     flex-direction: row;
-    width: 90vw;
+    width: 90%;
     margin: 10px auto;
 }
 .foodder_logo{
-    height: 4vh;
+    height: 25px;
 }
 .to_profile{
     display: inline-block;
@@ -109,7 +109,7 @@ main{
 }
 /* 投稿 */
 .posts_box{
-    width: 90vw;
+    width: 90%;
     margin: 15px auto;
     padding: 10px;
     background-color: #fff;

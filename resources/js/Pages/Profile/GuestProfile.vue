@@ -54,7 +54,7 @@ const userIcon = ref(props.users[0].user_icon);
 }
 /* ユーザー情報 */
 .form{
-    width: 90vw;
+    width: 90%;
     margin: 0 auto;
     padding: 25px 25px 90px;
     background-color: #fff;
