@@ -72,9 +72,12 @@ class CalenderController extends Controller
         'title' => 'required|max:30',
         'description' => 'max:30',
       ]);
-      if($request->file('img_path')){
-        $file_name = $request->file('img_path')->getClientOriginalName();
-        $file_path = $request->file('img_path')->storeAs('public', $file_name);
+      if($request->file('file')){
+        $request->validate([
+          'file' => 'max:3000|mimes:jpg,jpeg,png,gif'
+        ]);
+        $file_name = $request->file('file')->getClientOriginalName();
+        $file_path = $request->file('file')->storeAs('public', $file_name);
         $img_path = '/storage' . '/' . $file_name;
       }else{
         $img_path = '';
@@ -140,7 +143,7 @@ class CalenderController extends Controller
 
     public function timeline()
     {
-      $calenders = Calender::with('user')->latest()->get();
+      $calenders = Calender::with('user')->latest()->take(50)->get();
 
       return Inertia::render('Timeline',['calenders' => $calenders]);
     }
