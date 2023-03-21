@@ -27,9 +27,7 @@ const submit = () => {
 <template>
     <GuestLayout>
         <Head title="パスワード再設定" />
-
         <div class="title">パスワードの再設定</div>
-
         <form @submit.prevent="submit" class="form_style">
             <div>
                 <TextInput

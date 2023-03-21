@@ -11,6 +11,25 @@ const props = defineProps({
     likeCheck:Boolean,
 })
 
+// いいねをクリック
+const goodNumber = ref(props.likeNumber);
+const goodCheck = ref(props.likeCheck);
+
+const clickHeart = (id) => {
+    if(props.userCheck === null){
+        location.href='/login';
+    }
+    else if(goodCheck.value){
+        unlike(id)
+        goodNumber.value -= 1,
+        goodCheck.value = false
+    }else{
+        like(id)
+        goodNumber.value += 1,
+        goodCheck.value = true
+    }
+}
+
 //いいね付与
 const like = async(id) => {
     await axios.post('/timeline',{
@@ -32,25 +51,6 @@ const unlike = async(id) => {
     })
 
 }
-
-const goodNumber = ref(props.likeNumber);
-const goodCheck = ref(props.likeCheck);
-
-const clickHeart = (id) => {
-    if(props.userCheck === null){
-        location.href='/login';
-    }
-    else if(goodCheck.value){
-        unlike(id)
-        goodNumber.value -= 1,
-        goodCheck.value = false
-    }else{
-        like(id)
-        goodNumber.value += 1,
-        goodCheck.value = true
-    }
-}
-
 </script>
 
 <template>
@@ -79,7 +79,7 @@ const clickHeart = (id) => {
 .heart_active{
     color: #fff;
     background-color: #FF6F00;
-    padding: 5px;
+    padding: 4px;
     animation: eff 0.3s linear 0s forwards;
 }
 @keyframes eff{

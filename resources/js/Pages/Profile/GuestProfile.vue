@@ -15,22 +15,26 @@ const userIcon = ref(props.users[0].user_icon);
 <template>
     <Head title="プロフィール" />
         <TheHeader />
-        <div class="fooder_logo">
+        <div class="foodder_logo">
             <Link href="/">
                 <img src="../../../../public/img/Foodder_logo.png" alt="Foodder">
             </Link>
         </div>
+        <!-- ユーザー情報 -->
         <div class="form">
+            <!-- ヘッダー画像 -->
             <div>
                 <img src="../../../../public/img/header.jpg" alt="header" class="header" v-if="!userHeader"/>
                 <img :src="userHeader" alt="ヘッダー" class="header" v-else>
             </div>
             <div class="icon_box">
                 <div class="position_box">
+                    <!-- アイコン -->
                     <div>
                         <img src="../../../../public/img/guest.png" alt="icon" class="icon" v-if="!userIcon"/>
                         <img :src="userIcon" alt="アイコン" class="icon" v-else>
                     </div>
+                    <!-- ユーザーネーム -->
                     <div class="dummy_box">
                         <span class="username_dummy">{{ users[0].name }}</span>
                     </div>
@@ -43,10 +47,12 @@ const userIcon = ref(props.users[0].user_icon);
 </template>
 
 <style scoped>
-.fooder_logo{
+/* ヘッダー */
+.foodder_logo{
     width: 13rem;
     margin: 30px auto;
 }
+/* ユーザー情報 */
 .form{
     width: 90vw;
     margin: 0 auto;
@@ -54,12 +60,6 @@ const userIcon = ref(props.users[0].user_icon);
     background-color: #fff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
-}
-.logout{
-    display: block;
-    font-size: 12px;
-    padding: 0 25px;
-    margin: 5px 0 100px auto;
 }
 .header{
     height: 130px;

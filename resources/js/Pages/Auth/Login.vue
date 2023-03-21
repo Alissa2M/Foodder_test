@@ -110,18 +110,12 @@ hr{
     padding: 6px 0;
 }
 
-.twitter{
-    background-image: url("../../../../public/img/Twitter_icon.png");
-    background-repeat: no-repeat;
-    background-size:20px;
-    background-position:5% 50% ;
-}
-.facebook{
+/* .facebook{
     background-image: url("../../../../public/img/facebook_icon.png");
     background-repeat: no-repeat;
     background-size:25px;
     background-position:4% 50% ; 
-}
+} */
 .google{
     background-image: url("../../../../public/img/google_icon.png");
     background-repeat: no-repeat;

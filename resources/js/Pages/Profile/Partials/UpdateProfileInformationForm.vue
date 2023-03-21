@@ -6,10 +6,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm, usePage} from '@inertiajs/vue3';
 
+// ログインユーザー情報
 const user = usePage().props.auth.user;
-
-const passwordInput = ref(null);
-const currentPasswordInput = ref(null);
 
 const form = useForm({
     name: user.name,
@@ -21,6 +19,7 @@ const form = useForm({
     user_header: '',
 });
 
+// 編集項目
 const editClicked = ref(false); //保存するボタン
 const editUsername = ref(false);
 const editEmail = ref(false);
@@ -38,6 +37,10 @@ const clickEditEmail = () => {
         editClicked.value = false;
     }
 }
+
+const passwordInput = ref(null);
+const currentPasswordInput = ref(null);
+
 const clickEditPassword = () => {
     editPassword.value = !editPassword.value;
     if(editUsername.value || editEmail.value || editPassword.value){
@@ -47,6 +50,7 @@ const clickEditPassword = () => {
     }
 }
 
+// 編集保存
 const updateProfile = () => {
     form.post(route('profile.update'), {
         forceFormData: true,
@@ -70,6 +74,7 @@ const updateProfile = () => {
     });
 };
 
+// ユーザーネーム編集した後
 const checkUsername = (event) => {
     if(user.name === event.target.value){
         editUsername.value = false;
@@ -77,6 +82,7 @@ const checkUsername = (event) => {
     }
 }
 
+// ヘッダー画像編集
 const userHeaderPreview = ref('');
 const userHeader = ref(user.user_header);
 
@@ -88,6 +94,7 @@ const changeUserHeader = () => {
     editClicked.value = true;
 }
 
+// アイコン画像編集
 const userIconPreview = ref('');
 const userIcon = ref(user.user_icon);
 
@@ -99,6 +106,7 @@ const changeUserIcon = () => {
     editClicked.value = true;
 }
 
+// 編集画面の中止（外側をクリック）
 const modal = ref();
 const clickOutside = (e) => {
     if(!modal.value.contains(e.target)) {
@@ -119,11 +127,13 @@ onBeforeUnmount(() => {
 
 <template>
     <form @submit.prevent="updateProfile" ref="modal">
+        <!-- ヘッダー画像 -->
         <label for="header_photo">
             <input id="header_photo" type="file" name="user_header" class="header_input" @change="changeUserHeader" ref="userHeaderPreview">
             <img src="../../../../../public/img/header.jpg" alt="header" class="header" v-if="!userHeader"/>
             <img :src="userHeader" alt="ヘッダー" class="header" v-else>
         </label>
+        <!-- アイコン画像 -->
         <div class="icon_box">
             <div class="position_box">
                 <label for="user_icon">
@@ -131,6 +141,7 @@ onBeforeUnmount(() => {
                     <img src="../../../../../public/img/guest.png" alt="icon" class="icon" v-if="!userIcon"/>
                     <img :src="userIcon" alt="アイコン" class="icon" v-else>
                 </label>
+                <!-- ユーザーネーム -->
                 <div v-if="!editUsername" class="dummy_box" v-on:click="clickEditUsername">
                     <span class="username_dummy">{{ form.name }}</span>
                     <i class="fa-solid fa-pen edit_pen"></i>
@@ -155,6 +166,7 @@ onBeforeUnmount(() => {
         <!-- コンテンツ -->
         <div class="profile_contents">
             <div v-if="form.recentlySuccessful" class="success text-green-700">保存しました</div>
+            <!-- メールアドレス変更 -->
             <InputLabel v-if="editEmail" for="email" value="メールアドレス" />
             <TextInput
                 v-if="editEmail"
@@ -214,6 +226,7 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+/* ヘッダー画像 */
 .header{
     height: 130px;
     width: 100%;
@@ -223,6 +236,7 @@ onBeforeUnmount(() => {
 .header_input{
     display: none;
 }
+/* アイコン画像 */
 .icon_box{
     position: relative;
     top: 0;
@@ -246,6 +260,7 @@ onBeforeUnmount(() => {
     margin: 0 auto;
     pointer-events: fill;
 }
+/* ユーザーネーム */
 .dummy_box{
     width: fit-content;
     margin: 8px auto;
@@ -271,6 +286,7 @@ onBeforeUnmount(() => {
     text-underline-offset: 5px;
     pointer-events: fill;
 }
+/* 選択肢 */
 .chose_edit{
     display: flex;
     gap: 0 5px; 
@@ -279,6 +295,13 @@ onBeforeUnmount(() => {
     margin-top: 5px;
     color: #fff;
 }
+.edit_icon{
+    padding: 5px;
+    background-color: #FF6F00;
+    border-radius: 100%;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+}
+/* コンテンツ */
 .profile_contents{
     margin-top: 60px;
 }
@@ -287,19 +310,14 @@ onBeforeUnmount(() => {
     font-size: 14px;
     margin-bottom: 10px;
 }
-.error{
-    margin: 5px;
-}
-.edit_icon{
-    padding: 5px;
-    background-color: #FF6F00;
-    border-radius: 100%;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
-}
 .change_password{
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+/* バリデーション */
+.error{
+    margin: 5px;
 }
 .success{
     font-size: 14px;

@@ -9,6 +9,7 @@ const props = defineProps({
     email: String,
 });
 
+// 認証メールを再送信
 const form = useForm({});
 
 const submit = () => {
@@ -35,8 +36,9 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                     :href="route('logout')"
                     method="post"
                     as="button"
-                >ログアウト
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                >
+                    ログアウト
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </Link>
             </div>
         </form>

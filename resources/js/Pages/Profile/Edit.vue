@@ -1,9 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head } from '@inertiajs/vue3';
-import { Link } from '@inertiajs/vue3';
-
+import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     mustVerifyEmail: Boolean,
@@ -15,7 +13,7 @@ defineProps({
     <Head title="プロフィール" />
     <AuthenticatedLayout v-bind:href="'/dashboard'">
         <template #main>
-            <div class="fooder_logo">
+            <div class="foodder_logo">
                 <Link href="/">
                     <img src="../../../../public/img/Foodder_logo.png" alt="Foodder">
                 </Link>
@@ -42,7 +40,7 @@ defineProps({
 </template>
 
 <style scoped>
-.fooder_logo{
+.foodder_logo{
     width: 13rem;
     margin: 30px auto;
 }

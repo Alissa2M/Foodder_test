@@ -15,8 +15,7 @@ const props = defineProps({
     result: String,
 });
 
-const showPostInfo = ref();
-
+// カレンダー設定
 const calendarOptions = reactive({
     plugins: [ dayGridPlugin, interactionPlugin ],
     initialView: 'dayGridMonth',
@@ -44,11 +43,20 @@ const form = useForm({
     calenderId: '',
 });
 
+// カレンダーIDと日付を送信
 const submit = (e) => {
     form.post(route('post'),e);
-
 }
 
+// モーダル表示
+const showPostInfo = ref();
+const showPost = ref(false);
+const postClick = (e) => {
+    showPost.value = true;
+    showPostInfo.value = e;
+}
+
+// モーダル閉じる
 const closeModal = () => {
     showPost.value = false;
     if(props.result){
@@ -56,13 +64,7 @@ const closeModal = () => {
     }
 }
 
-const showPost = ref(false);
-
-const postClick = (e) => {
-    showPost.value = true;
-    showPostInfo.value = e;
-}
-
+// 投稿を削除
 const deletePost = () => {
     form.delete(route('delete'),{
         onSuccess: () => closeModal(),
@@ -79,7 +81,7 @@ const clickDelete = (e) => {
     <Head title="カレンダー" />
     <main>
         <!-- カレンダー -->
-        <div class="calender_box" :class="{'position_relative':showPost}">
+        <div class="calender_box" :class="{'relative':showPost}">
             <form @submit.prevent="submit">
                 <FullCalendar 
                     :options="calendarOptions"
@@ -88,6 +90,7 @@ const clickDelete = (e) => {
                 <input type="hidden" name="date" value="form.date">
             </form>
         </div>
+        <!-- foodderロゴ -->
         <div class="nav">
             <img src="../../../public/img/Foodder_logo.png" alt="" class="foodder_logo">
             <Link href="/profile" class="to_profile">
@@ -123,14 +126,12 @@ const clickDelete = (e) => {
 main{
     margin-bottom: 100px;
 }
+/* カレンダー */
 .calender_box{
     padding: 18px;
     background-color: #fff;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     z-index: -1;
-}
-.position_relative{
-    position: relative;
 }
 ::v-deep .fc .fc-toolbar-title{
     font-size: 20px;
@@ -155,7 +156,6 @@ main{
     box-shadow: none;
     background-color:#FFC107 ;
 }
-
 ::v-deep .fc .fc-button-primary:hover{
     background-color: #FFC107;
 }
@@ -179,17 +179,7 @@ main{
 ::v-deep .fc-event-time{
     display: none;
 } 
-.input_confirm{
-    display: flex;
-    flex-direction: row;
-    width: 90vw;
-    height: 80px;
-    margin: 10px auto 20px;
-    background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px; 
-    overflow: hidden;
-}
+/* foodderロゴ */
 .nav{
     display: flex;
     flex-direction: row;
@@ -203,6 +193,18 @@ main{
 .to_profile{
     display: inline-block;
     margin: auto 0 0 auto;
+}
+/* 投稿 */
+.input_confirm{
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    height: 80px;
+    margin: 10px auto 20px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px; 
+    overflow: hidden;
 }
 .photo_box{
     width: 80px;
@@ -237,6 +239,7 @@ main{
     font-size: 10px;
     font-weight: normal;
 }
+/* モーダル */
 .modal_image{
     max-height: 40vh;
     width: auto;
