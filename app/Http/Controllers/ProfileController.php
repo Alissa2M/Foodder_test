@@ -10,12 +10,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\User;
+
 
 class ProfileController extends Controller
 {
+    public function index(User $user,Request $request)
+    {
+        $users = User::where('id',$request->id)->get();
+        return Inertia::render('Profile/GuestProfile',[
+            'users' => $users,
+        ]);
+    }
     /**
      * Display the user's profile form.
      */

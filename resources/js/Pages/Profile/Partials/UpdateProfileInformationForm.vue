@@ -99,27 +99,27 @@ const changeUserIcon = () => {
     editClicked.value = true;
 }
 
-// const modal = ref();
-// const clickOutside = (e) => {
-//     if(!modal.value.contains(e.target)) {
-//         form.reset()
-//         userIcon.value = user.user_icon
-//         userHeader.value = user.user_header
-//         editPassword.value = false;
-//         editEmail.value = false;
-//     }
-// }
-// onMounted(() => {
-//     addEventListener('click', clickOutside)
-// })
-// onBeforeUnmount(() => {
-//     removeEventListener('click', clickOutside)
-// })
+const modal = ref();
+const clickOutside = (e) => {
+    if(!modal.value.contains(e.target)) {
+        form.reset()
+        userIcon.value = user.user_icon
+        userHeader.value = user.user_header
+        editPassword.value = false;
+        editEmail.value = false;
+    }
+}
+onMounted(() => {
+    addEventListener('click', clickOutside)
+})
+onBeforeUnmount(() => {
+    removeEventListener('click', clickOutside)
+})
 </script>
 
 <template>
     <form @submit.prevent="updateProfile" ref="modal">
-        <label for="header_photo" class="block">
+        <label for="header_photo">
             <input id="header_photo" type="file" name="user_header" class="header_input" @change="changeUserHeader" ref="userHeaderPreview">
             <img src="../../../../../public/img/header.jpg" alt="header" class="header" v-if="!userHeader"/>
             <img :src="userHeader" alt="ヘッダー" class="header" v-else>

@@ -27,6 +27,18 @@ const closeModal = () => {
 }
 
 const user = usePage().props.auth.user;
+
+const clickUser = (e) => {
+    if(user){
+        if(user.id === e){
+            location.href='/profile'
+        }else{
+            location.href="/guestProfile/id="+e;
+        }
+    }else{
+        location.href="/guestProfile/id="+e;
+    }
+}
 </script>
 
 <template>
@@ -46,7 +58,7 @@ const user = usePage().props.auth.user;
                     <span>匿名ユーザー</span>
                 </div>
                 <!-- 一般ユーザー -->
-                <div class="user_info" v-else>
+                <div class="user_info" v-else @click="clickUser(value.user.id)">
                     <img :src="value.user.user_icon" alt="ユーザーアイコン" class="user_icon" v-if="value.user.user_icon">
                     <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon" v-else>
                     <span>{{ value.user.name }}</span>

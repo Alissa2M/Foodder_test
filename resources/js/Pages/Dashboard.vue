@@ -3,7 +3,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import BaseModal from '@/Components/BaseModal.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import BasePost from '@/Components/BasePost.vue';
 
 const props = defineProps({
@@ -104,11 +104,6 @@ const postClick = () => {
     <Head title="投稿画面" />
     <form @submit.prevent="submit">
         <AuthenticatedLayout :href="'/'" v-on:click-button="clickSend">
-            <template #header>
-                <Link href="/profile">
-                    <i class="fa-solid fa-circle-user"></i>
-                </Link>
-            </template>
             <template #main>
                 <div class="form_style">
                     <div class="top">
