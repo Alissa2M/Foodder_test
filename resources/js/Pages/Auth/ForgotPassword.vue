@@ -23,11 +23,8 @@ const submit = () => {
 <template>
     <GuestLayout>
         <Head title="パスワード再設定" />
-
         <div class="title">パスワードの再設定</div>
-
         <p class="password_reset">ご利用中のメールアドレスを入力してください。<br>パスワード再設定のためのURLをお送りします。</p>
-
         <form @submit.prevent="submit">
             <div>
                 <TextInput

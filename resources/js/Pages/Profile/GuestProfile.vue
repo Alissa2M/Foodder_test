@@ -15,22 +15,26 @@ const userIcon = ref(props.users[0].user_icon);
 <template>
     <Head title="プロフィール" />
         <TheHeader />
-        <div class="fooder_logo">
+        <div class="foodder_logo">
             <Link href="/">
-                <img src="../../../../public/img/Foodder_logo.png" alt="Foodder">
+                <img src="../../../../public/img/Foodder_logo.webp" alt="Foodder">
             </Link>
         </div>
+        <!-- ユーザー情報 -->
         <div class="form">
+            <!-- ヘッダー画像 -->
             <div>
-                <img src="../../../../public/img/header.jpg" alt="header" class="header" v-if="!userHeader"/>
+                <img src="../../../../public/img/header.webp" alt="header" class="header" v-if="!userHeader"/>
                 <img :src="userHeader" alt="ヘッダー" class="header" v-else>
             </div>
             <div class="icon_box">
                 <div class="position_box">
+                    <!-- アイコン -->
                     <div>
-                        <img src="../../../../public/img/guest.png" alt="icon" class="icon" v-if="!userIcon"/>
+                        <img src="../../../../public/img/guest.webp" alt="icon" class="icon" v-if="!userIcon"/>
                         <img :src="userIcon" alt="アイコン" class="icon" v-else>
                     </div>
+                    <!-- ユーザーネーム -->
                     <div class="dummy_box">
                         <span class="username_dummy">{{ users[0].name }}</span>
                     </div>
@@ -38,28 +42,24 @@ const userIcon = ref(props.users[0].user_icon);
             </div>
         </div>
         <TheFooter :href="route('dashboard')">
-            <img src="../../../../public/img/plus.png" alt="投稿する">
+            <i class="fa-solid fa-plus to_post"></i>
         </TheFooter>
 </template>
 
 <style scoped>
-.fooder_logo{
+/* ヘッダー */
+.foodder_logo{
     width: 13rem;
     margin: 30px auto;
 }
+/* ユーザー情報 */
 .form{
-    width: 90vw;
+    width: 90%;
     margin: 0 auto;
     padding: 25px 25px 90px;
     background-color: #fff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
-}
-.logout{
-    display: block;
-    font-size: 12px;
-    padding: 0 25px;
-    margin: 5px 0 100px auto;
 }
 .header{
     height: 130px;
@@ -100,6 +100,11 @@ const userIcon = ref(props.users[0].user_icon);
     font-weight: bold;
     margin-left:5px;
     margin-right: 5px;
+}
+/* フッダー */
+.to_post{
+    color: #fff;
+    font-size: 23px;
 }
 
 </style>

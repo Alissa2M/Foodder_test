@@ -19,7 +19,6 @@ const buttonClick = () => {
         ,200
       )
 }
-
 </script>
 
 <template>

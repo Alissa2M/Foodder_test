@@ -10,10 +10,12 @@ const props = defineProps({
     calenders:Array,
 });
 
+// ヘッダー
 const clickFoodder = () => {
     location.href='/';
 }
 
+// モーダル
 const photoUrl = ref('');
 const showPost = ref(false);
 
@@ -26,8 +28,8 @@ const closeModal = () => {
     showPost.value = false;
 }
 
+// ユーザーネームをクリックしてプロフィール画面に遷移
 const user = usePage().props.auth.user;
-
 const clickUser = (e) => {
     if(user){
         if(user.id === e){
@@ -43,8 +45,9 @@ const clickUser = (e) => {
 
 <template>
     <Head title="タイムライン" />
+    <!-- ヘッダー -->
     <header>
-        <img src="../../../public/img/Foodder_logo.png" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
+        <img src="../../../public/img/Foodder_logo.webp" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
         <Link href="/profile" class="to_profile">
             <i class="fa-solid fa-circle-user"></i>
         </Link>
@@ -54,20 +57,22 @@ const clickUser = (e) => {
             <div class="top_box">
                 <!-- 匿名ユーザー -->
                 <div class="user_info" v-if="value.anonymous">
-                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
+                    <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon">
                     <span>匿名ユーザー</span>
                 </div>
                 <!-- 一般ユーザー -->
                 <div class="user_info" v-else @click="clickUser(value.user.id)">
                     <img :src="value.user.user_icon" alt="ユーザーアイコン" class="user_icon" v-if="value.user.user_icon">
-                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon" v-else>
+                    <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon" v-else>
                     <span>{{ value.user.name }}</span>
                 </div>
+                <!-- 店舗名 -->
                 <div class="shop_box">
                     <i class="fa-solid fa-location-dot shop_icon" v-if="value.shop_name"></i>
                     <span class="shop_name three_point">{{value.shop_name }}</span>
                 </div>
             </div>
+            <!-- 投稿内容 -->
             <div class="img_box" v-if="value.img_path" @click="clickImage(value.img_path)">
                 <img :src="value.img_path" class="food_img" >
             </div>
@@ -76,7 +81,7 @@ const clickUser = (e) => {
         </div>
     </main>
     <TheFooter :href="route('dashboard')" :timeline-page="true">
-        <img src="../../../public/img/plus.png" alt="投稿する">
+        <i class="fa-solid fa-plus to_post"></i>
     </TheFooter>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
         <img :src="photoUrl" alt="モーダル写真" class="modal_image">
@@ -84,14 +89,15 @@ const clickUser = (e) => {
 </template>
 
 <style scoped>
+/* ヘッダー */
 header{
     display: flex;
     flex-direction: row;
-    width: 90vw;
+    width: 90%;
     margin: 10px auto;
 }
 .foodder_logo{
-    height: 4vh;
+    height: 25px;
 }
 .to_profile{
     display: inline-block;
@@ -101,8 +107,9 @@ header{
 main{
     margin-bottom: 100px;
 }
+/* 投稿 */
 .posts_box{
-    width: 90vw;
+    width: 90%;
     margin: 15px auto;
     padding: 10px;
     background-color: #fff;
@@ -169,10 +176,16 @@ main{
     width: 100%;
     object-fit: cover;
 }
+/* モーダル */
 .modal_image{
     max-height: 40vh;
     width: auto;
     margin: 0 auto;
     object-fit: cover;
+}
+/* フッダー */
+.to_post{
+    color: #fff;
+    font-size: 23px;
 }
 </style>

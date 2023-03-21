@@ -9,6 +9,7 @@ const props = defineProps({
     email: String,
 });
 
+// 認証メールを再送信
 const form = useForm({});
 
 const submit = () => {
@@ -22,7 +23,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
     <GuestLayout>
         <Head title="メールアドレス認証" />
         <div class="title">メールを確認してください！</div>
-        <img src="../../../../public/img/email_send.png" alt="メール送信済み" class="email_send">
+        <img src="../../../../public/img/email_send.webp" alt="メール送信済み" class="email_send">
         <p class="email">{{ props.email }}宛てに認証メールが送信されました</p>
         <p class="verify_email">登録されているメールアドレスは認証が完了していません。メールを確認し、認証を完了してください。</p>
         <p v-if="verificationLinkSent" class="resend_email">
@@ -35,8 +36,9 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                     :href="route('logout')"
                     method="post"
                     as="button"
-                >ログアウト
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                >
+                    ログアウト
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </Link>
             </div>
         </form>

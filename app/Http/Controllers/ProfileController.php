@@ -62,7 +62,7 @@ class ProfileController extends Controller
 
         if($request->file('user_header')){
             $request->validate([
-                'user_header' => 'max:3000|mimes:jpg,jpeg,png,gif',
+                'user_header' => 'max:3000|mimes:jpg,jpeg,png,gif,webp',
             ]);    
             $file_name = $request->file('user_header')->getClientOriginalName();
             $file_path = $request->file('user_header')->storeAs('public', $file_name);
@@ -74,7 +74,7 @@ class ProfileController extends Controller
 
         if($request->file('user_icon')){
             $request->validate([
-                'user_icon' => 'max:3000|mimes:jpg,jpeg,png,gif'
+                'user_icon' => 'max:3000|mimes:jpg,jpeg,png,gif,webp'
             ]);    
             $file_name = $request->file('user_icon')->getClientOriginalName();
             $file_path = $request->file('user_icon')->storeAs('public', $file_name);

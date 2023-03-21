@@ -21,6 +21,7 @@ const form = useForm({
     shop_name: '',
 });
 
+// 投稿するボタン
 const clickSend = () => {
     submit()
 }
@@ -28,9 +29,10 @@ const clickSend = () => {
 const submit = () => {
     form.post(route('dashboard.store'), {
         forceFormData: true
-});
+    });
 };
 
+// カテゴリプルダウン
 const chooseCategoryColor = ref(2);
 const chooseCategoryName = ref("昼");
 const showOption = ref(false);
@@ -56,7 +58,8 @@ const detectOutsideClick = (event) => {
     }
 }
 
-const origin = ref();
+// const origin = ref();
+
 onMounted(()=>{
     addEventListener('click',detectOutsideClick);
     // 店舗検索
@@ -75,7 +78,7 @@ onBeforeUnmount(()=>{
     removeEventListener('click',detectOutsideClick);
 })
 
-
+// モーダル表示
 const photoPreview = ref('');
 const file = ref('');
 const photoUrl = ref('');
@@ -132,18 +135,19 @@ const postClick = () => {
                         <div>
                             <!-- フード名 -->
                             <InputError :message="form.errors.title" />
-                            <input type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="input_form">
+                            <input type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="underline_input" maxlength="30">
                             <span class="word_length">{{form.title.length}}/30文字</span>
                         </div>
                         <div>
                             <!-- メモ -->
                             <InputError :message="form.errors.description" />
-                            <input type="text" v-model="form.description" name="description" placeholder="メモ" class="input_form">
+                            <input type="text" v-model="form.description" name="description" placeholder="メモ" class="underline_input" maxlength="30">
                             <span class="word_length">{{form.description.length}}/30文字</span>
                         </div>
                         <div class="option_box">
-                            <!-- 位置検索 -->
-                            <input type="text" placeholder="店舗名" ref="origin" v-model="form.shop_name" class="input_form shop_name"/>
+                            <!-- 店舗名 -->
+                            <i class="fa-solid fa-location-dot shop_icon"></i>
+                            <input type="text" placeholder="店舗名" ref="origin" v-model="form.shop_name" class="underline_input shop_name"/>
                             <!-- 匿名 -->
                             <div class="anonymous_box">
                                 <input type="checkbox" id="anonymous" name="anonymous" v-model="form.anonymous">
@@ -185,13 +189,10 @@ const postClick = () => {
 </template>
 
 <style scoped>
-.send_icon{
-    color: #fff;
-    font-size: 18px;
-}
+/* 投稿 */
 .form_style{
     position: relative;
-    width: 90vw;
+    width: 90%;
     height: auto;
     margin: 30px auto 0;
     padding: 25px;
@@ -228,8 +229,8 @@ const postClick = () => {
 .input_content{
     display: flex;
     flex-direction: column;
-    gap: 2vh 0;
-    margin-top: 2vh;
+    gap: 10px 0;
+    margin-top: 15px;
 }
 .input_form{
     width: 100%;
@@ -241,59 +242,35 @@ const postClick = () => {
 .input_form::placeholder{
     color: #908D8D;
 }
-.date_category{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 1.5vh;
+.underline_input{
+    width: 100%;
+    padding: 0 5px;
+    border: none;
+    border-bottom: 1px dashed #FF6F00;
 }
-
-.date_form{
-    width: fit-content;
-    color: #000;
-    background-color: #FFF3E0;
+[type='text']:focus{
+    outline:none;
+    box-shadow: none;
 }
-
 .word_length{
     display: block;
     text-align: right;
     font-size: 12px;
 }
-.photo_input{
-    display: none;
-}
-.photo_label{
-    width: 100%;
-    font-size: 14px;
-    color: #fff;
-    text-align: center;
-    padding: 5px;
-    margin-top: 10px;
-    background-color: #FF6F00;
-    border-radius: 5px;
-}
-.option_box{
-    display:flex;
+/* 日付 */
+.date_category{
+    position: relative;
+    display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
-.shop_name{
-    width: 65%;
+.date_form{
+    width: fit-content;
+    color: #000;
+    background-color: #FFF3E0;
 }
-.anonymous_box{
-    margin-left: auto;
-}
-[type='checkbox']:checked{
-    background-color: #FF6F00;
-}
-[type='checkbox']:focus{
-    box-shadow: none;
-}
-.check_label{
-    font-size: 14px;
-    margin-left: 5px;
-    vertical-align: middle;
-}
+/* カテゴリ */
 .index_option{
     position: relative;
     display: flex;
@@ -354,16 +331,57 @@ const postClick = () => {
 .category_purple{
     background-color:purple;
 }
+/* 画像アップロード */
+.photo_input{
+    display: none;
+}
+.photo_label{
+    width: 100%;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    margin-top: 20px;
+    background-color: #FF6F00;
+    border-radius: 5px;
+}
+/* 店舗名 */
+.option_box{
+    display:flex;
+    flex-direction: row;
+}
+.shop_icon{
+    color: #FF6F00;
+    margin: auto 0;
+}
+.shop_name{
+    width: 50%;
+}
+.anonymous_box{
+    margin-left: auto;
+}
+[type='checkbox']:checked{
+    background-color: #FF6F00;
+}
+[type='checkbox']:focus{
+    box-shadow: none;
+}
+.check_label{
+    font-size: 14px;
+    margin-left: 5px;
+    vertical-align: bottom;
+}
+/* 点線 */
 .preview_hr{
-    width: 90vw;
+    width: 90%;
     margin: 30px auto 20px;
     border-bottom: 2px dashed #FFC107;
 }
-
+/* 投稿プレビュー */
 .input_confirm{
     display: flex;
     flex-direction: row;
-    width: 90vw;
+    width: 90%;
     height: 80px;
     margin: 0 auto;
     background: #FFFFFF;
@@ -387,7 +405,7 @@ const postClick = () => {
     width: 80px;
     height: 80px;
     background-color: #D9D9D9;
-    background-image: url("../../../public/img/no_image.png");
+    background-image: url("../../../public/img/no_image.webp");
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -412,5 +430,10 @@ const postClick = () => {
     height: 50vw;
     width: 100%;
     object-fit: cover;
+}
+/* フッター */
+.send_icon{
+    color: #fff;
+    font-size: 18px;
 }
 </style>

@@ -1,9 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head } from '@inertiajs/vue3';
-import { Link } from '@inertiajs/vue3';
-
+import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     mustVerifyEmail: Boolean,
@@ -15,9 +13,9 @@ defineProps({
     <Head title="プロフィール" />
     <AuthenticatedLayout v-bind:href="'/dashboard'">
         <template #main>
-            <div class="fooder_logo">
+            <div class="foodder_logo">
                 <Link href="/">
-                    <img src="../../../../public/img/Foodder_logo.png" alt="Foodder">
+                    <img src="../../../../public/img/Foodder_logo.webp" alt="Foodder">
                 </Link>
             </div>
             <UpdateProfileInformationForm
@@ -36,18 +34,18 @@ defineProps({
             </Link>
         </template>
         <template #footer>
-            <img src="../../../../public/img/plus.png" alt="post">
+            <i class="fa-solid fa-plus to_post"></i>
         </template>
     </AuthenticatedLayout>
 </template>
 
 <style scoped>
-.fooder_logo{
+.foodder_logo{
     width: 13rem;
     margin: 30px auto;
 }
 .form{
-    width: 90vw;
+    width: 90%;
     margin: 0 auto;
     padding: 25px;
     background-color: #fff;
@@ -60,4 +58,10 @@ defineProps({
     padding: 0 25px;
     margin: 5px 0 100px auto;
 }
+/* フッダー */
+.to_post{
+    color: #fff;
+    font-size: 23px;
+}
+
 </style>
