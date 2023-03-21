@@ -130,7 +130,7 @@ onBeforeUnmount(() => {
         <!-- ヘッダー画像 -->
         <label for="header_photo">
             <input id="header_photo" type="file" name="user_header" class="header_input" @change="changeUserHeader" ref="userHeaderPreview">
-            <img src="../../../../../public/img/header.jpg" alt="header" class="header" v-if="!userHeader"/>
+            <img src="../../../../../public/img/header.webp" alt="header" class="header" v-if="!userHeader"/>
             <img :src="userHeader" alt="ヘッダー" class="header" v-else>
         </label>
         <!-- アイコン画像 -->
@@ -138,7 +138,7 @@ onBeforeUnmount(() => {
             <div class="position_box">
                 <label for="user_icon">
                     <input id="user_icon" type="file" name="user_icon" class="header_input" @change="changeUserIcon"  ref="userIconPreview">
-                    <img src="../../../../../public/img/guest.png" alt="icon" class="icon" v-if="!userIcon"/>
+                    <img src="../../../../../public/img/guest.webp" alt="icon" class="icon" v-if="!userIcon"/>
                     <img :src="userIcon" alt="アイコン" class="icon" v-else>
                 </label>
                 <!-- ユーザーネーム -->

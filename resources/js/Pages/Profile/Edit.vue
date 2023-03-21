@@ -15,7 +15,7 @@ defineProps({
         <template #main>
             <div class="foodder_logo">
                 <Link href="/">
-                    <img src="../../../../public/img/Foodder_logo.png" alt="Foodder">
+                    <img src="../../../../public/img/Foodder_logo.webp" alt="Foodder">
                 </Link>
             </div>
             <UpdateProfileInformationForm
@@ -34,7 +34,7 @@ defineProps({
             </Link>
         </template>
         <template #footer>
-            <img src="../../../../public/img/plus.png" alt="post">
+            <i class="fa-solid fa-plus to_post"></i>
         </template>
     </AuthenticatedLayout>
 </template>
@@ -58,4 +58,10 @@ defineProps({
     padding: 0 25px;
     margin: 5px 0 100px auto;
 }
+/* フッダー */
+.to_post{
+    color: #fff;
+    font-size: 23px;
+}
+
 </style>

@@ -17,21 +17,21 @@ const userIcon = ref(props.users[0].user_icon);
         <TheHeader />
         <div class="foodder_logo">
             <Link href="/">
-                <img src="../../../../public/img/Foodder_logo.png" alt="Foodder">
+                <img src="../../../../public/img/Foodder_logo.webp" alt="Foodder">
             </Link>
         </div>
         <!-- ユーザー情報 -->
         <div class="form">
             <!-- ヘッダー画像 -->
             <div>
-                <img src="../../../../public/img/header.jpg" alt="header" class="header" v-if="!userHeader"/>
+                <img src="../../../../public/img/header.webp" alt="header" class="header" v-if="!userHeader"/>
                 <img :src="userHeader" alt="ヘッダー" class="header" v-else>
             </div>
             <div class="icon_box">
                 <div class="position_box">
                     <!-- アイコン -->
                     <div>
-                        <img src="../../../../public/img/guest.png" alt="icon" class="icon" v-if="!userIcon"/>
+                        <img src="../../../../public/img/guest.webp" alt="icon" class="icon" v-if="!userIcon"/>
                         <img :src="userIcon" alt="アイコン" class="icon" v-else>
                     </div>
                     <!-- ユーザーネーム -->
@@ -42,7 +42,7 @@ const userIcon = ref(props.users[0].user_icon);
             </div>
         </div>
         <TheFooter :href="route('dashboard')">
-            <img src="../../../../public/img/plus.png" alt="投稿する">
+            <i class="fa-solid fa-plus to_post"></i>
         </TheFooter>
 </template>
 
@@ -100,6 +100,11 @@ const userIcon = ref(props.users[0].user_icon);
     font-weight: bold;
     margin-left:5px;
     margin-right: 5px;
+}
+/* フッダー */
+.to_post{
+    color: #fff;
+    font-size: 23px;
 }
 
 </style>

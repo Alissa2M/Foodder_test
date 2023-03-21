@@ -117,7 +117,7 @@ hr{
     background-position:4% 50% ; 
 } */
 .google{
-    background-image: url("../../../../public/img/google_icon.png");
+    background-image: url("../../../../public/img/google_icon.webp");
     background-repeat: no-repeat;
     background-size:20px;
     background-position:5% 50% ;

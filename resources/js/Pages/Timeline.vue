@@ -47,7 +47,7 @@ const clickUser = (e) => {
     <Head title="タイムライン" />
     <!-- ヘッダー -->
     <header>
-        <img src="../../../public/img/Foodder_logo.png" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
+        <img src="../../../public/img/Foodder_logo.webp" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
         <Link href="/profile" class="to_profile">
             <i class="fa-solid fa-circle-user"></i>
         </Link>
@@ -57,13 +57,13 @@ const clickUser = (e) => {
             <div class="top_box">
                 <!-- 匿名ユーザー -->
                 <div class="user_info" v-if="value.anonymous">
-                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
+                    <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon">
                     <span>匿名ユーザー</span>
                 </div>
                 <!-- 一般ユーザー -->
                 <div class="user_info" v-else @click="clickUser(value.user.id)">
                     <img :src="value.user.user_icon" alt="ユーザーアイコン" class="user_icon" v-if="value.user.user_icon">
-                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon" v-else>
+                    <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon" v-else>
                     <span>{{ value.user.name }}</span>
                 </div>
                 <!-- 店舗名 -->
@@ -81,7 +81,7 @@ const clickUser = (e) => {
         </div>
     </main>
     <TheFooter :href="route('dashboard')" :timeline-page="true">
-        <img src="../../../public/img/plus.png" alt="投稿する">
+        <i class="fa-solid fa-plus to_post"></i>
     </TheFooter>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
         <img :src="photoUrl" alt="モーダル写真" class="modal_image">
@@ -182,5 +182,10 @@ main{
     width: auto;
     margin: 0 auto;
     object-fit: cover;
+}
+/* フッダー */
+.to_post{
+    color: #fff;
+    font-size: 23px;
 }
 </style>

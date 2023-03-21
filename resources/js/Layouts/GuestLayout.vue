@@ -5,7 +5,7 @@ import { Link } from '@inertiajs/vue3';
 <template>
     <div class="content">
         <Link href="/" class="logo">
-            <img src="../../../public/img/Foodder_logo.png" alt="Foodder" >
+            <img src="../../../public/img/Foodder_logo.webp" alt="Foodder" >
         </Link>
         <div class="component">
             <slot />

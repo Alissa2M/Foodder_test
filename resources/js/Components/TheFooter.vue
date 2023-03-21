@@ -17,9 +17,7 @@ const props = defineProps({
 <template>
     <footer>
         <Link :href="href" class="circle_button">
-            <div class="mark_position">
-                <slot/>
-            </div>
+            <slot/>
         </Link>
         <div class="footer_nav">
             <a href="/">
@@ -55,9 +53,6 @@ footer{
     background-color: #FF6F00;
     border-radius: 100px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-}
-.mark_position{
-    width: 1.3rem;
 }
 .footer_nav{
     display: flex;

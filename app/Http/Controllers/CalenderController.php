@@ -74,7 +74,7 @@ class CalenderController extends Controller
       ]);
       if($request->file('file')){
         $request->validate([
-          'file' => 'max:3000|mimes:jpg,jpeg,png,gif'
+          'file' => 'max:3000|mimes:jpg,jpeg,png,gif,webp'
         ]);
         $file_name = $request->file('file')->getClientOriginalName();
         $file_path = $request->file('file')->storeAs('public', $file_name);

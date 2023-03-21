@@ -92,7 +92,7 @@ const clickDelete = (e) => {
         </div>
         <!-- foodderロゴ -->
         <div class="nav">
-            <img src="../../../public/img/Foodder_logo.png" alt="" class="foodder_logo">
+            <img src="../../../public/img/Foodder_logo.webp" alt="" class="foodder_logo">
             <Link href="/profile" class="to_profile">
                 <i class="fa-solid fa-circle-user"></i>
             </Link>
@@ -108,7 +108,7 @@ const clickDelete = (e) => {
         </div>
     </main>
     <TheFooter :href="route('dashboard')" :calender-page="true">
-        <img src="../../../public/img/plus.png" alt="投稿する">
+        <i class="fa-solid fa-plus to_post"></i>
     </TheFooter>
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
         <form @submit.prevent="deletePost">
@@ -209,7 +209,7 @@ main{
 .photo_box{
     width: 80px;
     height:80px;
-    background-image: url("../../../public/img/no_image.png");
+    background-image: url("../../../public/img/no_image.webp");
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -246,5 +246,9 @@ main{
     margin: 0 auto;
     object-fit: cover;
 }
-
+/* フッダー */
+.to_post{
+    color: #fff;
+    font-size: 23px;
+}
 </style>
