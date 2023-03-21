@@ -15,7 +15,7 @@ const form = useForm({
     title:'',
     description:'',
     start:props.date,
-    img_path:'',
+    file:'',
     category_id:2,
     anonymous:true,
     shop_name: '',
@@ -88,7 +88,7 @@ const uploadPhoto = () => {
     photoUrl.value = URL.createObjectURL(file.value);
     showPhoto.value = true;
     showDefaultImg.value = false;
-    form.img_path = photoPreview.value.files[0];
+    form.file = photoPreview.value.files[0];
 }
 
 const closeModal = () => {
@@ -153,8 +153,9 @@ const postClick = () => {
                         <!-- 写真 -->
                         <label for="photo" class="photo_label">
                             画像をアップロード
-                            <input id="photo" type="file" name="img_path" accept="image/*;capture=camera" class="photo_input" @change="uploadPhoto" ref="photoPreview">
+                            <input id="photo" type="file" name="file" accept="image/*;capture=camera" class="photo_input" @change="uploadPhoto" ref="photoPreview">
                         </label>
+                        <InputError :message="form.errors.file" />
                     </div>
                 </div>
                 <div class="preview_hr"></div>

@@ -86,12 +86,14 @@ return [
     'mac_address'          => ':Attributeは有効なMACアドレスである必要があります。',
     'max'                  => [
         'array'   => ':Attributeの項目数は、:max個以下でなければいけません。',
-        'file'    => ':Attributeは、:max KB以下のファイルでなければいけません。',
+        'file'    => '登録できる画像容量は、:max KB以下です。',
+        'user_header'    => '登録できる画像容量は、:max KB以下です。',
+        'user_icon'    => '登録できる画像容量は、:max KB以下です。',
         'numeric' => ':Attributeは、:max以下の数字でなければいけません。',
         'string'  => ':Attributeの文字数は、:max文字以下にしてください。',
     ],
     'max_digits'           => ':Attributeは、:max桁以下の数字でなければいけません。',
-    'mimes'                => ':Attributeには、以下のファイルタイプを指定してください。:values',
+    'mimes'                => '画像ファイルの拡張子は、:valuesを指定してください。',
     'mimetypes'            => ':Attributeには、以下のファイルタイプを指定してください。:values',
     'min'                  => [
         'array'   => ':Attributeの項目数は、:min個以上にしてください。',

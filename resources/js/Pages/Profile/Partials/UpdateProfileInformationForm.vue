@@ -205,6 +205,8 @@ onBeforeUnmount(() => {
             <InputError :message="form.errors.current_password" />
             <InputError :message="form.errors.password" />
             <InputError :message="form.errors.password_confirmation"/>
+            <InputError :message="form.errors.user_header" />
+            <InputError :message="form.errors.user_icon" />
         </div>
         <!-- 保存するボタン -->
         <BaseButton v-if="editClicked" button-name="保存する"/>
