@@ -135,13 +135,13 @@ const postClick = () => {
                         <div>
                             <!-- フード名 -->
                             <InputError :message="form.errors.title" />
-                            <input type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="underline_input">
+                            <input type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="underline_input" maxlength="30">
                             <span class="word_length">{{form.title.length}}/30文字</span>
                         </div>
                         <div>
                             <!-- メモ -->
                             <InputError :message="form.errors.description" />
-                            <input type="text" v-model="form.description" name="description" placeholder="メモ" class="underline_input">
+                            <input type="text" v-model="form.description" name="description" placeholder="メモ" class="underline_input" maxlength="30">
                             <span class="word_length">{{form.description.length}}/30文字</span>
                         </div>
                         <div class="option_box">
