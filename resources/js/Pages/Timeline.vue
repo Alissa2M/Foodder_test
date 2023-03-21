@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
 import BaseGoodButton from '@/Components/BaseGoodButton.vue';
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, usePage, Link } from '@inertiajs/vue3';
 import TheFooter from '@/Components/TheFooter.vue';
 
 const props = defineProps({
@@ -27,12 +27,27 @@ const closeModal = () => {
 }
 
 const user = usePage().props.auth.user;
+
+const clickUser = (e) => {
+    if(user){
+        if(user.id === e){
+            location.href='/profile'
+        }else{
+            location.href="/guestProfile/id="+e;
+        }
+    }else{
+        location.href="/guestProfile/id="+e;
+    }
+}
 </script>
 
 <template>
     <Head title="タイムライン" />
     <header>
         <img src="../../../public/img/Foodder_logo.png" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
+        <Link href="/profile" class="to_profile">
+            <i class="fa-solid fa-circle-user"></i>
+        </Link>
     </header>
     <main>
         <div v-for="(value, key) in props.calenders" class="posts_box">
@@ -43,8 +58,9 @@ const user = usePage().props.auth.user;
                     <span>匿名ユーザー</span>
                 </div>
                 <!-- 一般ユーザー -->
-                <div class="user_info" v-else>
-                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon">
+                <div class="user_info" v-else @click="clickUser(value.user.id)">
+                    <img :src="value.user.user_icon" alt="ユーザーアイコン" class="user_icon" v-if="value.user.user_icon">
+                    <img src="../../../public/img/guest.png" alt="ユーザーアイコン" class="user_icon" v-else>
                     <span>{{ value.user.name }}</span>
                 </div>
                 <div class="shop_box">
@@ -69,12 +85,19 @@ const user = usePage().props.auth.user;
 
 <style scoped>
 header{
+    display: flex;
+    flex-direction: row;
     width: 90vw;
     margin: 10px auto;
 }
 .foodder_logo{
     height: 4vh;
 }
+.to_profile{
+    display: inline-block;
+    margin: auto 0 0 auto;
+}
+
 main{
     margin-bottom: 100px;
 }
@@ -125,7 +148,7 @@ main{
 }
 .user_icon{
     height: 25px;
-    width: auto;
+    width: 25px;
     background-color: #fff;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
     border-radius: 100%;

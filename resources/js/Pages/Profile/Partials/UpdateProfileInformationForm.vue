@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import BaseButton from '@/Components/BaseButton.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -17,10 +17,11 @@ const form = useForm({
     current_password: '',
     password: '',
     password_confirmation: '',
-
+    user_icon:'',
+    user_header: '',
 });
 
-const editClicked = ref(false);
+const editClicked = ref(false); //保存するボタン
 const editUsername = ref(false);
 const editEmail = ref(false);
 const editPassword = ref(false);
@@ -47,10 +48,10 @@ const clickEditPassword = () => {
 }
 
 const updateProfile = () => {
-    form.put(route('profile.update'), {
+    form.post(route('profile.update'), {
+        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
-            form.reset();
             editUsername.value = false;
             editPassword.value = false;
             editEmail.value = false;
@@ -75,20 +76,67 @@ const checkUsername = (event) => {
         editClicked.value = false;
     }
 }
+
+const userHeaderPreview = ref('');
+const userHeader = ref(user.user_header);
+
+const changeUserHeader = () => {
+    const file = ref('');
+    file.value = userHeaderPreview.value.files[0];
+    userHeader.value = URL.createObjectURL(file.value);
+    form.user_header = userHeaderPreview.value.files[0];
+    editClicked.value = true;
+}
+
+const userIconPreview = ref('');
+const userIcon = ref(user.user_icon);
+
+const changeUserIcon = () => {
+    const file = ref('');
+    file.value = userIconPreview.value.files[0];
+    userIcon.value = URL.createObjectURL(file.value);
+    form.user_icon = userIconPreview.value.files[0];
+    editClicked.value = true;
+}
+
+const modal = ref();
+const clickOutside = (e) => {
+    if(!modal.value.contains(e.target)) {
+        form.reset()
+        userIcon.value = user.user_icon
+        userHeader.value = user.user_header
+        editPassword.value = false;
+        editEmail.value = false;
+    }
+}
+onMounted(() => {
+    addEventListener('click', clickOutside)
+})
+onBeforeUnmount(() => {
+    removeEventListener('click', clickOutside)
+})
 </script>
 
 <template>
-    <form @submit.prevent="updateProfile">
-        <img src="../../../../../public/img/header.jpg" alt="header" class="header" />
+    <form @submit.prevent="updateProfile" ref="modal">
+        <label for="header_photo">
+            <input id="header_photo" type="file" name="user_header" class="header_input" @change="changeUserHeader" ref="userHeaderPreview">
+            <img src="../../../../../public/img/header.jpg" alt="header" class="header" v-if="!userHeader"/>
+            <img :src="userHeader" alt="ヘッダー" class="header" v-else>
+        </label>
         <div class="icon_box">
             <div class="position_box">
-                <img src="../../../../../public/img/guest.png" alt="icon" class="icon"/>
+                <label for="user_icon">
+                    <input id="user_icon" type="file" name="user_icon" class="header_input" @change="changeUserIcon"  ref="userIconPreview">
+                    <img src="../../../../../public/img/guest.png" alt="icon" class="icon" v-if="!userIcon"/>
+                    <img :src="userIcon" alt="アイコン" class="icon" v-else>
+                </label>
                 <div v-if="!editUsername" class="dummy_box" v-on:click="clickEditUsername">
                     <span class="username_dummy">{{ form.name }}</span>
                     <i class="fa-solid fa-pen edit_pen"></i>
                 </div>
                 <TextInput
-                    v-if="editUsername"
+                    v-else
                     type="text"
                     v-model="form.name"
                     v-on:change="checkUsername"
@@ -106,7 +154,7 @@ const checkUsername = (event) => {
         </div>
         <!-- コンテンツ -->
         <div class="profile_contents">
-            <div v-if="form.recentlySuccessful" class="success text-green-700">変更しました</div>
+            <div v-if="form.recentlySuccessful" class="success text-green-700">保存しました</div>
             <InputLabel v-if="editEmail" for="email" value="メールアドレス" />
             <TextInput
                 v-if="editEmail"
@@ -158,6 +206,7 @@ const checkUsername = (event) => {
             <InputError :message="form.errors.password" />
             <InputError :message="form.errors.password_confirmation"/>
         </div>
+        <!-- 保存するボタン -->
         <BaseButton v-if="editClicked" button-name="保存する"/>
     </form>
 </template>
@@ -168,6 +217,9 @@ const checkUsername = (event) => {
     width: 100%;
     object-fit: cover;
     border: #908D8D solid 1px;
+}
+.header_input{
+    display: none;
 }
 .icon_box{
     position: relative;
@@ -184,12 +236,13 @@ const checkUsername = (event) => {
 }
 .icon{
     height: 70px;
-    width: auto;
+    width: 70px;
     background-color: #fff;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
     border-radius: 100%;
     object-fit: cover;
     margin: 0 auto;
+    pointer-events: fill;
 }
 .dummy_box{
     width: fit-content;
@@ -240,7 +293,6 @@ const checkUsername = (event) => {
     background-color: #FF6F00;
     border-radius: 100%;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
-
 }
 .change_password{
     display: flex;

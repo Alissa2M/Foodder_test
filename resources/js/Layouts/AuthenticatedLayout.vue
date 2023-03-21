@@ -1,5 +1,6 @@
 <script setup>
 import TheFooter from '@/Components/TheFooter.vue';
+import TheHeader from '@/Components/TheHeader.vue';
 
 const props = defineProps(['href']);
 const emit = defineEmits(['clickButton']);
@@ -11,10 +12,7 @@ const onClick = () => {
 
 <template>
     <div class="contents">
-        <header>
-            <a href="javascript:history.go(-1)" class="back_page">戻る</a>
-            <slot name="header" />
-        </header>
+        <TheHeader />
         <main>
             <slot name="main"/>
         </main>
@@ -23,21 +21,3 @@ const onClick = () => {
         </TheFooter>
     </div>
 </template>
-
-<style scoped>
-header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 10px;
-}
-.back_page{
-    font-size: 14px;
-    padding-left: 18px;
-    margin: auto 0;
-    background-image: url("../../../public/img/back.png");
-    background-repeat: no-repeat;
-    background-position: 0 50%;
-    background-size: 13px;
-}
-</style>
