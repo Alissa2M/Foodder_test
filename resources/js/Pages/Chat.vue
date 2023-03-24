@@ -5,6 +5,10 @@ import {useForm } from '@inertiajs/vue3';
 const props = defineProps({
     // 過去の会話の配列
     chat_responses:Array,
+    count:{
+        type:Number,
+        default:0,
+    },
 })
 
 // 入力したメッセージ
@@ -36,33 +40,53 @@ const clickSend = () => {
 </script>
 
 <template>
+<!-- TODO:デザインをあてる -->
+<!-- TODO:ログインしてるユーザーだけが見れるようにする -->
+<!-- TODO：フォーム送信中は、送信中のアニメーション表示と送信ボタンを表示できないようにする -->
 
-<!-- やり取り -->
-<div v-for="(chat,index) in props.chat_responses">
-    <!-- ユーザー欄 -->
-    <div v-if="index === 0 || index === 2 || index === 4">
-        あなた：{{ chat }}
+<div v-if="props.count === 6">
+    <!-- やり取り -->
+    <div v-for="(chat,index) in props.chat_responses">
+        <!-- ユーザー欄 -->
+        <div v-if="index === 0 || index === 2 || index === 4">
+            あなた：{{ chat }}
+        </div>
+        <!-- 出力欄 -->
+        <div v-else>
+            AI：{{ chat }}
+        </div>
     </div>
-    <!-- 出力欄 -->
-    <div v-else>
-        AI：{{ chat }}
-    </div>
-</div>
-<!-- 入力欄 -->
-<div v-if="props.chat_responses">
-    <!-- ３回以上のやりとりの場合は入力欄非表示 -->
-    <p v-if="props.chat_responses.length > 4">利用制限に達しました。</p>
-    <!-- 三回以内 -->
-    <form @submit.prevent="submit" v-else>
-        <textarea rows="10" cols="50" name="sentence" v-model="inputMessage"></textarea>
-        <button type="submit" @click="clickSend">送信</button>
-    </form>
+    <!-- 入力欄 -->
+    <p >１日の利用制限に達しました。明日もう一回使ってね！</p>
 </div>
 <div v-else>
-    <form @submit.prevent="submit">
-        <textarea rows="10" cols="50" name="sentence" v-model="inputMessage"></textarea>
-        <button type="submit" @click="clickSend">送信</button>
-    </form>
+    <!-- やり取り -->
+    <div v-for="(chat,index) in props.chat_responses">
+        <!-- ユーザー欄 -->
+        <div v-if="index === 0 || index === 2 || index === 4">
+            あなた：{{ chat }}
+        </div>
+        <!-- 出力欄 -->
+        <div v-else>
+            AI：{{ chat }}
+        </div>
+    </div>
+    <!-- 入力欄 -->
+    <div v-if="props.chat_responses">
+        <!-- ３回以上のやりとりの場合は入力欄非表示 -->
+        <p v-if="props.chat_responses.length > 4">利用制限に達しました。</p>
+        <!-- 三回以内 -->
+        <form @submit.prevent="submit" v-else>
+            <textarea rows="10" cols="50" name="sentence" v-model="inputMessage"></textarea>
+            <button type="submit" @click="clickSend">送信</button>
+        </form>
+    </div>
+    <div v-else>
+        <form @submit.prevent="submit">
+            <textarea rows="10" cols="50" name="sentence" v-model="inputMessage"></textarea>
+            <button type="submit" @click="clickSend">送信</button>
+        </form>
+    </div>
 </div>
 </template>
     

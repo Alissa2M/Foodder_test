@@ -7,7 +7,10 @@ use GuzzleHttp\Client;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
+use App\Models\Chat;
 
 class ChatController extends Controller
 {
@@ -16,8 +19,21 @@ class ChatController extends Controller
      *
      * @param  Request  $request
      */
-    public function index(Request $request)
+    public function index()
     {
+        // 今日の日付
+        $date = Carbon::now()->toDateString();
+        // ChatDBからuser_idとdateが一致したレコードのcountを取得
+        $auth = Chat::where('id',Auth::id())->where('date',$date)->get();
+        if($auth){
+            $history = $auth->where('date',$date)->first();
+            if($history){
+                return Inertia::render('Chat',[
+                    'count' => $history->count
+                ]);
+            }
+        }
+
         return Inertia::render('Chat');
     }
 
@@ -37,13 +53,72 @@ class ChatController extends Controller
         // 文章
         $sentence =$request->input('sentence');
 
-        $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
+        // chatGPTのAPI
+        // $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
 
-        return Inertia::render('Chat', [
-            'chat_responses' => $chat_responses,
+        // 今日の日付
+        $date = Carbon::now()->toDateString();
 
-        ]);
+        // dateが今日と一致するものがあるかの判定
+        $auth = Chat::where('id',Auth::id())->get();
+        // 今までに質問したことあるか？
+        if($auth){
+            $history = $auth->where('date',$date)->first();
+            // 今日の日付で質問したか？
+            if($history){
+                // チャット数が６以上かどうか
+                $historyCount = $history->count();
+                if($historyCount > 6){
+                    // チャット数が６より大きい時、画面に戻る
+                    return Inertia::render('Chat');
+                }else{
+                    // chatGPTのAPIを実行
+                    $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
+    
+                    // チャット数が６以下の時、chatレコードをアップデートする
+                    $history->update([
+                        'count' => count($chat_responses),
+                    ]);
 
+                    return Inertia::render('Chat', [
+                        'chat_responses' => $chat_responses,
+                        'count' => count($chat_responses)
+                    ]);            
+                }
+            }else{
+                // chatGPTのAPIを実行
+                $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
+
+                // chatにレコードを新しく登録する
+                Chat::create([
+                    'user_id' => Auth::id(),
+                    'text' => NULL,
+                    'date' => $date,
+                    'count' => count($chat_responses),
+                ]);
+
+                return Inertia::render('Chat', [
+                    'chat_responses' => $chat_responses,
+                    'count' => count($chat_responses)
+                ]);
+            }
+        }else{
+            // chatGPTのAPIを実行
+            $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
+
+            // chatにレコードを新しく登録する
+            Chat::create([
+                'user_id' => Auth::id(),
+                'text' => NULL,
+                'date' => $date,
+                'count' => count($chat_responses),
+            ]);
+
+            return Inertia::render('Chat', [
+                'chat_responses' => $chat_responses,
+                'count' => count($chat_responses)
+            ]);
+        }
     }
 
     /**
