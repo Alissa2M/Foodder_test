@@ -24,16 +24,12 @@ class ChatController extends Controller
         // 今日の日付
         $date = Carbon::now()->toDateString();
         // ChatDBからuser_idとdateが一致したレコードのcountを取得
-        $auth = Chat::where('id',Auth::id())->where('date',$date)->get();
-        if($auth){
-            $history = $auth->where('date',$date)->first();
-            if($history){
-                return Inertia::render('Chat',[
-                    'count' => $history->count
-                ]);
-            }
+        $history = Chat::where('user_id',Auth::id())->where('date',$date)->first();
+        if($history){
+            return Inertia::render('Chat',[
+                'count' => $history->count
+            ]);
         }
-
         return Inertia::render('Chat');
     }
 
@@ -53,54 +49,41 @@ class ChatController extends Controller
         // 文章
         $sentence =$request->input('sentence');
 
-        // chatGPTのAPI
-        // $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
-
         // 今日の日付
         $date = Carbon::now()->toDateString();
 
         // dateが今日と一致するものがあるかの判定
-        $auth = Chat::where('id',Auth::id())->get();
-        // 今までに質問したことあるか？
-        if($auth){
-            $history = $auth->where('date',$date)->first();
-            // 今日の日付で質問したか？
-            if($history){
-                // チャット数が６以上かどうか
-                $historyCount = $history->count();
-                if($historyCount > 6){
-                    // チャット数が６より大きい時、画面に戻る
-                    return Inertia::render('Chat');
-                }else{
-                    // chatGPTのAPIを実行
-                    $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
-    
-                    // チャット数が６以下の時、chatレコードをアップデートする
-                    $history->update([
-                        'count' => count($chat_responses),
-                    ]);
-
-                    return Inertia::render('Chat', [
-                        'chat_responses' => $chat_responses,
-                        'count' => count($chat_responses)
-                    ]);            
-                }
+        $history = Chat::where('user_id',Auth::id())->where('date',$date)->first();
+        if($history){
+            // チャット数が６以上かどうか
+            $historyCount = $history->count;
+            if($historyCount > 6){
+                // チャット数が６より大きい時、画面に戻る
+                return Inertia::render('Chat');
             }else{
                 // chatGPTのAPIを実行
                 $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
 
-                // chatにレコードを新しく登録する
-                Chat::create([
-                    'user_id' => Auth::id(),
-                    'text' => NULL,
-                    'date' => $date,
-                    'count' => count($chat_responses),
-                ]);
+                // データベースと現在のレスポンスの差
+                $calculate = count($chat_responses) - $historyCount;
+                if($calculate > 0){
+                    $history->update([
+                        'count' => $historyCount + $calculate,
+                    ]);
+                }elseif($calculate == 0){
+                    $history->update([
+                        'count' => $historyCount + 2,
+                    ]);
+                }else{
+                    $history->update([
+                        'count' => $historyCount + count($chat_responses),
+                    ]);
+                }
 
                 return Inertia::render('Chat', [
                     'chat_responses' => $chat_responses,
-                    'count' => count($chat_responses)
-                ]);
+                    'count' => $history->count
+                ]);            
             }
         }else{
             // chatGPTのAPIを実行
@@ -118,7 +101,9 @@ class ChatController extends Controller
                 'chat_responses' => $chat_responses,
                 'count' => count($chat_responses)
             ]);
+
         }
+    
     }
 
     /**
@@ -127,7 +112,6 @@ class ChatController extends Controller
      */
     function chat_gpt($system, $messages)
     {
-
         // messageを格納する
         $arrayMassage = array();
 
