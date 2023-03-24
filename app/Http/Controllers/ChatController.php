@@ -35,13 +35,13 @@ class ChatController extends Controller
         ]);
 
         // 文章
-        $sentence = $request->input('sentence');
+        $sentence =$request->input('sentence');
 
-        // ChatGPT API処理
-        $chat_response = $this->chat_gpt("日本語で応答してください", $sentence);
+        $chat_responses = $this->chat_gpt("300文字以内で答えてください", $sentence);
 
         return Inertia::render('Chat', [
-            'chat_response' => $chat_response,
+            'chat_responses' => $chat_responses,
+
         ]);
 
     }
@@ -50,8 +50,29 @@ class ChatController extends Controller
      * ChatGPT API呼び出し
      * Laravel HTTP
      */
-    function chat_gpt($system, $user)
+    function chat_gpt($system, $messages)
     {
+
+        // messageを格納する
+        $arrayMassage = array();
+
+        // 1set
+        foreach($messages as $key=>$message){
+            if($key % 2 == 0){
+                // 偶数なので、user
+                $arrayMassage[] = [
+                    "role" => "user",
+                    "content" => $message
+                ];
+            } else {
+                // 奇数なので、assistant
+                $arrayMassage[] = [
+                    "role" => "assistant",
+                    "content" => $message
+                ];
+            }
+        }
+
         // ChatGPT APIのエンドポイントURL
         $url = "https://api.openai.com/v1/chat/completions";
 
@@ -68,16 +89,13 @@ class ChatController extends Controller
         $data = array(
             "model" => "gpt-3.5-turbo",
             "temperature" => 0.7,
-            "max_tokens" => 150,
+            "max_tokens" => 1000,
             "messages" => [
                 [
                     "role" => "system",
                     "content" => $system
                 ],
-                [
-                    "role" => "user",
-                    "content" => $user
-                ]
+                ...$arrayMassage
             ]
         );
 
@@ -88,6 +106,12 @@ class ChatController extends Controller
             return $response->json('error')['message'];
         }
 
-        return $response->json('choices')[0]['message']['content'];
+        // 返信メッセージの配列を取得する
+        $choices = $response->json('choices')[0]['message']['content'];
+
+        // 入力メッセージを配列に追加する
+        $messages[] = $choices;
+
+        return $messages;
     }
 }
