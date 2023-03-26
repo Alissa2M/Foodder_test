@@ -1,13 +1,6 @@
-<script setup>
-import { Link } from '@inertiajs/vue3';
-</script>
-
 <template>
     <header>
         <a href="javascript:history.go(-1)" class="back_page">戻る</a>
-        <Link href="/profile" >
-            <i class="fa-solid fa-circle-user"></i>
-        </Link>
     </header>
 </template>
 

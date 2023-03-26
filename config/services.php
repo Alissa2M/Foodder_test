@@ -42,4 +42,7 @@ return [
         'client_secret' => env('FACEBOOK_APP_SECRET'),
         'redirect' => env('FACEBOOK_CALLBACK_URL'),
     ],
+    'openai' => [
+        'api_key' =>env('VITE_OPENAI_API_KEY')
+    ]
 ];

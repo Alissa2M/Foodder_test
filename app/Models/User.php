@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Calender;
 use App\Models\User;
+use App\Models\Like;
+use App\Models\Chat;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -51,6 +53,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function calender() {
         return $this->hasMany(Calender::class);
+    }
+
+    public function like() {
+        return $this->hasMany(Like::class);
+    }
+
+    public function chat() {
+        return $this->hasMany(Chat::class);
     }
 
     public function isAdmin() {

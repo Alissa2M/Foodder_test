@@ -275,7 +275,7 @@ const postClick = () => {
     position: relative;
     display: flex;
     flex-direction: row;
-    width: 80px;
+    width: 85px;
     padding: 3px 15px 3px 3px;
     border: 1px solid #D9D9D9;
     font-size: 14px;
