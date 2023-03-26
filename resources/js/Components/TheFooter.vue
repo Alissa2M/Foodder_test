@@ -10,13 +10,21 @@ const props = defineProps({
     timelinePage:{
         type:Boolean,
         default:false,
+    },
+    displayFooter:{
+        type:Boolean,
+        default:false
+    },
+    displayCurcle:{
+        type:Boolean,
+        default:true,
     }
 });
 </script>
 
 <template>
-    <footer>
-        <Link :href="href" class="circle_button">
+    <footer :class="{'hidden':props.displayFooter}">
+        <Link :href="href" :class="{'circle_button':props.displayCurcle}">
             <slot/>
         </Link>
         <div class="footer_nav">

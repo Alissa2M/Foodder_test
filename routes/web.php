@@ -25,7 +25,7 @@ Route::post('/dashboard', [App\Http\Controllers\CalenderController::class, 'stor
 Route::get('/timeline', [App\Http\Controllers\CalenderController::class, 'timeline'])->name('timeline');
 Route::post('/timeline', [App\Http\Controllers\LikeController::class, 'like'])->name('like');
 Route::delete('/timeline', [App\Http\Controllers\LikeController::class, 'unlike'])->name('like.destroy');
-Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat_gpt.index');
+Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->middleware(['auth', 'verified'])->name('chat_gpt.index');
 Route::post('/chat', [App\Http\Controllers\ChatController::class, 'chat'])->name('chat_gpt.chat');
 
 Route::middleware('auth')->group(function () {
