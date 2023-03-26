@@ -9,7 +9,6 @@ const props = defineProps({
     // 過去の会話の配列
     chat_responses:{
         type:Array,
-        default:["こんにちは","何かお困りですか？\nお手伝いができることがありましたら、なんでも言ってください！","今日の天気は？","発表内容は、今日・明日・明後日の天気と風と波、明日までの6時間ごとの降水確率と最高・最低気温の予想です。「府県予報区」と「一次細分区域」について詳細は発表内容は、今日・明日・明後日の天気と風と波、明日までの6時間ごとの降水確率と最高・最低気温の予想です。「府県予報区」と「一次細分区域」について詳細は"]
     },
     count:{
         type:Number,
@@ -25,6 +24,10 @@ const form = useForm({
     sentence: [],
 });
 
+const loadingCss = ref(false);
+const showButton = ref(false);
+
+// メッセージを送信
 const clickSend = () => {
     if(props.chat_responses){
         form.sentence.push(...props.chat_responses);
@@ -32,11 +35,15 @@ const clickSend = () => {
     }else{
         form.sentence = [inputMessage.value];
     }
+    loadingCss.value = true;
+    showButton.value = true;
     form.post(route('chat_gpt.chat'), {
         preserveState: true,
         onSuccess: (response) => {
             form.sentence = [];
             inputMessage.value = [];
+            loadingCss.value = false;
+            showButton.value = false;   
         },
         onError: (error) => {
         console.log(error);
@@ -57,35 +64,55 @@ onMounted(() => {
 
 // footerの表示切り替え
 const displayFooter = ref(false);
+const heightScreen = ref(false);
+const heightCalc = ref(true);
+
+const focusText = () => {
+    displayFooter.value = true;
+    heightScreen.value = true;
+    heightCalc.value = false;
+}
+
+const blurText = () => {
+    displayFooter.value = false;
+    heightScreen.value = false;
+    heightCalc.value = true;
+
+}
 
 </script>
 
 <template>
-<!-- TODO:@focuesでFooterが消えて、input_boxのbottom:0に変更 -->
-<!-- TODO：フォーム送信中は、送信中のアニメーション表示と送信ボタンを表示できないようにする -->
     <Head title="レシピ検索" />
-
-    <AuthenticatedLayout :href="'/'" :display-curcle="false" :display-footer="displayFooter">
+    <AuthenticatedLayout :href="'/'" :display-curcle="false" :display-footer="displayFooter" :chat-page="true">
         <template #main>
             <div class="main" v-if="props.count === 6">
-                <BaseChat v-bind:chats-response="props.chat_responses" />
-                <!-- 入力欄 -->
-            </div>
-            <div class="main" v-else>
                 <div class="foonya_box">
                     <div class="foonya"></div>
                     <BaseChatBackground>
                         <p>AIのふーにゃです。<br>【レシピ検索】が得意です！<br>文脈を理解できるけど…<br>1日<strong>3回</strong>で疲れます。。。</p>
                     </BaseChatBackground>
                 </div>
-                <!-- やり取り -->
                 <BaseChat v-bind:chats-response="props.chat_responses" />
+            </div>
+            <div class="main" :class="{'height_screen':heightScreen,'height_calc':heightCalc}" v-else>
+                <div>
+                    <div class="foonya_box">
+                        <div class="foonya"></div>
+                        <BaseChatBackground>
+                            <p>AIのふーにゃです。<br>【レシピ検索】が得意です！<br>文脈を理解できるけど…<br>1日<strong>3回</strong>で疲れます。。。</p>
+                        </BaseChatBackground>
+                    </div>
+                    <!-- やり取り -->
+                    <BaseChat v-bind:chats-response="props.chat_responses"/>
+                </div>
                 <!-- 入力欄 -->
                 <div class="input_content">
                     <form @submit.prevent="submit" class="input_box">
+                        <span class="hidden" :class="{'loading':loadingCss}">・・・考え中・・・</span>
                         <span class="text_length">{{inputMessage.length}}/100文字</span>
-                        <textarea maxlength="100" rows="1" name="sentence" v-model="inputMessage" @input="adjustHeight" ref="textarea" class="inputText"></textarea>
-                        <i class="fa-solid fa-paper-plane send_chat" @click="clickSend"></i>
+                        <textarea maxlength="100" rows="1" name="sentence" v-model="inputMessage" @input="adjustHeight" ref="textarea" class="inputText" @focus="focusText" @blur="blurText"></textarea>
+                        <i class="fa-solid fa-paper-plane send_chat" :class="{'hidden':showButton}" @mousedown="clickSend" @touchstart="clickSend"></i>
                     </form>
                 </div>
             </div>
@@ -101,13 +128,18 @@ const displayFooter = ref(false);
     flex-direction: column;
     justify-content: space-between;
     width: 92%;
-    height: calc(100vh - 120px);
     overflow: auto;
     margin: 0 auto;
     padding: 0 5px;
 }
+.height_screen{
+    height: 100vh;
+    margin-bottom: 20px;
+}
+.height_calc{
+    height: calc(100vh - 120px);
+}
 .input_content{
-    /* flex-grow: 1; */
     position: sticky;
     bottom: 0px;
     background-color: #FFF3E0;
@@ -153,6 +185,7 @@ const displayFooter = ref(false);
     border-radius: 100%;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
     margin: auto 5px auto;
+    pointer-events: visible;
 }
 .foonya_box{
     display: flex;
@@ -171,6 +204,15 @@ const displayFooter = ref(false);
     font-size: 12px;
     width: 90%;
     text-align: center;
-    margin: 50px auto;
+    margin: 40px auto 80px;
+}
+.loading{
+    display: inline-block;
+    position: absolute;
+    top: -23px;
+    left: 0;
+    right: 0;
+    font-size: 14px;
+    text-align: center;
 }
 </style>

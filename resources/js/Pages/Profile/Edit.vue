@@ -11,7 +11,7 @@ defineProps({
 
 <template>
     <Head title="プロフィール" />
-    <AuthenticatedLayout v-bind:href="'/dashboard'">
+    <AuthenticatedLayout v-bind:href="'/dashboard'" :profile-page="true">
         <template #main>
             <div class="foodder_logo">
                 <Link href="/">

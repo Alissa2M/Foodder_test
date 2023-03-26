@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
 import BaseGoodButton from '@/Components/BaseGoodButton.vue';
-import { Head, usePage, Link } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import TheFooter from '@/Components/TheFooter.vue';
 
 const props = defineProps({
@@ -48,9 +48,6 @@ const clickUser = (e) => {
     <!-- ヘッダー -->
     <header>
         <img src="../../../public/img/Foodder_logo.webp" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
-        <Link href="/profile" class="to_profile">
-            <i class="fa-solid fa-circle-user"></i>
-        </Link>
     </header>
     <main>
         <div v-for="(value, key) in props.calenders" class="posts_box">
@@ -98,10 +95,6 @@ header{
 }
 .foodder_logo{
     height: 25px;
-}
-.to_profile{
-    display: inline-block;
-    margin: auto 0 0 auto;
 }
 
 main{

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -93,9 +93,6 @@ const clickDelete = (e) => {
         <!-- foodderロゴ -->
         <div class="nav">
             <img src="../../../public/img/Foodder_logo.webp" alt="" class="foodder_logo">
-            <Link href="/profile" class="to_profile">
-                <i class="fa-solid fa-circle-user"></i>
-            </Link>
         </div>
         <!-- 投稿 -->
         <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key" @click="postClick(value.id)">
@@ -190,10 +187,7 @@ main{
     display: inline-block;
     width: 40%;
 }
-.to_profile{
-    display: inline-block;
-    margin: auto 0 0 auto;
-}
+
 /* 投稿 */
 .input_confirm{
     display: flex;
