@@ -100,31 +100,28 @@ class CalenderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Calender  $calender
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Calender $calender)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Calender  $calender
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Calender $calender)
+    public function update(Request $request)
     {
-        $user = auth()->user();
-        if ($calender->user_id === $user->id || $user->isAdmin) {
-          $calender->update($request->all());
-        } else {
-          abort(403);
-        }
+      Calender::where('id',$request->calenderId)->update([
+        'title' => $request->title,
+        'description' => $request->description,
+        'start' => $request->start,
+        'anonymous' => $request->anonymous,
+        'category_id' => $request->category_id,
+        'shop_name' => $request->shop_name,
+      ]);
+        // $user = auth()->user();
+        // if ($calender->user_id === $user->id || $user->isAdmin) {
+        //   $calender->update($request->all());
+        // } else {
+        //   abort(403);
+        // }
     }
 
     /**

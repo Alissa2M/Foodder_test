@@ -3,8 +3,9 @@ import { ref } from 'vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
 import BaseGoodButton from '@/Components/BaseGoodButton.vue';
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, usePage, useForm } from '@inertiajs/vue3';
 import TheFooter from '@/Components/TheFooter.vue';
+import BaseEdit from '@/Components/BaseEdit.vue';
 
 const props = defineProps({
     calenders:Array,
@@ -28,6 +29,10 @@ const closeModal = () => {
     showPost.value = false;
 }
 
+const form = useForm({
+    calenderId:''
+});
+
 // ユーザーネームをクリックしてプロフィール画面に遷移
 const user = usePage().props.auth.user;
 const clickUser = (e) => {
@@ -41,6 +46,28 @@ const clickUser = (e) => {
         location.href="/guestProfile/id="+e;
     }
 }
+
+// 削除ボタン
+const clickDelete = (e) => {
+    form.calenderId = e;
+    form.delete(route('delete'));
+}
+
+// 編集のボタン
+const editModal = ref(false);
+const selectPost = ref('');
+const showPostInfo = ref();
+const clickEdit = (e) => {
+    showPostInfo.value = e;
+    editModal.value = true;
+    selectPost.value = props.calenders.find(post => post.id === showPostInfo.value)
+}
+
+const closeEditModal = () => {
+    editModal.value = false;
+}
+
+
 </script>
 
 <template>
@@ -74,7 +101,11 @@ const clickUser = (e) => {
                 <img :src="value.img_path" class="food_img" >
             </div>
             <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at" />
-            <BaseGoodButton :calender-id="value.id" :like-number="value.likes_count" :like-check="value.liked_by_user" :user-check="user"/>
+            <div class="post_nav">
+                <button v-if="user.id === value.user.id" type="button" @click="clickEdit(value.id)"><i class="fa-solid fa-pen icon"></i></button>
+                <button v-if="user.id === value.user.id" type="button" @click="clickDelete(value.id)"><i class="fa-solid fa-trash-can icon"></i></button>
+                <BaseGoodButton :calender-id="value.id" :like-number="value.likes_count" :like-check="value.liked_by_user" :user-check="user" class="ml-auto"/>
+            </div>
         </div>
     </main>
     <TheFooter :href="route('dashboard')" :timeline-page="true">
@@ -83,6 +114,10 @@ const clickUser = (e) => {
     <BaseModal v-bind:show="showPost" v-bind:show-title="false" v-on:close="closeModal">
         <img :src="photoUrl" alt="モーダル写真" class="modal_image">
     </BaseModal>
+    <BaseModal v-bind:show="editModal" v-bind:show-title="false" v-on:close="closeEditModal" v-if="selectPost">
+        <BaseEdit :edit-post="selectPost" :calender-id="showPostInfo"></BaseEdit>
+    </BaseModal>
+
 </template>
 
 <style scoped>
@@ -168,6 +203,20 @@ main{
     height: 50vw;
     width: 100%;
     object-fit: cover;
+}
+.post_nav{
+    display: flex;
+    flex-direction: row;
+}
+.icon{
+    width: 22px;
+    height: 22px;
+    color: #FF6F00;
+    font-size: 10px;
+    padding: 5px;
+    margin: 0 2px;
+    border: 1px solid #FF6F00;
+    border-radius: 100%
 }
 /* モーダル */
 .modal_image{
