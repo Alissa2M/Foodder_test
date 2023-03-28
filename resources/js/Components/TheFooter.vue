@@ -36,17 +36,17 @@ const props = defineProps({
             <slot/>
         </Link>
         <div class="footer_nav">
-            <a href="/profile">
-                <i class="fa-regular fa-user icon" :class="{'selected_icon':profilePage}"></i>
-            </a>
             <a href="/">
-                <i class="fa-regular fa-calendar icon mr-10" :class="{'selected_icon':calenderPage}"></i>
+                <i class="fa-regular fa-calendar icon" :class="{'selected_icon':calenderPage}"></i>
+            </a>
+            <a href="/timeline">
+                <i class="fa-regular fa-clock icon mr-10" :class="{'selected_icon':timelinePage}"></i>
             </a>
             <a href="/chat">
                 <i class="fa-regular fa-comment-dots icon" :class="{'selected_icon':chatPage}"></i>
             </a>
-            <a href="/timeline">
-                <i class="fa-regular fa-clock icon" :class="{'selected_icon':timelinePage}"></i>
+            <a href="/profile">
+                <i class="fa-regular fa-user icon" :class="{'selected_icon':profilePage}"></i>
             </a>
         </div>
     </footer>

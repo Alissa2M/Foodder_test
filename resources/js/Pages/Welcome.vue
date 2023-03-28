@@ -7,6 +7,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
 import TheFooter from '@/Components/TheFooter.vue';
+import BaseEdit from '@/Components/BaseEdit.vue';
+
 
 const props = defineProps({
     calenders : Array,
@@ -41,6 +43,12 @@ const calendarOptions = reactive({
 const form = useForm({
     date: '',
     calenderId: '',
+    title:'',
+    memo: '',
+    shop_name: '',
+    img_path: '',
+    category:'',
+    anonymous:''
 });
 
 // カレンダーIDと日付を送信
@@ -75,6 +83,21 @@ const clickDelete = (e) => {
     form.calenderId = e;
     deletePost()
 }
+
+// 投稿を編集
+const editModal = ref(false);
+const selectPost = ref('');
+const clickEdit = (e) => {
+    showPostInfo.value = e;
+    editModal.value = true;
+    selectPost.value = props.posts.find(post => post.id === showPostInfo.value)
+}
+
+const closeEditModal = () => {
+    editModal.value = false;
+}
+
+
 </script>
 
 <template>
@@ -111,12 +134,18 @@ const clickDelete = (e) => {
         <form @submit.prevent="deletePost">
             <template v-for="(value, key) in props.posts" :key="key">
                 <div v-if="String(value.id) === String(showPostInfo)">
-                    <span class="delete_btn" @click="clickDelete(value.id)">削除<i class="fa-solid fa-trash-can ml-1"></i></span>
+                    <div class="icon_box">
+                        <button type="button" @click="clickDelete(value.id)"><i class="fa-solid fa-trash-can icon"></i></button>
+                        <button type="button" @click="clickEdit(value.id)"><i class="fa-solid fa-pen icon"></i></button>
+                    </div>
                     <img :src="value.img_path" class="modal_image">
                     <BasePost v-bind:three-point="false" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" v-bind:modal="true" :shop-name="value.shop_name"/>
                 </div>
             </template>
         </form>
+    </BaseModal>
+    <BaseModal v-bind:show="editModal" v-bind:show-title="false" v-on:close="closeEditModal" v-if="selectPost">
+        <BaseEdit :edit-post="selectPost" :calender-id="showPostInfo"></BaseEdit>
     </BaseModal>
 </template>
 <style scoped>
@@ -226,13 +255,6 @@ main{
     overflow-y: hidden;
 }
 
-.delete_btn{
-    position: absolute;
-    top: 12px;
-    right: 20px;
-    font-size: 10px;
-    font-weight: normal;
-}
 /* モーダル */
 .modal_image{
     max-height: 40vh;
@@ -240,6 +262,22 @@ main{
     margin: 0 auto;
     object-fit: cover;
 }
+.icon_box{
+    position: absolute;
+    top: 6px;
+    right: 2px;
+}
+.icon{
+    width: 22px;
+    height: 22px;
+    color: #FF6F00;
+    font-size: 10px;
+    padding: 5px;
+    margin: 0 2px;
+    border: 1px solid #FF6F00;
+    border-radius: 100%
+}
+
 /* フッダー */
 .to_post{
     color: #fff;

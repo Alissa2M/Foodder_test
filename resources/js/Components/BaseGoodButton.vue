@@ -67,6 +67,7 @@ const unlike = async(id) => {
     font-size: 10px;
     color: #FF6F00;
     text-align: end;
+    margin-top: auto;
 }
 .common_button{
     margin-left: 1px;

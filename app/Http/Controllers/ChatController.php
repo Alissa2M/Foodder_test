@@ -62,7 +62,7 @@ class ChatController extends Controller
                 return Inertia::render('Chat');
             }else{
                 // chatGPTのAPIを実行
-                $chat_responses = $this->chat_gpt("ふーにゃとして、300文字以内で答えてください", $sentence);
+                $chat_responses = $this->chat_gpt("ふーにゃとして、250文字以内で答えてください", $sentence);
 
                 // データベースと現在のレスポンスの差
                 $calculate = count($chat_responses) - $historyCount;
@@ -87,7 +87,7 @@ class ChatController extends Controller
             }
         }else{
             // chatGPTのAPIを実行
-            $chat_responses = $this->chat_gpt("ふーにゃとして、300文字以内で答えてください。", $sentence);
+            $chat_responses = $this->chat_gpt("ふーにゃとして、250文字以内で答えてください。", $sentence);
 
             // chatにレコードを新しく登録する
             Chat::create([
