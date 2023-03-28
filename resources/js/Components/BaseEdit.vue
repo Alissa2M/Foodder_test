@@ -83,8 +83,6 @@ const submitEdit = (e) => {
         }
     });
 }
-
-
 </script>
 
 <template>
@@ -247,25 +245,6 @@ const submitEdit = (e) => {
 }
 .category_purple{
     background-color:purple;
-}
-/* 画像アップロード */
-.food_img{
-    width: fit-content;
-    height: 50px;
-    margin-top: 10px;
-}
-.photo_input{
-    display: none;
-}
-.photo_label{
-    width: 100%;
-    font-size: 14px;
-    color: #fff;
-    text-align: center;
-    padding: 5px;
-    margin-top: 20px;
-    background-color: #FF6F00;
-    border-radius: 5px;
 }
 /* 店舗名 */
 .option_box{

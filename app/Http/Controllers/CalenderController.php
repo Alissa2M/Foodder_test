@@ -116,12 +116,6 @@ class CalenderController extends Controller
         'category_id' => $request->category_id,
         'shop_name' => $request->shop_name,
       ]);
-        // $user = auth()->user();
-        // if ($calender->user_id === $user->id || $user->isAdmin) {
-        //   $calender->update($request->all());
-        // } else {
-        //   abort(403);
-        // }
     }
 
     /**
