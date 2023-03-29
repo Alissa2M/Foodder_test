@@ -1,93 +1,327 @@
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import BaseButton from '@/Components/BaseButton.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage} from '@inertiajs/vue3';
 
-const props = defineProps({
-    mustVerifyEmail: Boolean,
-    status: String,
-});
-
+// ログインユーザー情報
 const user = usePage().props.auth.user;
 
 const form = useForm({
     name: user.name,
     email: user.email,
+    current_password: '',
+    password: '',
+    password_confirmation: '',
+    user_icon:'',
+    user_header: '',
 });
+
+// 編集項目
+const editClicked = ref(false); //保存するボタン
+const editUsername = ref(false);
+const editEmail = ref(false);
+const editPassword = ref(false);
+
+const clickEditUsername = () => {
+    editUsername.value = true;
+    editClicked.value = true;
+}
+const clickEditEmail = () => {
+    editEmail.value = !editEmail.value;
+    if(editUsername.value || editPassword.value || editEmail.value){
+        editClicked.value = true;
+    }else{
+        editClicked.value = false;
+    }
+}
+
+const passwordInput = ref(null);
+const currentPasswordInput = ref(null);
+
+const clickEditPassword = () => {
+    editPassword.value = !editPassword.value;
+    if(editUsername.value || editEmail.value || editPassword.value){
+        editClicked.value = true;
+    }else{
+        editClicked.value = false;
+    }
+}
+
+// 編集保存
+const updateProfile = () => {
+    form.post(route('profile.update'), {
+        forceFormData: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            editUsername.value = false;
+            editPassword.value = false;
+            editEmail.value = false;
+            editClicked.value = false;
+        },
+        onError: () => {
+            if (form.errors.password) {
+                form.reset('password', 'password_confirmation');
+                passwordInput.value.focus();
+            }
+            if (form.errors.current_password) {
+                form.reset('current_password');
+                currentPasswordInput.value.focus();
+            }
+        },
+    });
+};
+
+// ユーザーネーム編集した後
+const checkUsername = (event) => {
+    if(user.name === event.target.value){
+        editUsername.value = false;
+        editClicked.value = false;
+    }
+}
+
+// ヘッダー画像編集
+const userHeaderPreview = ref('');
+const userHeader = ref(user.user_header);
+
+const changeUserHeader = () => {
+    const file = ref('');
+    file.value = userHeaderPreview.value.files[0];
+    userHeader.value = URL.createObjectURL(file.value);
+    form.user_header = userHeaderPreview.value.files[0];
+    editClicked.value = true;
+}
+
+// アイコン画像編集
+const userIconPreview = ref('');
+const userIcon = ref(user.user_icon);
+
+const changeUserIcon = () => {
+    const file = ref('');
+    file.value = userIconPreview.value.files[0];
+    userIcon.value = URL.createObjectURL(file.value);
+    form.user_icon = userIconPreview.value.files[0];
+    editClicked.value = true;
+}
+
+// 編集画面の中止（外側をクリック）
+const modal = ref();
+const clickOutside = (e) => {
+    if(!modal.value.contains(e.target)) {
+        form.reset()
+        userIcon.value = user.user_icon
+        userHeader.value = user.user_header
+        editPassword.value = false;
+        editEmail.value = false;
+    }
+}
+onMounted(() => {
+    addEventListener('click', clickOutside)
+})
+onBeforeUnmount(() => {
+    removeEventListener('click', clickOutside)
+})
 </script>
 
 <template>
-    <section>
-        <header>
-            <h2 class="text-lg font-medium text-gray-900">Profile Information</h2>
-
-            <p class="mt-1 text-sm text-gray-600">
-                Update your account's profile information and email address.
-            </p>
-        </header>
-
-        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
-            <div>
-                <InputLabel for="name" value="Name" />
-
+    <form @submit.prevent="updateProfile" ref="modal">
+        <!-- ヘッダー画像 -->
+        <label for="header_photo">
+            <input id="header_photo" type="file" name="user_header" class="header_input" @change="changeUserHeader" ref="userHeaderPreview">
+            <img src="../../../../../public/img/header.webp" alt="header" class="header" v-if="!userHeader"/>
+            <img :src="userHeader" alt="ヘッダー" class="header" v-else>
+        </label>
+        <!-- アイコン画像 -->
+        <div class="icon_box">
+            <div class="position_box">
+                <label for="user_icon">
+                    <input id="user_icon" type="file" name="user_icon" class="header_input" @change="changeUserIcon"  ref="userIconPreview">
+                    <img src="../../../../../public/img/guest.webp" alt="icon" class="icon" v-if="!userIcon"/>
+                    <img :src="userIcon" alt="アイコン" class="icon" v-else>
+                </label>
+                <!-- ユーザーネーム -->
+                <div v-if="!editUsername" class="dummy_box" v-on:click="clickEditUsername">
+                    <span class="username_dummy">{{ form.name }}</span>
+                    <i class="fa-solid fa-pen edit_pen"></i>
+                </div>
                 <TextInput
-                    id="name"
+                    v-else
                     type="text"
-                    class="mt-1 block w-full"
                     v-model="form.name"
+                    v-on:change="checkUsername"
                     required
                     autofocus
                     autocomplete="name"
+                    class="username focus:ring-0"
                 />
-
-                <InputError class="mt-2" :message="form.errors.name" />
             </div>
-
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div v-if="props.mustVerifyEmail && user.email_verified_at === null">
-                <p class="text-sm mt-2 text-gray-800">
-                    Your email address is unverified.
-                    <Link
-                        :href="route('verification.send')"
-                        method="post"
-                        as="button"
-                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Click here to re-send the verification email.
-                    </Link>
-                </p>
-
-                <div
-                    v-show="props.status === 'verification-link-sent'"
-                    class="mt-2 font-medium text-sm text-green-600"
-                >
-                    A new verification link has been sent to your email address.
+        </div>
+        <!-- 選択肢 -->
+        <div class="chose_edit">
+            <i class="fa-solid fa-envelope edit_icon" v-on:click="clickEditEmail"></i>
+            <i class="fa-solid fa-key edit_icon" v-on:click="clickEditPassword"></i>
+        </div>
+        <!-- コンテンツ -->
+        <div class="profile_contents">
+            <div v-if="form.recentlySuccessful" class="success text-green-700">保存しました</div>
+            <!-- メールアドレス変更 -->
+            <InputLabel v-if="editEmail" for="email" value="メールアドレス" />
+            <TextInput
+                v-if="editEmail"
+                id="email"
+                type="email"
+                v-model="form.email"
+                required
+                autocomplete="username"
+                class="email"
+            />
+            <!-- パスワードを変更 -->
+            <div v-if="editPassword" class="change_password">
+                <div>
+                    <InputLabel for="current_password" value="現在のパスワード" />
+                    <TextInput
+                        id="current_password"
+                        ref="currentPasswordInput"
+                        v-model="form.current_password"
+                        type="password"
+                        autocomplete="current-password"
+                    />
+                </div>
+                <div>
+                    <InputLabel for="password" value="新しいパスワード" />
+                    <TextInput
+                        id="password"
+                        ref="passwordInput"
+                        v-model="form.password"
+                        type="password"
+                        autocomplete="new-password"
+                    />
+                </div>
+                <div>
+                    <InputLabel for="password_confirmation" value="新しいパスワード（確認用）" />
+                    <TextInput
+                        id="password_confirmation"
+                        v-model="form.password_confirmation"
+                        type="password"
+                        autocomplete="new-password"
+                    />
                 </div>
             </div>
-
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
-
-                <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
-                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
-                </Transition>
-            </div>
-        </form>
-    </section>
+        </div>
+        <!-- バリデーション -->
+        <div class="error">
+            <InputError :message="form.errors.name" />
+            <InputError :message="form.errors.email" />
+            <InputError :message="form.errors.current_password" />
+            <InputError :message="form.errors.password" />
+            <InputError :message="form.errors.password_confirmation"/>
+            <InputError :message="form.errors.user_header" />
+            <InputError :message="form.errors.user_icon" />
+        </div>
+        <!-- 保存するボタン -->
+        <BaseButton v-if="editClicked" button-name="保存する"/>
+    </form>
 </template>
+
+<style scoped>
+/* ヘッダー画像 */
+.header{
+    height: 130px;
+    width: 100%;
+    object-fit: cover;
+    border: #908D8D solid 1px;
+}
+.header_input{
+    display: none;
+}
+/* アイコン画像 */
+.icon_box{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.position_box{
+    position: absolute;
+    top: -35px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    pointer-events: none
+}
+.icon{
+    height: 70px;
+    width: 70px;
+    background-color: #fff;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 100%;
+    object-fit: cover;
+    margin: 0 auto;
+    pointer-events: fill;
+}
+/* ユーザーネーム */
+.dummy_box{
+    width: fit-content;
+    margin: 8px auto;
+    pointer-events: fill;
+}
+.username_dummy{
+    width: fit-content;
+    font-weight: bold;
+    margin-left:15px;
+    margin-right: 5px;
+}
+.edit_pen{
+    font-size: 10px;
+    color: #FF6F00;
+}
+.username{
+    width: 100%;
+    padding: 8px 0;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    text-decoration: underline #FF6F00 dotted;
+    text-underline-offset: 5px;
+    pointer-events: fill;
+}
+/* 選択肢 */
+.chose_edit{
+    display: flex;
+    gap: 0 5px; 
+    justify-content: flex-end;
+    font-size: 12px;
+    margin-top: 5px;
+    color: #fff;
+}
+.edit_icon{
+    padding: 5px;
+    background-color: #FF6F00;
+    border-radius: 100%;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+}
+/* コンテンツ */
+.profile_contents{
+    margin-top: 60px;
+}
+.email{
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.change_password{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+/* バリデーション */
+.error{
+    margin: 5px;
+}
+.success{
+    font-size: 14px;
+    text-align: center;
+    margin: 10px auto;
+}
+</style>

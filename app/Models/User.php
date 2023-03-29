@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Calender;
+use App\Models\User;
+use App\Models\Like;
+use App\Models\Chat;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +28,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'email_verified_at',
         'password',
+        'user_icon',
+        'user_header',
     ];
 
     /**
@@ -42,4 +50,20 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function calender() {
+        return $this->hasMany(Calender::class);
+    }
+
+    public function like() {
+        return $this->hasMany(Like::class);
+    }
+
+    public function chat() {
+        return $this->hasMany(Chat::class);
+    }
+
+    public function isAdmin() {
+        return (bool) $this->id === 1;
+    }
 }

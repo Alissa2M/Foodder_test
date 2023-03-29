@@ -4,8 +4,16 @@ defineProps(['message']);
 
 <template>
     <div v-show="message">
-        <p class="text-sm text-red-600">
+        <p class="error_message">
             {{ message }}
         </p>
     </div>
 </template>
+
+<style scoped>
+.error_message{
+    color: red;
+    font-size: 12px;
+    margin-top: 3px;
+}
+</style>

@@ -1,9 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DeleteUserForm from './Partials/DeleteUserForm.vue';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     mustVerifyEmail: Boolean,
@@ -12,31 +10,58 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Profile" />
-
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>
-        </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdateProfileInformationForm
-                        :must-verify-email="mustVerifyEmail"
-                        :status="status"
-                        class="max-w-xl"
-                    />
-                </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdatePasswordForm class="max-w-xl" />
-                </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <DeleteUserForm class="max-w-xl" />
-                </div>
+    <Head title="プロフィール" />
+    <AuthenticatedLayout v-bind:href="'/dashboard'" :profile-page="true">
+        <template #main>
+            <div class="foodder_logo">
+                <Link href="/">
+                    <img src="../../../../public/img/Foodder_logo.webp" alt="Foodder">
+                </Link>
             </div>
-        </div>
+            <UpdateProfileInformationForm
+                :must-verify-email="mustVerifyEmail"
+                :status="status"
+                class="form"
+            />
+            <Link
+                :href="route('logout')"
+                method="post"
+                as="button"
+                class="logout"
+            >
+                ログアウト
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </Link>
+        </template>
+        <template #footer>
+            <i class="fa-solid fa-plus to_post"></i>
+        </template>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.foodder_logo{
+    width: 13rem;
+    margin: 30px auto;
+}
+.form{
+    width: 90%;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: #fff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+.logout{
+    display: block;
+    font-size: 12px;
+    padding: 0 25px;
+    margin: 5px 0 100px auto;
+}
+/* フッダー */
+.to_post{
+    color: #fff;
+    font-size: 23px;
+}
+
+</style>
