@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Storage;
 
 class CalenderController extends Controller
 {
@@ -72,16 +72,27 @@ class CalenderController extends Controller
         'title' => 'required|max:30',
         'description' => 'max:30',
       ]);
-      if($request->file('file')){
+
+      $image = $request->file('file');
+      if($image){
         $request->validate([
           'file' => 'max:3000|mimes:jpg,jpeg,png,gif,webp'
         ]);
-        $file_name = $request->file('file')->getClientOriginalName();
-        $file_path = $request->file('file')->storeAs('public', $file_name);
-        $img_path = '/storage' . '/' . $file_name;
+
+        // $file_name = $request->file('file')->getClientOriginalName();
+        // $file_path = $request->file('file')->storeAs('public', $file_name);
+        // $img_path = '/storage' . '/' . $file_name;
+        
+        // ↓本番環境のみ
+        // バケットへアップロードする
+        $path = Storage::disk('s3')->putFile('/', $image);
+        // アップロードした画像のフルパスを取得
+        $img_path = Storage::disk('s3')->url($path);
+
       }else{
         $img_path = '';
       }
+      
       $calender = new Calender([
         'title' => $request->title,
         'description' => $request->description,
