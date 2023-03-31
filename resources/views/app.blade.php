@@ -17,7 +17,14 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
-        <!-- <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD2CYYH2ADybStaE1le_M5njhHExqT4Izg&callback=Function.prototype"></script> -->
+	<!-- <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD2CYYH2ADybStaE1le_M5njhHExqT4Izg&callback=Function.prototype"></script> -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z22SFFPQCK"></script>
+	<script>
+ 		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-Z22SFFPQCK');
+	</script>	
     </head>
     <body class="bg-[#FFF3E0]">
         @inertia
