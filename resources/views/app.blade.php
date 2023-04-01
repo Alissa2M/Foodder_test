@@ -27,12 +27,13 @@
 
             gtag('config', 'G-Z22SFFPQCK');
         </script>
+        <script src="./serviceWorke.js"></script>
         <script>
             if('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js', { scope: '/' })
             })
-            }
+        }
         </script>
         <!-- アドセンス -->
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4513285824099190" crossorigin="anonymous"></script>
