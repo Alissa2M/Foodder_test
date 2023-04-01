@@ -12,8 +12,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
-        <link rel="manifest" href="/manifest.json">
-        
+       
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
@@ -27,6 +26,13 @@
             gtag('js', new Date());
 
             gtag('config', 'G-Z22SFFPQCK');
+        </script>
+        <script>
+            if('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            })
+            }
         </script>
         <!-- アドセンス -->
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4513285824099190" crossorigin="anonymous"></script>
