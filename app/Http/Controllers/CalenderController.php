@@ -85,11 +85,11 @@ class CalenderController extends Controller
           $file_path = $request->file('file')->storeAs('public', $file_name);
           $img_path = '/storage' . '/' . $file_name;
         }else{		
-	  // ↓本番環境のみ 
+          // ↓本番環境のみ 
           // バケットへアップロードする
-		$path = Storage::disk('s3')->putFile('/', $image);
+          $path = Storage::disk('s3')->putFile('/post', $image);
           // アップロードした画像のフルパスを取得
-		$img_path = Storage::disk('s3')->url($path);
+          $img_path = Storage::disk('s3')->url($path);
         }
       }else{
         $img_path = '';
@@ -140,6 +140,12 @@ class CalenderController extends Controller
     public function destroy(Request $request)
     {
       $calender = Calender::where('id',$request->calenderId);
+      // s3の画像を削除(本番のみ)
+      $url = $calender->get(['img_path']);
+      if(!App::environment('local')){
+        $s3 = str_replace('https://foodder.s3.ap-northeast-1.amazonaws.com/','',$url);
+        Storage::disk('s3')->delete($s3);
+      }
       $calender->delete();
       
       return Inertia::render('Welcome')->with('result','削除しました');
