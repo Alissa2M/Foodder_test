@@ -67,7 +67,7 @@ class ProfileController extends Controller
 
         if($request->file('user_header')){
             $request->validate([
-                'user_header' => 'max:3000|mimes:jpg,jpeg,png,gif,webp',
+                'user_header' => 'max:5000|mimes:jpg,jpeg,png,gif,webp',
             ]);
             $image = $request->file('user_header');
             if(App::environment('local')){
@@ -91,7 +91,7 @@ class ProfileController extends Controller
 
         if($request->file('user_icon')){
             $request->validate([
-                'user_icon' => 'max:3000|mimes:jpg,jpeg,png,gif,webp'
+                'user_icon' => 'max:5000|mimes:jpg,jpeg,png,gif,webp'
             ]); 
             $image = $request->file('user_icon');
             if(App::environment('local')){
