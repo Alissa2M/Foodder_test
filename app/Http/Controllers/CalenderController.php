@@ -84,12 +84,12 @@ class CalenderController extends Controller
           $file_name = $request->file('file')->getClientOriginalName();
           $file_path = $request->file('file')->storeAs('public', $file_name);
           $img_path = '/storage' . '/' . $file_name;
-        }else{
-          // ↓本番環境のみ
+        }else{		
+	  // ↓本番環境のみ 
           // バケットへアップロードする
-          $path = Storage::disk('s3')->putFile('/', $image);
+		$path = Storage::disk('s3')->putFile('/', $image);
           // アップロードした画像のフルパスを取得
-          $img_path = Storage::disk('s3')->url($path);
+		$img_path = Storage::disk('s3')->url($path);
         }
       }else{
         $img_path = '';
