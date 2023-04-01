@@ -66,18 +66,20 @@ onMounted(() => {
 const displayFooter = ref(false);
 const heightScreen = ref(false);
 const heightCalc = ref(true);
+const foucsInput = ref(false);
 
 const focusText = () => {
     displayFooter.value = true;
     heightScreen.value = true;
     heightCalc.value = false;
+    foucsInput.value = true;
 }
 
 const blurText = () => {
     displayFooter.value = false;
     heightScreen.value = false;
     heightCalc.value = true;
-
+    foucsInput.value = false;
 }
 
 </script>
@@ -107,7 +109,7 @@ const blurText = () => {
                     <BaseChat v-bind:chats-response="props.chat_responses"/>
                 </div>
                 <!-- 入力欄 -->
-                <div class="input_content">
+                <div class="input_content" :class="{'focus_input':foucsInput}">
                     <form @submit.prevent="submit" class="input_box">
                         <span class="hidden" :class="{'loading':loadingCss}">・・・考え中・・・</span>
                         <span class="text_length">{{inputMessage.length}}/100文字</span>
@@ -133,19 +135,24 @@ const blurText = () => {
     padding: 0 5px;
 }
 .height_screen{
-    height: 100vh;
+    height: calc(100vh - 150px);
     margin-bottom: 20px;
 }
 .height_calc{
-    height: calc(100vh - 120px);
+    height: calc(100vh - 200px);
 }
 .input_content{
-    position: sticky;
-    bottom: 0px;
+    position: fixed;
+    bottom: 80px;
+    width: 90%;
     background-color: #FFF3E0;
     padding: 25px 0 2px;
     margin-top: 15px;
     border-top: 2px dashed #FFC107;
+}
+.focus_input{
+    position: fixed;
+    bottom: 20px;
 }
 .input_box{
     position: relative;
