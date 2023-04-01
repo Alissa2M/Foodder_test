@@ -20,11 +20,6 @@ export default defineConfig({
         VitePWA({
             registerType: 'autoUpdate',
             injectRegister: 'inline',
-            includeAssets: [
-              'offline.html',
-              'favicon.ico',
-              'robots.txt',
-            ],
             manifest: {
               theme_color: '#FFF3E0',
               background_color: '#FFF3E0',
@@ -35,22 +30,22 @@ export default defineConfig({
               name: 'Foodder',
               icons: [
                 {
-                    src: 'img/Foodder_icon_48.png',
+                    src: '/img/icons/Foodder_icon_48.png',
                     sizes: '48x48',
                     type: 'image/png',
                 },
                 {
-                    src: 'img/Foodder_icon_96.png',
+                    src: '/img/icons/Foodder_icon_96.png',
                     sizes: '96x96',
                     type: 'image/png',
                 },  
                 {
-                  src: 'img/icon-192x192.png',
+                  src: '/img/icons/Foodder_icon_192.png',
                   sizes: '192x192',
                   type: 'image/png',
                 },
                 {
-                  src: 'img/Foodder_icon_512.png',
+                  src: '/img/icons/Foodder_icon_512.png',
                   sizes: '512x512',
                   type: 'image/png',
                 },
