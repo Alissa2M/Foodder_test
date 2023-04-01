@@ -18,6 +18,7 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
         <!-- <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD2CYYH2ADybStaE1le_M5njhHExqT4Izg&callback=Function.prototype"></script> -->
+        <!-- アナリティクス -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z22SFFPQCK"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
@@ -26,6 +27,8 @@
 
             gtag('config', 'G-Z22SFFPQCK');
         </script>
+        <!-- アドセンス -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4513285824099190" crossorigin="anonymous"></script>
     </head>
     <body class="bg-[#FFF3E0]">
         @inertia
