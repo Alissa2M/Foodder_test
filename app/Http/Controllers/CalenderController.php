@@ -143,7 +143,7 @@ class CalenderController extends Controller
       // s3の画像を削除(本番のみ)
       $url = $calender->get(['img_path']);
       if(!App::environment('local')){
-        $s3 = str_replace('https://foodder.s3.ap-northeast-1.amazonaws.com/','',$url);
+        $s3 = str_replace('https://foodder.s3.ap-northeast-1.amazonaws.com/','',$url[0]->img_path);
         Storage::disk('s3')->delete($s3);
       }
       $calender->delete();
