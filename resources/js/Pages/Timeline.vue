@@ -105,8 +105,10 @@ const closeEditModal = () => {
                 </div>
                 <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at" />
                 <div class="post_nav">
-                    <button v-if="user.id === value.user.id" type="button" @click="clickEdit(value.id)"><i class="fa-solid fa-pen icon"></i></button>
-                    <button v-if="user.id === value.user.id" type="button" @click="clickDelete(value.id)"><i class="fa-solid fa-trash-can icon"></i></button>
+                    <div v-if="user">
+                        <button v-if="user.id === value.user.id" type="button" @click="clickEdit(value.id)"><i class="fa-solid fa-pen icon"></i></button>
+                        <button v-if="user.id === value.user.id" type="button" @click="clickDelete(value.id)"><i class="fa-solid fa-trash-can icon"></i></button>
+                    </div>
                     <BaseGoodButton :calender-id="value.id" :like-number="value.likes_count" :like-check="value.liked_by_user" :user-check="user" class="ml-auto"/>
                 </div>
             </div>
