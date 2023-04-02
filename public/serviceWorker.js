@@ -1,5 +1,5 @@
 const CACHE_NAME = 'version-1';
-const urlsToCache = ['/'];
+const urlsToCache = ['/','/timeline'];
 
 // Install SW
 self.addEventListener('install', (event) => {
