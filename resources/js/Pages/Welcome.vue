@@ -121,7 +121,7 @@ const closeEditModal = () => {
         </div>
         <!-- 投稿 -->
         <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key" @click="postClick(value.id)">
-            <div :class="{'photo_box':!value.img_path}">
+            <div class="photo_default" :class="{'photo_box':!value.img_path}">
                 <img :src="value.img_path" alt="投稿画像" class="photo_review" v-if="value.img_path">
             </div>
             <div class="preview_content" >
@@ -231,16 +231,19 @@ main{
     border-radius: 15px; 
     overflow: hidden;
 }
-.photo_box{
+.photo_default{
     width: 80px;
     height:80px;
+    flex-shrink: 0;
+}
+.photo_box{
     background-image: url("../../../public/img/no_image.webp");
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-color: #D9D9D9;
-    flex-shrink: 0;
 }
+
 .photo_review{
     width: 80px;
     height: 80px;
