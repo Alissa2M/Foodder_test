@@ -65,14 +65,14 @@ header{
     .nav_bar{
         display: flex;
         flex-direction: row;
-        gap: 20px;
+        gap: 15px;
         font-size: 16px;
         margin: auto 20px;
     }
     .link_button{
         padding: 5px 10px;
         border-radius: 5px;
-        box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.08);
+        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.08);
     }
     .link_clicked{
         box-shadow: inset 0px 1px 5px rgba(0, 0, 0, 0.25);

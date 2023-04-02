@@ -120,8 +120,8 @@ const closeEditModal = () => {
         </div>
         <!-- 投稿 -->
         <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key" @click="postClick(value.id)">
-            <div class="photo_box">
-                <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path">
+            <div :class="{'photo_box':!value.img_path}">
+                <img :src="value.img_path" alt="投稿画像" class="photo_review" v-if="value.img_path">
             </div>
             <div class="preview_content" >
                 <BasePost v-bind:three-point="true" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" :shop-name="value.shop_name"/>

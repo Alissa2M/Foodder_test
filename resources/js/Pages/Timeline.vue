@@ -77,7 +77,7 @@ const closeEditModal = () => {
     <div class="header">
         <img src="../../../public/img/Foodder_logo.webp" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
     </div>
-    <ResponsiveHeader on-timeline="true" />
+    <ResponsiveHeader :on-timeline="true"/>
     <main>
         <div class="responsive">
             <div v-for="(value, key) in props.calenders" class="posts_box">

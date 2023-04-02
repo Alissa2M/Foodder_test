@@ -120,7 +120,7 @@ const blurText = () => {
                     </form>
                 </div>
             </div>
-            <p v-if="props.count === 6" class="max_chat">※１日の利用制限に達しました。明日もう一回使ってね！</p>
+            <p v-if="props.count === 6" class="max_chat">※１日の利用制限に達しました。また明日も使ってね！</p>
         </template>
         <template #footer></template>
     </AuthenticatedLayout>
