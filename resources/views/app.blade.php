@@ -27,7 +27,7 @@
 
             gtag('config', 'G-Z22SFFPQCK');
         </script>
-        <script>
+        <!-- <script>
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('serviceWorker.js')
                 .then(
@@ -40,7 +40,7 @@
                     console.log("Error Log: " + error);
                 });
             }
-        </script>
+        </script> -->
         <!-- アドセンス -->
         <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4513285824099190" crossorigin="anonymous"></script> -->
     </head>
