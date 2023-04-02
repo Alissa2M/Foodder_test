@@ -251,7 +251,12 @@ main{
         flex-wrap: wrap;
     }
     .posts_box{
+        display: flex;
+        flex-direction: column;
         width: 48%;
+    }
+    .post_nav{
+        margin-top: auto;
     }
     .img_box{
         height: 30vh;
