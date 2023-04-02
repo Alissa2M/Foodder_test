@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
@@ -18,6 +19,15 @@ const submit = () => {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
+
+const showPassword = ref(false);
+const showPasswordConfirm = ref(false);
+const clickPassword = () =>{
+    showPassword.value = !showPassword.value
+}
+const clickPasswordConfirm = () =>{
+    showPasswordConfirm.value = !showPasswordConfirm.value
+}
 </script>
 
 <template>
@@ -49,24 +59,52 @@ const submit = () => {
                 <InputError :message="form.errors.email" />
             </div>
             <div>
-                <TextInput
-                    id="password"
-                    type="password"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                    placeholder="パスワード"
-                />
+                <div v-if="!showPassword">
+                    <TextInput
+                        id="password"
+                        type="password"
+                        v-model="form.password"
+                        required
+                        autocomplete="new-password"
+                        placeholder="パスワード"
+                        class="password"
+                    />
+                    <span class="show_text_box" @click.stop="clickPassword"><i class="fa-regular fa-eye show_text"></i></span>
+                </div>
+                <div v-if="showPassword">
+                    <TextInput
+                        type="text"
+                        v-model="form.password"
+                        autocomplete="new-password"
+                        placeholder="パスワード"
+                        class="password"
+                    />
+                    <span class="show_text_box" @click.stop="clickPassword"><i class="fa-regular fa-eye-slash show_text"></i></span>
+                </div>
             </div>
             <div>
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                    placeholder="パスワード確認用"
-                />
+                <div v-if="!showPasswordConfirm">
+                    <TextInput
+                        id="password_confirmation"
+                        type="password"
+                        v-model="form.password_confirmation"
+                        required
+                        autocomplete="new-password"
+                        placeholder="パスワード確認用"
+                        class="password"
+                    />
+                    <span class="show_text_box" @click.stop="clickPasswordConfirm"><i class="fa-regular fa-eye show_text"></i></span>
+                </div>
+                <div v-if="showPasswordConfirm">
+                    <TextInput
+                        type="text"
+                        v-model="form.password_confirmation"
+                        autocomplete="new-password"
+                        placeholder="パスワード確認用"
+                        class="password"
+                    />
+                    <span class="show_text_box" @click.stop="clickPasswordConfirm"><i class="fa-regular fa-eye-slash show_text"></i></span>
+                </div>
                 <InputError :message="form.errors.password" />
                 <InputError :message="form.errors.password_confirmation" />
             </div>
@@ -89,5 +127,16 @@ const submit = () => {
 }
 .click_here{
     color:#0000ee;
+}
+.show_text_box{
+    position: relative;
+}
+.show_text{
+    position: absolute;
+    top: -0px;
+    right: 5px;
+}
+.password{
+    padding-right: 20px;
 }
 </style>
