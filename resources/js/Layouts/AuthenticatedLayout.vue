@@ -36,3 +36,13 @@ const onClick = () => {
         </TheFooter>
     </div>
 </template>
+
+<style scoped>
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    main{
+        width: 1024px;
+        margin: 20px auto;
+    }
+}</style>

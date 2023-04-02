@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('calender_id')->references('id')->on('calenders')->noActionOnDelete();
-            $table->foreignId('user_id')->references('id')->on('users')->noActionOnDelete();
+            $table->foreignId('calender_id')->references('id')->on('calenders')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

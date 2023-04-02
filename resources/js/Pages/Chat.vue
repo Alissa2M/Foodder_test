@@ -4,6 +4,7 @@ import {useForm, Head } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import BaseChat from '@/Components/BaseChat.vue';
 import BaseChatBackground from '@/Components/BaseChatBackground.vue';
+import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
 
 const props = defineProps({
     // 過去の会話の配列
@@ -66,24 +67,27 @@ onMounted(() => {
 const displayFooter = ref(false);
 const heightScreen = ref(false);
 const heightCalc = ref(true);
+const foucsInput = ref(false);
 
 const focusText = () => {
     displayFooter.value = true;
     heightScreen.value = true;
     heightCalc.value = false;
+    foucsInput.value = true;
 }
 
 const blurText = () => {
     displayFooter.value = false;
     heightScreen.value = false;
     heightCalc.value = true;
-
+    foucsInput.value = false;
 }
 
 </script>
 
 <template>
     <Head title="レシピ検索" />
+    <ResponsiveHeader :on-chat="true"/>
     <AuthenticatedLayout :href="'/'" :display-curcle="false" :display-footer="displayFooter" :chat-page="true">
         <template #main>
             <div class="main" v-if="props.count === 6">
@@ -107,7 +111,7 @@ const blurText = () => {
                     <BaseChat v-bind:chats-response="props.chat_responses"/>
                 </div>
                 <!-- 入力欄 -->
-                <div class="input_content">
+                <div class="input_content" :class="{'focus_input':foucsInput}">
                     <form @submit.prevent="submit" class="input_box">
                         <span class="hidden" :class="{'loading':loadingCss}">・・・考え中・・・</span>
                         <span class="text_length">{{inputMessage.length}}/100文字</span>
@@ -116,7 +120,7 @@ const blurText = () => {
                     </form>
                 </div>
             </div>
-            <p v-if="props.count === 6" class="max_chat">※１日の利用制限に達しました。明日もう一回使ってね！</p>
+            <p v-if="props.count === 6" class="max_chat">※１日の利用制限に達しました。また明日も使ってね！</p>
         </template>
         <template #footer></template>
     </AuthenticatedLayout>
@@ -133,19 +137,24 @@ const blurText = () => {
     padding: 0 5px;
 }
 .height_screen{
-    height: 100vh;
+    height: calc(100vh - 150px);
     margin-bottom: 20px;
 }
 .height_calc{
-    height: calc(100vh - 120px);
+    height: calc(100vh - 200px);
 }
 .input_content{
-    position: sticky;
-    bottom: 0px;
+    position: fixed;
+    bottom: 80px;
+    width: 90%;
     background-color: #FFF3E0;
     padding: 25px 0 2px;
     margin-top: 15px;
     border-top: 2px dashed #FFC107;
+}
+.focus_input{
+    position: fixed;
+    bottom: 20px;
 }
 .input_box{
     position: relative;
@@ -214,5 +223,14 @@ const blurText = () => {
     right: 0;
     font-size: 14px;
     text-align: center;
+}
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    .input_content{
+        bottom: 20px;
+        width: 950px;
+        margin: 0 auto;
+    }
 }
 </style>

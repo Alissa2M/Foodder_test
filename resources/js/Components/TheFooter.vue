@@ -97,4 +97,13 @@ footer{
     border-radius: 100%;
     box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.25);
 }
+
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    footer{
+       display: none;
+    }
+}
+
 </style>

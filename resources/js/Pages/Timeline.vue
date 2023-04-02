@@ -6,6 +6,7 @@ import BaseGoodButton from '@/Components/BaseGoodButton.vue';
 import { Head, usePage, useForm } from '@inertiajs/vue3';
 import TheFooter from '@/Components/TheFooter.vue';
 import BaseEdit from '@/Components/BaseEdit.vue';
+import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
 
 const props = defineProps({
     calenders:Array,
@@ -73,38 +74,43 @@ const closeEditModal = () => {
 <template>
     <Head title="タイムライン" />
     <!-- ヘッダー -->
-    <header>
+    <div class="header">
         <img src="../../../public/img/Foodder_logo.webp" alt="トップ画面へ" class="foodder_logo" @click="clickFoodder">
-    </header>
+    </div>
+    <ResponsiveHeader :on-timeline="true"/>
     <main>
-        <div v-for="(value, key) in props.calenders" class="posts_box">
-            <div class="top_box">
-                <!-- 匿名ユーザー -->
-                <div class="user_info" v-if="value.anonymous">
-                    <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon">
-                    <span>匿名ユーザー</span>
+        <div class="responsive">
+            <div v-for="(value, key) in props.calenders" class="posts_box">
+                <div class="top_box">
+                    <!-- 匿名ユーザー -->
+                    <div class="user_info" v-if="value.anonymous">
+                        <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon">
+                        <span>匿名ユーザー</span>
+                    </div>
+                    <!-- 一般ユーザー -->
+                    <div class="user_info" v-else @click="clickUser(value.user.id)">
+                        <img :src="value.user.user_icon" alt="ユーザーアイコン" class="user_icon" v-if="value.user.user_icon">
+                        <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon" v-else>
+                        <span>{{ value.user.name }}</span>
+                    </div>
+                    <!-- 店舗名 -->
+                    <div class="shop_box">
+                        <i class="fa-solid fa-location-dot shop_icon" v-if="value.shop_name"></i>
+                        <span class="shop_name three_point">{{value.shop_name }}</span>
+                    </div>
                 </div>
-                <!-- 一般ユーザー -->
-                <div class="user_info" v-else @click="clickUser(value.user.id)">
-                    <img :src="value.user.user_icon" alt="ユーザーアイコン" class="user_icon" v-if="value.user.user_icon">
-                    <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon" v-else>
-                    <span>{{ value.user.name }}</span>
+                <!-- 投稿内容 -->
+                <div class="img_box" v-if="value.img_path" @click="clickImage(value.img_path)">
+                    <img :src="value.img_path" class="food_img" >
                 </div>
-                <!-- 店舗名 -->
-                <div class="shop_box">
-                    <i class="fa-solid fa-location-dot shop_icon" v-if="value.shop_name"></i>
-                    <span class="shop_name three_point">{{value.shop_name }}</span>
+                <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at" />
+                <div class="post_nav">
+                    <div v-if="user">
+                        <button v-if="user.id === value.user.id" type="button" @click="clickEdit(value.id)"><i class="fa-solid fa-pen icon"></i></button>
+                        <button v-if="user.id === value.user.id" type="button" @click="clickDelete(value.id)"><i class="fa-solid fa-trash-can icon"></i></button>
+                    </div>
+                    <BaseGoodButton :calender-id="value.id" :like-number="value.likes_count" :like-check="value.liked_by_user" :user-check="user" class="ml-auto"/>
                 </div>
-            </div>
-            <!-- 投稿内容 -->
-            <div class="img_box" v-if="value.img_path" @click="clickImage(value.img_path)">
-                <img :src="value.img_path" class="food_img" >
-            </div>
-            <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at" />
-            <div class="post_nav">
-                <button v-if="user.id === value.user.id" type="button" @click="clickEdit(value.id)"><i class="fa-solid fa-pen icon"></i></button>
-                <button v-if="user.id === value.user.id" type="button" @click="clickDelete(value.id)"><i class="fa-solid fa-trash-can icon"></i></button>
-                <BaseGoodButton :calender-id="value.id" :like-number="value.likes_count" :like-check="value.liked_by_user" :user-check="user" class="ml-auto"/>
             </div>
         </div>
     </main>
@@ -122,7 +128,7 @@ const closeEditModal = () => {
 
 <style scoped>
 /* ヘッダー */
-header{
+.header{
     display: flex;
     flex-direction: row;
     width: 90%;
@@ -230,4 +236,36 @@ main{
     color: #fff;
     font-size: 23px;
 }
+
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    .header{
+       display: none;
+    }    
+    main{
+        width: 1024px;
+        margin: 20px auto;
+    }
+    .responsive{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .posts_box{
+        display: flex;
+        flex-direction: column;
+        width: 48%;
+    }
+    .post_nav{
+        margin-top: auto;
+    }
+    .img_box{
+        height: 30vh;
+    }
+    .food_img{
+        height:100%;
+    }
+}
+
 </style>
