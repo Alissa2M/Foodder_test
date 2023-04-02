@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import TheFooter from '@/Components/TheFooter.vue'
 import TheHeader from '@/Components/TheHeader.vue';
 import { Head,Link } from '@inertiajs/vue3';
+import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
 
 const props = defineProps({
     users: Array,
@@ -15,6 +16,7 @@ const userIcon = ref(props.users[0].user_icon);
 <template>
     <Head title="プロフィール" />
         <TheHeader />
+        <ResponsiveHeader />
         <div class="foodder_logo">
             <Link href="/">
                 <img src="../../../../public/img/Foodder_logo.webp" alt="Foodder">
@@ -105,6 +107,21 @@ const userIcon = ref(props.users[0].user_icon);
 .to_post{
     color: #fff;
     font-size: 23px;
+}
+
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    .form{
+        width: 1024px;
+        margin: 20px auto;
+    }
+    .header{
+        height: 200px;
+    }
+    .foodder_logo{
+        display: none;
+    }
 }
 
 </style>

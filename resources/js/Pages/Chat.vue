@@ -4,6 +4,7 @@ import {useForm, Head } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import BaseChat from '@/Components/BaseChat.vue';
 import BaseChatBackground from '@/Components/BaseChatBackground.vue';
+import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
 
 const props = defineProps({
     // 過去の会話の配列
@@ -86,6 +87,7 @@ const blurText = () => {
 
 <template>
     <Head title="レシピ検索" />
+    <ResponsiveHeader :on-chat="true"/>
     <AuthenticatedLayout :href="'/'" :display-curcle="false" :display-footer="displayFooter" :chat-page="true">
         <template #main>
             <div class="main" v-if="props.count === 6">
@@ -221,5 +223,14 @@ const blurText = () => {
     right: 0;
     font-size: 14px;
     text-align: center;
+}
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    .input_content{
+        bottom: 20px;
+        width: 950px;
+        margin: 0 auto;
+    }
 }
 </style>

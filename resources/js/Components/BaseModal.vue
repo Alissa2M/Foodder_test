@@ -81,7 +81,7 @@ onUnmounted(() => {
                 >
                     <div
                         v-show="show"
-                        class="absolute inset-0 h-fit max-h-[70vh] w-[90vw] mx-auto my-auto text-sm text-center bg-white rounded-lg shadow-xl transform transition-all px-6 pt-8 pb-5"
+                        class="absolute inset-0 h-fit max-h-[70vh] mx-auto my-auto text-sm text-center bg-white rounded-lg shadow-xl transform transition-all px-6 pt-8 pb-5 responsive"
                     >
                         <!-- モーダルのタイトル -->
                         <h2 v-if="props.showTitle">{{ modalTitle }}</h2>
@@ -100,4 +100,16 @@ h2{
     text-align: center;
     margin-bottom: 20px;
 }
+.responsive{
+    width: 90%;
+}
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    .responsive{
+        width: 900px;
+        margin: auto auto;
+    }
+}
+
 </style>

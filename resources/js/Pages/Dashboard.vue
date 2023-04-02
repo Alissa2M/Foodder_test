@@ -5,6 +5,8 @@ import InputError from '@/Components/InputError.vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import BasePost from '@/Components/BasePost.vue';
+import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
+import BaseButton from '@/Components/BaseButton.vue';
 
 const props = defineProps({
     date: String,
@@ -105,6 +107,7 @@ const postClick = () => {
 
 <template>
     <Head title="投稿画面" />
+    <ResponsiveHeader />
     <form @submit.prevent="submit">
         <AuthenticatedLayout :href="'/'" v-on:click-button="clickSend">
             <template #main>
@@ -172,6 +175,10 @@ const postClick = () => {
                     <div class="preview_content">
                         <BasePost :three-point="true" :title="form.title" :description="form.description" :start="form.start" :shop-name="form.shop_name"/>
                     </div>
+                </div>
+                <!-- PC投稿 -->
+                <div class="send_post_box">
+                    <BaseButton button-name="投稿を送信"/>
                 </div>
             </template>
             <template #footer>
@@ -431,9 +438,32 @@ const postClick = () => {
     width: 100%;
     object-fit: cover;
 }
+/* PC送信 */
+.send_post_box{
+    display: none;
+}
 /* フッター */
 .send_icon{
     color: #fff;
     font-size: 18px;
 }
+
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    form{
+        width: 1024px;
+        margin: 20px auto;
+    }
+    .input_content{
+        gap: 30px;
+    }
+    /* PC送信 */
+    .send_post_box{
+        display: block;
+        width: 100px;
+        margin: 20px 50px 20px auto;
+    }
+
+}
+
 </style>
