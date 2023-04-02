@@ -8,7 +8,7 @@ import BaseModal from '@/Components/BaseModal.vue';
 import BasePost from '@/Components/BasePost.vue';
 import TheFooter from '@/Components/TheFooter.vue';
 import BaseEdit from '@/Components/BaseEdit.vue';
-
+import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
 
 const props = defineProps({
     calenders : Array,
@@ -102,6 +102,7 @@ const closeEditModal = () => {
 
 <template>
     <Head title="カレンダー" />
+    <ResponsiveHeader :on-calender="true"/>
     <main>
         <!-- カレンダー -->
         <div class="calender_box" :class="{'relative':showPost}">
@@ -115,12 +116,12 @@ const closeEditModal = () => {
         </div>
         <!-- foodderロゴ -->
         <div class="nav">
-            <img src="../../../public/img/Foodder_logo.webp" alt="" class="foodder_logo">
+            <img src="../../../public/img/Foodder_logo.webp" alt="Foodder" class="foodder_logo">
         </div>
         <!-- 投稿 -->
         <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key" @click="postClick(value.id)">
-            <div class="photo_box">
-                <img :src="value.img_path" alt="" class="photo_review" v-if="value.img_path">
+            <div :class="{'photo_box':!value.img_path}">
+                <img :src="value.img_path" alt="投稿画像" class="photo_review" v-if="value.img_path">
             </div>
             <div class="preview_content" >
                 <BasePost v-bind:three-point="true" v-bind:title="value.title" v-bind:description="value.description" v-bind:start="value.start" :shop-name="value.shop_name"/>
@@ -214,7 +215,7 @@ main{
 }
 .foodder_logo{
     display: inline-block;
-    width: 40%;
+    height: 25px;
 }
 
 /* 投稿 */
@@ -283,4 +284,14 @@ main{
     color: #fff;
     font-size: 23px;
 }
+
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    main{
+        width: 1024px;
+        margin: 20px auto;
+    }
+}
+
 </style>

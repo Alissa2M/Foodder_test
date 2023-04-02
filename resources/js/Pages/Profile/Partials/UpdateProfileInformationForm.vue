@@ -324,4 +324,12 @@ onBeforeUnmount(() => {
     text-align: center;
     margin: 10px auto;
 }
+
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    .header{
+        height: 200px;
+    }
+}
 </style>

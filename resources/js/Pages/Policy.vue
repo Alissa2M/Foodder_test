@@ -141,4 +141,12 @@ ul li{
 .contact li{
     list-style-type: none;
 }
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    .box{
+        width: 1024px;
+        margin: 0 auto;
+    }
+}
+
 </style>

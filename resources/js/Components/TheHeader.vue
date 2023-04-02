@@ -22,4 +22,11 @@ header{
     background-size: 13px;
 }
 
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    header{
+        display: none;
+    }
+}
 </style>

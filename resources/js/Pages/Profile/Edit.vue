@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
 
 defineProps({
     mustVerifyEmail: Boolean,
@@ -11,6 +12,7 @@ defineProps({
 
 <template>
     <Head title="プロフィール" />
+    <ResponsiveHeader :on-profile="true"/>
     <AuthenticatedLayout v-bind:href="'/dashboard'" :profile-page="true">
         <template #main>
             <div class="foodder_logo">
@@ -55,8 +57,9 @@ defineProps({
 .logout{
     display: block;
     font-size: 12px;
-    padding: 0 25px;
-    margin: 5px 0 100px auto;
+    width: 90%;
+    margin: 5px auto 100px;
+    text-align: end;
 }
 /* フッダー */
 .to_post{
@@ -64,4 +67,11 @@ defineProps({
     font-size: 23px;
 }
 
+/* レスポンシブ */
+@media screen and (min-width:1024px) {
+/*　画面サイズが1024pxからはここを読み込む　*/
+    .foodder_logo{
+        display: none;
+    }
+}
 </style>
