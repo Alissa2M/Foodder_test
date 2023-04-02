@@ -90,11 +90,12 @@ const selectPost = ref('');
 const clickEdit = (e) => {
     showPostInfo.value = e;
     editModal.value = true;
-    selectPost.value = props.posts.find(post => post.id === showPostInfo.value)
+    selectPost.value = props.posts.find(post => post.id === showPostInfo.value);
 }
 
 const closeEditModal = () => {
     editModal.value = false;
+    selectPost.value = '';
 }
 
 

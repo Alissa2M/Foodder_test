@@ -43,8 +43,8 @@ const categories = ref([
         name:'その他'
     },
 ])
-const chooseCategoryColor = ref(3);
-const chooseCategoryName = ref("夜");
+const chooseCategoryColor = ref(props.editPost.category.id);
+const chooseCategoryName = ref(props.editPost.category.category_name);
 const showOption = ref(false);
 const showSelect = ref(true);
 
