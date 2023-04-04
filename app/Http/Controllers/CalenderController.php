@@ -153,7 +153,7 @@ class CalenderController extends Controller
 
     public function timeline()
     {
-      $calenders = Calender::with('user')->latest()->take(50)->get();
+      $calenders = Calender::with('user')->with('category')->latest()->take(50)->get();
 
       return Inertia::render('Timeline',['calenders' => $calenders]);
     }
