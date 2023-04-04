@@ -17,7 +17,9 @@ use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\User;
-
+use App\Models\Like;
+use App\Models\Calender;
+use App\Models\Category;
 
 
 class ProfileController extends Controller
@@ -34,9 +36,16 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $likes = Like::with('calender.user')->with('calender.category')->where('user_id',Auth::id())->latest()->take(30)->get();
+        $calenders = array();
+        foreach($likes as $key=>$like){
+            $calenders[]=$like->calender;
+        }
+
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'calenders' => $calenders
         ]);
     }
 
