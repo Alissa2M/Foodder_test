@@ -51,7 +51,7 @@ onMounted(() => {
             </Link>
             <!-- お気に入り -->
             <div>
-                <span>お気に入り</span>
+                <span class="title">お気に入り</span>
                 <!-- 投稿する -->
                 <div class="direct_row" ref="wrapperRef">
                     <div class="container" ref="containerRef">
@@ -86,6 +86,11 @@ onMounted(() => {
     margin: 5px auto 10px;
     text-align: end;
 }
+.title{
+    display: block;
+    width: 90%;
+    margin: auto;
+}
 
 .direct_row{
     overflow-x: scroll;
@@ -100,7 +105,7 @@ onMounted(() => {
 
 }
 ::v-deep .posts_box{
-    width: 45%;
+    width: 90%;
     min-width: 45%;
     margin: 5px auto 30px;
 }
@@ -129,6 +134,6 @@ onMounted(() => {
         width: 20%;
         min-width: 20%;
         margin: 5px 0 30px;
-}
+    }
 }
 </style>

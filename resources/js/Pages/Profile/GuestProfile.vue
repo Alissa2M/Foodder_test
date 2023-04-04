@@ -1,16 +1,30 @@
 <script setup>
-import { ref } from 'vue';
+import { ref,onMounted, nextTick } from 'vue';
 import TheFooter from '@/Components/TheFooter.vue'
 import TheHeader from '@/Components/TheHeader.vue';
 import { Head,Link } from '@inertiajs/vue3';
 import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
+import TimelinePost from '@/Components/TimelinePost.vue';
 
 const props = defineProps({
     users: Array,
+    calenders:Array
 })
 
 const userHeader = ref(props.users[0].user_header);
 const userIcon = ref(props.users[0].user_icon);
+
+const wrapperRef = ref(null);
+const containerRef = ref(null);
+
+onMounted(() => {
+  nextTick(() => {
+    const wrapper = wrapperRef.value;
+    const container = containerRef.value;
+    const center = (container.scrollWidth - wrapper.offsetWidth) / 2;
+    wrapper.scrollLeft = center;
+  });
+});
 </script>
 
 <template>
@@ -41,6 +55,13 @@ const userIcon = ref(props.users[0].user_icon);
                         <span class="username_dummy">{{ users[0].name }}</span>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!-- お気に入り -->
+        <span class="title">投稿</span>
+        <div class="direct_row" ref="wrapperRef">
+            <div class="container" ref="containerRef">
+                <TimelinePost v-bind:calenders-array="props.calenders" v-bind:liked-post="true"/>
             </div>
         </div>
         <TheFooter :href="route('dashboard')">
@@ -103,6 +124,39 @@ const userIcon = ref(props.users[0].user_icon);
     margin-left:5px;
     margin-right: 5px;
 }
+/* 投稿 */
+.title{
+    display: block;
+    width: 90%;
+    margin: 30px auto 0;
+}
+
+.direct_row{
+    overflow-x: scroll;
+    background-color: #FFF3E0;
+    margin-bottom:100px;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+}
+::v-deep .posts_box{
+    width: 90%;
+    min-width: 45%;
+    margin: 5px auto 30px;
+}
+
+::v-deep .img_box{
+    height:15vh;
+}
+
+::v-deep .shop_box{
+    width: 100%;
+}
+
 /* フッダー */
 .to_post{
     color: #fff;
@@ -122,6 +176,12 @@ const userIcon = ref(props.users[0].user_icon);
     .foodder_logo{
         display: none;
     }
+    ::v-deep .posts_box{
+        width: 20%;
+        min-width: 20%;
+        margin: 5px 0 30px;
+    }
+
 }
 
 </style>
