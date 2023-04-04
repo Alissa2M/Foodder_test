@@ -100,6 +100,7 @@ onMounted(() => {
 
 }
 ::v-deep .posts_box{
+    width: 45%;
     min-width: 45%;
     margin: 5px auto 30px;
 }
@@ -124,5 +125,10 @@ onMounted(() => {
     .foodder_logo{
         display: none;
     }
+    ::v-deep .posts_box{
+        width: 20%;
+        min-width: 20%;
+        margin: 5px 0 30px;
+}
 }
 </style>
