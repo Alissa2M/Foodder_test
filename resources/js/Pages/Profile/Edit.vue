@@ -1,12 +1,27 @@
 <script setup>
+import { onMounted, nextTick, ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
+import TimelinePost from '@/Components/TimelinePost.vue';
 
 defineProps({
     mustVerifyEmail: Boolean,
     status: String,
+    calenders:Array
+});
+
+const wrapperRef = ref(null);
+const containerRef = ref(null);
+
+onMounted(() => {
+  nextTick(() => {
+    const wrapper = wrapperRef.value;
+    const container = containerRef.value;
+    const center = (container.scrollWidth - wrapper.offsetWidth) / 2;
+    wrapper.scrollLeft = center;
+  });
 });
 </script>
 
@@ -34,6 +49,16 @@ defineProps({
                 ログアウト
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </Link>
+            <!-- お気に入り -->
+            <div>
+                <span>お気に入り</span>
+                <!-- 投稿する -->
+                <div class="direct_row" ref="wrapperRef">
+                    <div class="container" ref="containerRef">
+                        <TimelinePost v-bind:calenders-array="calenders" v-bind:liked-post="true"/>
+                    </div>
+                </div>
+            </div>
         </template>
         <template #footer>
             <i class="fa-solid fa-plus to_post"></i>
@@ -58,9 +83,33 @@ defineProps({
     display: block;
     font-size: 12px;
     width: 90%;
-    margin: 5px auto 100px;
+    margin: 5px auto 10px;
     text-align: end;
 }
+
+.direct_row{
+    overflow-x: scroll;
+    margin-bottom:100px;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+::v-deep .posts_box{
+    min-width: 45%;
+    margin: 5px auto 30px;
+}
+
+::v-deep .img_box{
+    height:25vw;
+}
+
+::v-deep .shop_box{
+    width: 100%;
+}
+
 /* フッダー */
 .to_post{
     color: #fff;

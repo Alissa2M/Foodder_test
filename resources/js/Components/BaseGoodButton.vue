@@ -54,7 +54,7 @@ const unlike = async(id) => {
 </script>
 
 <template>
-    <div class="good_box" >
+    <div class="good_box hover:cursor-pointer" >
         <span  @click="clickHeart(props.calenderId)" >
             {{ goodNumber }}
             <i class="fa-solid fa-heart common_button heart" :class="{'heart_active':goodCheck}"></i>
