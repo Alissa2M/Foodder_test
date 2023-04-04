@@ -89,6 +89,7 @@ onMounted(() => {
 
 .direct_row{
     overflow-x: scroll;
+    background-color: #FFF3E0;
     margin-bottom:100px;
 }
 
@@ -96,6 +97,7 @@ onMounted(() => {
     display: flex;
     flex-direction: row;
     gap: 10px;
+
 }
 ::v-deep .posts_box{
     min-width: 45%;
@@ -103,7 +105,7 @@ onMounted(() => {
 }
 
 ::v-deep .img_box{
-    height:25vw;
+    height:15vh;
 }
 
 ::v-deep .shop_box{
