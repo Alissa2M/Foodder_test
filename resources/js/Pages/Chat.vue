@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import {useForm, Head } from '@inertiajs/vue3';
+import {useForm, Head, usePage } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import BaseChat from '@/Components/BaseChat.vue';
 import BaseChatBackground from '@/Components/BaseChatBackground.vue';
 import ResponsiveHeader from '@/Components/ResponsiveHeader.vue';
+import BaseButton from '@/Components/BaseButton.vue';
 
 const props = defineProps({
     // 過去の会話の配列
@@ -83,6 +84,11 @@ const blurText = () => {
     foucsInput.value = false;
 }
 
+const user = usePage().props.auth.user;
+const toLogin = () => {
+    location.href='/login';
+}
+
 </script>
 
 <template>
@@ -115,9 +121,14 @@ const blurText = () => {
                     <form @submit.prevent="submit" class="input_box">
                         <span class="hidden" :class="{'loading':loadingCss}">・・・考え中・・・</span>
                         <span class="text_length">{{inputMessage.length}}/100文字</span>
-                        <textarea maxlength="100" rows="1" name="sentence" v-model="inputMessage" @input="adjustHeight" ref="textarea" class="inputText" @focus="focusText" @blur="blurText"></textarea>
-                        <i class="fa-solid fa-paper-plane send_chat" :class="{'hidden':showButton}" @mousedown="clickSend" @touchstart="clickSend"></i>
+                        <textarea maxlength="100" rows="1" name="sentence" v-model="inputMessage" @input="adjustHeight" ref="textarea" class="inputText" @focus="focusText" @blur="blurText" v-bind:disabled="!user"></textarea>
+                        <i class="fa-solid fa-paper-plane send_chat" :class="{'hidden':showButton}" @mousedown="clickSend" @touchstart="clickSend" v-if="user"></i>
                     </form>
+                    <!-- 未ログイン -->
+                    <div v-if="!user">
+                        <p class="guest_message">※チャットのご利用はログインが必要です</p>
+                        <BaseButton button-name="ログイン" class="login" @click="toLogin"/>
+                    </div>
                 </div>
             </div>
             <p v-if="props.count === 6" class="max_chat">※１日の利用制限に達しました。また明日も使ってね！</p>
@@ -145,16 +156,16 @@ const blurText = () => {
 }
 .input_content{
     position: fixed;
-    bottom: 80px;
+    bottom: 60px;
     width: 90%;
     background-color: #FFF3E0;
-    padding: 25px 0 2px;
+    padding: 25px 0;
     margin-top: 15px;
     border-top: 2px dashed #FFC107;
 }
 .focus_input{
     position: fixed;
-    bottom: 20px;
+    bottom: 0px;
 }
 .input_box{
     position: relative;
@@ -224,6 +235,14 @@ const blurText = () => {
     font-size: 14px;
     text-align: center;
 }
+
+.guest_message{
+    font-size: 12px;
+}
+.login{
+    width: 100px;
+    margin: 0 0 0 auto;
+}
 /* レスポンシブ */
 @media screen and (min-width:1024px) {
 /*　画面サイズが1024pxからはここを読み込む　*/
@@ -231,6 +250,9 @@ const blurText = () => {
         bottom: 20px;
         width: 950px;
         margin: 0 auto;
+    }
+    .login{
+        display: none;
     }
 }
 </style>
