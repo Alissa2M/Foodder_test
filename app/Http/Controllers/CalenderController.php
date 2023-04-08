@@ -77,7 +77,7 @@ class CalenderController extends Controller
       $image = $request->file('file');
       if($image){
         $request->validate([
-          'file' => 'max:5000|mimes:jpg,jpeg,png,gif,webp'
+          'file' => 'max:6000|mimes:jpg,jpeg,png,gif,webp'
         ]);
 
         if(App::environment('local')){
