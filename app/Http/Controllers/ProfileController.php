@@ -69,8 +69,6 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
-        $pre_user_header = $request->user()->user_header;
-        $pre_user_icon = $request->user()->user_icon;
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -85,55 +83,6 @@ class ProfileController extends Controller
 
             $request->user()->update([
                 'password' => Hash::make($validated['password']),
-            ]);
-        }
-
-        if($request->file('user_header')){
-            $request->validate([
-                'user_header' => 'max:5000|mimes:jpg,jpeg,png,gif,webp',
-            ]);
-            $image = $request->file('user_header');
-            if(App::environment('local')){
-                $file_name = $image->getClientOriginalName();
-                $file_path = $image->storeAs('public', $file_name);
-                $user_header = '/storage' . '/' . $file_name;
-            }else{		
-                // ↓本番環境のみ 
-                // 変更前のs3画像を削除
-                $s3 = str_replace('https://foodder.s3.ap-northeast-1.amazonaws.com/','',$pre_user_header);
-                Storage::disk('s3')->delete($s3);
-                // バケットへアップロードする
-                $path = Storage::disk('s3')->putFile('/user', $image);
-                // アップロードした画像のフルパスを取得
-                $user_header = Storage::disk('s3')->url($path);
-            }
-            $request->user()->update([
-                'user_header' => $user_header,
-            ]);
-        }
-
-        if($request->file('user_icon')){
-            $request->validate([
-                'user_icon' => 'max:5000|mimes:jpg,jpeg,png,gif,webp'
-            ]); 
-            $image = $request->file('user_icon');
-            if(App::environment('local')){
-                $file_name = $image->getClientOriginalName();
-                $file_path = $image->storeAs('public', $file_name);
-                $user_icon = '/storage' . '/' . $file_name;
-            }else{		
-                // ↓本番環境のみ 
-                // 変更前のs3画像を削除
-                $s3 = str_replace('https://foodder.s3.ap-northeast-1.amazonaws.com/','',$pre_user_icon);
-                Storage::disk('s3')->delete($s3);
-                // バケットへアップロードする
-                $path = Storage::disk('s3')->putFile('/user', $image);
-                // アップロードした画像のフルパスを取得
-                $user_icon = Storage::disk('s3')->url($path);
-            }
-            
-            $request->user()->update([
-                'user_icon' => $user_icon,
             ]);
         }
 

@@ -121,6 +121,10 @@ class CalenderController extends Controller
      */
     public function update(Request $request)
     {
+      $request->validate([
+        'title' => 'required|max:30',
+        'description' => 'max:50',
+      ]);
       Calender::where('id',$request->calenderId)->update([
         'title' => $request->title,
         'description' => $request->description,

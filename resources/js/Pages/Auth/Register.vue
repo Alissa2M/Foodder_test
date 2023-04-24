@@ -35,19 +35,6 @@ const clickPasswordConfirm = () =>{
         <Head title="会員登録" />
         <form @submit.prevent="submit" class="form_style">
             <div>
-                <p class="length">{{form.name.length}}/30文字</p>
-                <TextInput
-                    type="text"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                    placeholder="ユーザーネーム"
-                    maxlength="30"
-                />
-                <InputError :message="form.errors.name" />
-            </div>
-            <div>
                 <TextInput
                     id="email"
                     type="email"
@@ -121,9 +108,6 @@ const clickPasswordConfirm = () =>{
     gap: 15px;
     font-size: 12px;
     text-align: center;
-}
-.length{
-    text-align: right;
 }
 .click_here{
     color:#0000ee;

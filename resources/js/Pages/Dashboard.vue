@@ -157,7 +157,7 @@ const adjustHeight = (event) => {
                         <div class="option_box">
                             <!-- 店舗名 -->
                             <i class="fa-solid fa-location-dot shop_icon"></i>
-                            <input type="text" placeholder="店舗名" ref="origin" v-model="form.shop_name" class="underline_input shop_name"/>
+                            <input type="text" placeholder="店舗名" ref="origin" v-model="form.shop_name" class="underline_input shop_name" maxlength="30"/>
                             <!-- 匿名 -->
                             <div class="anonymous_box">
                                 <input type="checkbox" id="anonymous" name="anonymous" v-model="form.anonymous">
