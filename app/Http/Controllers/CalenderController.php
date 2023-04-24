@@ -71,7 +71,7 @@ class CalenderController extends Controller
     {
       $request->validate([
         'title' => 'required|max:30',
-        'description' => 'max:30',
+        'description' => 'max:50',
       ]);
 
       $image = $request->file('file');

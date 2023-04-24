@@ -103,6 +103,13 @@ const closeModal = () => {
 const postClick = () => {
     showPost.value = true;
 }
+
+// テキストエリア縦幅可変
+const adjustHeight = (event) => {
+    event.target.style.height = 'auto';
+    event.target.style.height = `${event.target.scrollHeight}px`;
+};
+
 </script>
 
 <template>
@@ -138,14 +145,14 @@ const postClick = () => {
                         <div>
                             <!-- フード名 -->
                             <InputError :message="form.errors.title" />
-                            <input type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="underline_input" maxlength="30">
+                            <textarea type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="underline_input" @input="adjustHeight" rows="1"></textarea>
                             <span class="word_length">{{form.title.length}}/30文字</span>
                         </div>
                         <div>
                             <!-- メモ -->
                             <InputError :message="form.errors.description" />
-                            <input type="text" v-model="form.description" name="description" placeholder="メモ" class="underline_input" maxlength="30">
-                            <span class="word_length">{{form.description.length}}/30文字</span>
+                            <textarea type="text" v-model="form.description" name="description" placeholder="メモ" class="underline_input" @input="adjustHeight" rows="1"></textarea>
+                            <span class="word_length">{{form.description.length}}/50文字</span>
                         </div>
                         <div class="option_box">
                             <!-- 店舗名 -->
@@ -254,6 +261,8 @@ const postClick = () => {
     padding: 0 5px;
     border: none;
     border-bottom: 1px dashed #FF6F00;
+    resize: none;
+    overflow: hidden;
 }
 [type='text']:focus{
     outline:none;
