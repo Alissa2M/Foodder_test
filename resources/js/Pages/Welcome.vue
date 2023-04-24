@@ -118,6 +118,7 @@ const closeEditModal = () => {
         <!-- foodderロゴ -->
         <div class="nav">
             <img src="../../../public/img/Foodder_logo.webp" alt="Foodder" class="foodder_logo">
+            <a href="./help">使い方</a>
         </div>
         <!-- 投稿 -->
         <div class="input_confirm" v-for="(value, key) in props.calenders" :key="key" @click="postClick(value.id)">
@@ -211,6 +212,7 @@ main{
 .nav{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     width: 90%;
     margin: 10px auto;
 }
