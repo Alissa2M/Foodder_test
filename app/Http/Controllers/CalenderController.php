@@ -71,13 +71,13 @@ class CalenderController extends Controller
     {
       $request->validate([
         'title' => 'required|max:30',
-        'description' => 'max:30',
+        'description' => 'max:50',
       ]);
 
       $image = $request->file('file');
       if($image){
         $request->validate([
-          'file' => 'max:5000|mimes:jpg,jpeg,png,gif,webp'
+          'file' => 'max:6000|mimes:jpg,jpeg,png,gif,webp'
         ]);
 
         if(App::environment('local')){

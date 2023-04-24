@@ -61,6 +61,10 @@ footer{
     background-color: #FFC107;
     box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
 }
+a {
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  cursor:pointer;
+}
 .circle_button{
     position: absolute;
     top: -25px;
