@@ -48,7 +48,6 @@ const form = useForm({
     shop_name: '',
     img_path: '',
     category:'',
-    anonymous:''
 });
 
 // カレンダーIDと日付を送信

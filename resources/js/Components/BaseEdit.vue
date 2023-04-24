@@ -15,7 +15,6 @@ const form = useForm({
     description:props.editPost.description,
     start:props.editPost.start,
     category_id:props.editPost.category_id,
-    anonymous:props.editPost.anonymous,
     shop_name: props.editPost.shop_name,
 });
 
@@ -135,11 +134,6 @@ const adjustHeight = (event) => {
             <!-- 店舗名 -->
             <i class="fa-solid fa-location-dot shop_icon"></i>
             <input type="text" placeholder="店舗名" ref="origin" v-model="form.shop_name" class="underline_input shop_name" maxlength="30"/>
-            <!-- 匿名 -->
-            <div class="anonymous_box">
-                <input type="checkbox" id="anonymous" name="anonymous" v-model="form.anonymous">
-                <label for="anonymous" class="check_label">匿名投稿</label>
-            </div>
         </div>
         <!-- 保存するボタン -->
         <BaseButton button-name="保存" />
@@ -266,19 +260,4 @@ const adjustHeight = (event) => {
 .shop_name{
     width: 50%;
 }
-.anonymous_box{
-    margin-top: 5px;
-    margin-left: auto;
-}
-[type='checkbox']:checked{
-    background-color: #FF6F00;
-}
-[type='checkbox']:focus{
-    box-shadow: none;
-}
-.check_label{
-    font-size: 14px;
-    margin-left: 5px;
-}
-
 </style>

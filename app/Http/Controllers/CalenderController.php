@@ -100,7 +100,6 @@ class CalenderController extends Controller
         'description' => $request->description,
         'start' => $request->start,
         'img_path' => $img_path,
-        'anonymous' => $request->anonymous,
         'user_id' => Auth::id(),
         'category_id' => $request->category_id,
         'shop_name' => $request->shop_name,
@@ -129,7 +128,6 @@ class CalenderController extends Controller
         'title' => $request->title,
         'description' => $request->description,
         'start' => $request->start,
-        'anonymous' => $request->anonymous,
         'category_id' => $request->category_id,
         'shop_name' => $request->shop_name,
       ]);

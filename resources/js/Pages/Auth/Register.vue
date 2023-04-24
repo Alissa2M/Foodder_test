@@ -7,7 +7,6 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import BaseButton from '@/Components/BaseButton.vue';
 
 const form = useForm({
-    name: '',
     email: '',
     password: '',
     password_confirmation: '',

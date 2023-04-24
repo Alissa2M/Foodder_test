@@ -26,24 +26,7 @@ class ProfileController extends Controller
 {
     public function index(User $user,Request $request)
     {
-        $posts = User::with('calender.user')->where('id',$request->id)->latest()->take(30)->get();
-        $arrays = array();
-        foreach($posts as $key=>$post){
-            $arrays=$post->calender;
-        }
-
-        $calenders = array();
-        foreach($arrays as $key=>$array){
-            if(!$array->anonymous){
-                $calenders[]=$array;
-            }
-        }
-
-        $users = User::where('id',$request->id)->get();
-        return Inertia::render('Profile/GuestProfile',[
-            'users' => $users,
-            'calenders' => $calenders
-        ]);
+        //
     }
     /**
      * Display the user's profile form.
