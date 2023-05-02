@@ -3,7 +3,7 @@ import BasePost from '@/Components/BasePost.vue';
 import BaseGoodButton from '@/Components/BaseGoodButton.vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import BaseEdit from '@/Components/BaseEdit.vue';
-import { usePage, useForm} from '@inertiajs/vue3';
+import { useForm} from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 
@@ -14,20 +14,6 @@ const props = defineProps({
         default:false
     }
 })
-
-// ユーザーネームをクリックしてプロフィール画面に遷移
-const user = usePage().props.auth.user;
-const clickUser = (e) => {
-    if(user){
-        if(user.id === e){
-            location.href='/profile'
-        }else{
-            location.href="/guestProfile/id="+e;
-        }
-    }else{
-        location.href="/guestProfile/id="+e;
-    }
-}
 
 // モーダル
 const photoUrl = ref('');
@@ -73,17 +59,6 @@ const closeEditModal = () => {
 <template>
     <div v-for="(value, key) in props.calendersArray" class="posts_box">
         <div class="top_box">
-            <!-- 匿名ユーザー -->
-            <div class="user_info" v-if="value.anonymous">
-                <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon">
-                <span v-show="!props.likedPost">匿名ユーザー</span>
-            </div>
-            <!-- 一般ユーザー -->
-            <div class="user_info hover:cursor-pointer" v-else @click="clickUser(value.user.id)" >
-                <img :src="value.user.user_icon" alt="ユーザーアイコン" class="user_icon" v-if="value.user.user_icon">
-                <img src="../../../public/img/guest.webp" alt="ユーザーアイコン" class="user_icon" v-else>
-                <span class="user_name"  v-show="!props.likedPost">{{ value.user.name }}</span>
-            </div>
             <!-- 店舗名 -->
             <div class="shop_box">
                 <i class="fa-solid fa-location-dot shop_icon" v-if="value.shop_name"></i>
@@ -128,7 +103,7 @@ const closeEditModal = () => {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: flex-end;
     font-size: 12px;
 }
 .shop_box{
@@ -137,7 +112,7 @@ const closeEditModal = () => {
     flex-wrap: nowrap;
     justify-content: flex-end;
     overflow: hidden;
-    width: 50%;
+    width: 70%;
 }
 .shop_icon{
     color: #FF6F00;
@@ -154,21 +129,6 @@ const closeEditModal = () => {
 }
 ::v-deep .ate_day{
     display: none;
-}
-.user_info{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 5px;
-}
-.user_icon{
-    height: 25px;
-    width: 25px;
-    background-color: #fff;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 100%;
-    object-fit: cover;
-    margin-right: 5px;
 }
 .img_box{
     position: relative;

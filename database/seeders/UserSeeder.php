@@ -17,28 +17,28 @@ class UserSeeder extends Seeder
     public function run()
     {
         $user = User::create([
-            'name' => 'ありさ',
+            // 'name' => 'ありさ',
             'email'=> 'test1@example.com',
             'email_verified_at'=> '2023-03-18 10:00',
             'password'=> 'password12345',
-            'user_icon'=> NULL,
-            'user_header'=> NULL,
+            // 'user_icon'=> NULL,
+            // 'user_header'=> NULL,
         ]);
         $user = User::create([
-            'name' => 'test2',
+            // 'name' => 'test2',
             'email'=> 'test2@example.com',
             'email_verified_at'=> '2023-03-18 10:00',
             'password'=> 'password12345',
-            'user_icon'=> NULL,
-            'user_header'=> NULL,
+            // 'user_icon'=> NULL,
+            // 'user_header'=> NULL,
         ]);
         $user = User::create([
-            'name' => 'test3',
+            // 'name' => 'test3',
             'email'=> 'test3@example.com',
             'email_verified_at'=> '2023-03-18 10:00',
             'password'=> 'password12345',
-            'user_icon'=> NULL,
-            'user_header'=> NULL,
+            // 'user_icon'=> NULL,
+            // 'user_header'=> NULL,
         ]);
 
     }

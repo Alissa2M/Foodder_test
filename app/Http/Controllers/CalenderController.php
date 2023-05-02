@@ -100,7 +100,6 @@ class CalenderController extends Controller
         'description' => $request->description,
         'start' => $request->start,
         'img_path' => $img_path,
-        'anonymous' => $request->anonymous,
         'user_id' => Auth::id(),
         'category_id' => $request->category_id,
         'shop_name' => $request->shop_name,
@@ -121,11 +120,14 @@ class CalenderController extends Controller
      */
     public function update(Request $request)
     {
+      $request->validate([
+        'title' => 'required|max:30',
+        'description' => 'max:50',
+      ]);
       Calender::where('id',$request->calenderId)->update([
         'title' => $request->title,
         'description' => $request->description,
         'start' => $request->start,
-        'anonymous' => $request->anonymous,
         'category_id' => $request->category_id,
         'shop_name' => $request->shop_name,
       ]);

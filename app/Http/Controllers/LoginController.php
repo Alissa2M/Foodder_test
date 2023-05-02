@@ -35,8 +35,6 @@ class LoginController extends Controller
     public function createUserByGoogle($gUser)
     {
         $user = User::create([
-            // usernameはあとで。migrateをrollbackしてから
-            'name'     => $gUser->name,
             'email'    => $gUser->email,
             'email_verified_at' => new Carbon(),
             'password' => \Hash::make(uniqid()),
