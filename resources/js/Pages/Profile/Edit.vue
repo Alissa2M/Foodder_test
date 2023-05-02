@@ -116,6 +116,7 @@ onMounted(() => {
 
 ::v-deep .shop_box{
     width: 100%;
+    height: 18px;
 }
 
 /* フッダー */

@@ -15,7 +15,6 @@ const form = useForm({
     description:props.editPost.description,
     start:props.editPost.start,
     category_id:props.editPost.category_id,
-    anonymous:props.editPost.anonymous,
     shop_name: props.editPost.shop_name,
 });
 
@@ -83,6 +82,12 @@ const submitEdit = (e) => {
         }
     });
 }
+
+// テキストエリア縦幅可変
+const adjustHeight = (event) => {
+    event.target.style.height = 'auto';
+    event.target.style.height = `${event.target.scrollHeight}px`;
+};
 </script>
 
 <template>
@@ -107,7 +112,7 @@ const submitEdit = (e) => {
         <div>
             <!-- フード名 -->
             <InputError :message="form.errors.title" />
-            <input type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="underline_input" maxlength="30" required>
+            <textarea type="text" v-model="form.title" name="title" placeholder="フード名(必須)" class="underline_input" @input="adjustHeight" rows="1" required></textarea>
             <span class="word_length">
                 <span v-if="form.title">{{form.title.length}}</span>
                 <span v-else>0</span>
@@ -118,22 +123,17 @@ const submitEdit = (e) => {
         <div>
             <!-- メモ -->
             <InputError :message="form.errors.description" />
-            <input type="text" v-model="form.description" name="description" placeholder="メモ" class="underline_input" maxlength="30">
+            <textarea type="text" v-model="form.description" name="description" placeholder="メモ" class="underline_input" @input="adjustHeight" rows="1"></textarea>
             <span class="word_length">
                 <span v-if="form.description">{{form.description.length}}</span>
                 <span v-else>0</span>
-                /30文字
+                /50文字
             </span>
         </div>
         <div class="option_box">
             <!-- 店舗名 -->
             <i class="fa-solid fa-location-dot shop_icon"></i>
-            <input type="text" placeholder="店舗名" ref="origin" v-model="form.shop_name" class="underline_input shop_name"/>
-            <!-- 匿名 -->
-            <div class="anonymous_box">
-                <input type="checkbox" id="anonymous" name="anonymous" v-model="form.anonymous">
-                <label for="anonymous" class="check_label">匿名投稿</label>
-            </div>
+            <input type="text" placeholder="店舗名" ref="origin" v-model="form.shop_name" class="underline_input shop_name" maxlength="30"/>
         </div>
         <!-- 保存するボタン -->
         <BaseButton button-name="保存" />
@@ -162,6 +162,8 @@ const submitEdit = (e) => {
     padding: 0 5px;
     border: none;
     border-bottom: 1px dashed #FF6F00;
+    resize: none;
+    overflow: hidden;
 }
 [type='text']:focus{
     outline:none;
@@ -258,19 +260,4 @@ const submitEdit = (e) => {
 .shop_name{
     width: 50%;
 }
-.anonymous_box{
-    margin-top: 5px;
-    margin-left: auto;
-}
-[type='checkbox']:checked{
-    background-color: #FF6F00;
-}
-[type='checkbox']:focus{
-    box-shadow: none;
-}
-.check_label{
-    font-size: 14px;
-    margin-left: 5px;
-}
-
 </style>

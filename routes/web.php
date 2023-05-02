@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/guestProfile/id={id}', [ProfileController::class, 'index'])->name('guest.profile');
 
 
 Route::get('/login/google', [App\Http\Controllers\LoginController::class, 'redirectToGoogle']);

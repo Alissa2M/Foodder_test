@@ -30,12 +30,7 @@ class Calender extends Model
         'img_path',
         'user_id',
         'category_id',
-        'anonymous',
         'shop_name',
-    ];
-
-    protected $casts = [
-        'anonymous' => 'boolean',
     ];
 
     public function category()
