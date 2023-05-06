@@ -3,7 +3,7 @@ import BasePost from '@/Components/BasePost.vue';
 import BaseGoodButton from '@/Components/BaseGoodButton.vue';
 import BaseModal from '@/Components/BaseModal.vue';
 import BaseEdit from '@/Components/BaseEdit.vue';
-import { useForm} from '@inertiajs/vue3';
+import { usePage,useForm} from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 
@@ -32,6 +32,8 @@ const form = useForm({
     calenderId:''
 });
 
+// ユーザー判別
+const user = usePage().props.auth.user;
 
 // 削除ボタン
 const clickDelete = (e) => {
