@@ -11,14 +11,14 @@ const porps = defineProps({
         <!-- ユーザー欄 -->
         <div v-if="index === 0 || index === 2 || index === 4">
             <BaseChatBackground :show-triangle="false" :user-box="true">
-                <div style="white-space:pre-line;">{{ chat }}</div>
+                <div style="white-space:pre-line;" class="chat_text">{{ chat }}</div>
             </BaseChatBackground>
         </div>
         <!-- 出力欄 -->
         <div v-else class="foonya_box">
             <div class="foonya"></div>
             <BaseChatBackground>
-                <div style="white-space:pre-line;">{{ chat }}</div>
+                <div style="white-space:pre-line;" class="chat_text">{{ chat }}</div>
             </BaseChatBackground>
 
         </div>
@@ -38,5 +38,8 @@ const porps = defineProps({
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.123);
     background-image: url(../../../public/img/Foonya_icon.webp);
     background-size: cover;
+}
+.chat_text{
+    word-wrap: break-word;
 }
 </style>

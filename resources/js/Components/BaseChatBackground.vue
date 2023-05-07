@@ -21,13 +21,12 @@ const props = defineProps({
 <style scoped>
 .chat_box{
     position: relative;
-    width: fit-content;
+    max-width: fit-content;
     padding: 8px;
     margin: 5px 0;
     background-color: #fff;
     border-radius: 10px;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.123));
-    
 }
 .triangle{
     position: absolute;
