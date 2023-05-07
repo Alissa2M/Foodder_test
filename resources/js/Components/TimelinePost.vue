@@ -56,6 +56,36 @@ const closeEditModal = () => {
     selectPost.value = '';
 }
 
+// 共有するボタン
+const shareLink = ref();
+const shareModal = ref(false);
+const generateShareLink = (id, title) => {
+    let encoded = encodeURIComponent(id + title);
+    if (encoded.length > 15) {
+        encoded = encoded.substr(0, 15);
+    }
+    shareLink.value = window.location.origin + '/timeline#' + encoded;
+    shareModal.value = true;
+}
+
+const closeShareModal = () => {
+    shareModal.value = false;
+}
+
+const shareId = (id, title) => {
+    let encoded = encodeURIComponent(id + title)
+    return encoded.length > 15 ? encoded.substr(0, 15) : encoded
+}
+
+// コピーする
+const copiedAlert = ref(false);
+const copyToClipboard = () => {
+    navigator.clipboard.writeText(shareLink.value);
+    copiedAlert.value = true;
+    setTimeout(() => {
+        copiedAlert.value = false;
+    }, 1600)
+}
 </script>
 
 <template>
@@ -66,13 +96,15 @@ const closeEditModal = () => {
                 <i class="fa-solid fa-location-dot shop_icon" v-if="value.shop_name"></i>
                 <span class="shop_name three_point">{{value.shop_name }}</span>
             </div>
+            <!-- 共有する -->
+            <i class="fa-solid fa-share-nodes share_icon" @click="generateShareLink(value.id, value.title)"></i>
         </div>
         <!-- 投稿内容 -->
         <div class="img_box" v-if="value.img_path" @click="clickImage(value.img_path)">
             <img :src="value.img_path" class="food_img" >
         </div>
         <BasePost :three-point="false" :title="value.title" :description="value.description" :start="value.created_at" />
-        <div class="post_nav">
+        <div class="post_nav" :id="shareId(value.id,value.title)">
             <div v-if="user">
                 <button v-if="user.id === value.user.id" type="button" @click="clickEdit(value.id)"><i class="fa-solid fa-pen icon"></i></button>
                 <button v-if="user.id === value.user.id" type="button" @click="clickDelete(value.id)"><i class="fa-solid fa-trash-can icon"></i></button>
@@ -85,6 +117,13 @@ const closeEditModal = () => {
     </BaseModal>
     <BaseModal v-bind:show="editModal" v-bind:show-title="false" v-on:close="closeEditModal" v-if="selectPost">
         <BaseEdit :edit-post="selectPost" :calender-id="showPostInfo"></BaseEdit>
+    </BaseModal>
+    <BaseModal v-bind:show="shareModal" v-bind:show-title="true" modal-title="共有する" v-on:close="closeShareModal">
+        <div class="share_box">
+            <span class="share_link">{{ shareLink }}</span>
+            <i class="fa-regular fa-clone copy_button" :class="{'copied_button':copiedAlert}" @click="copyToClipboard"></i>
+            <span class="copied" v-show="copiedAlert">copied</span>
+        </div>
     </BaseModal>
 
 </template>
@@ -105,14 +144,15 @@ const closeEditModal = () => {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     font-size: 12px;
+    margin-bottom: 3px;
 }
 .shop_box{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: flex-end;
     overflow: hidden;
     width: 70%;
 }
@@ -128,6 +168,11 @@ const closeEditModal = () => {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.share_icon{
+    color: #FF6F00;
+    padding: 0 5px;
+    cursor: pointer;
 }
 ::v-deep .ate_day{
     display: none;
@@ -169,7 +214,36 @@ const closeEditModal = () => {
     margin: 0 auto;
     object-fit: cover;
 }
-
+.share_box{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.share_link{
+    width: 90%;
+    word-wrap: break-word;
+    text-align: left;
+}
+.copied{
+    position: absolute;
+    bottom: -15px;
+    right: -8px;
+    color: #FF6F00;
+}
+.copy_button{
+    color: #FF6F00;
+    border: 1px solid #FF6F00;
+    border-radius: 100%;
+    padding: 6px;
+    cursor: pointer;
+}
+.copied_button{
+    color: #fff;
+    font-weight: bold;
+    background-color: #FF6F00;
+}
 /* レスポンシブ */
 @media screen and (min-width:1024px) {
 /*　画面サイズが1024pxからはここを読み込む　*/
