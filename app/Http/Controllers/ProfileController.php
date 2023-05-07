@@ -20,7 +20,7 @@ use App\Models\User;
 use App\Models\Like;
 use App\Models\Calender;
 use App\Models\Category;
-
+use App\Models\Recipe;
 
 class ProfileController extends Controller
 {
@@ -38,11 +38,13 @@ class ProfileController extends Controller
         foreach($likes as $key=>$like){
             $calenders[]=$like->calender;
         }
-
+        $recipes = Recipe::where('user_id',Auth::id())->latest()->take(30)->get();
+        
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'calenders' => $calenders
+            'calenders' => $calenders,
+            'recipes' => $recipes,
         ]);
     }
 
@@ -79,6 +81,7 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // ユーザー削除
         $request->validate([
             'password' => ['required', 'current-password'],
         ]);
