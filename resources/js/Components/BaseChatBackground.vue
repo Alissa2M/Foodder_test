@@ -23,7 +23,7 @@ const props = defineProps({
     position: relative;
     max-width: fit-content;
     padding: 8px;
-    margin: 5px 0;
+    margin: 5px 0 10px;
     background-color: #fff;
     border-radius: 10px;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.123));
@@ -41,6 +41,7 @@ const props = defineProps({
 }
 .user_box{
     margin-left: auto;
+    margin-bottom: 5px;
     background-color: #f1f1f1;
 }
 </style>

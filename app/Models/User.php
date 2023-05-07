@@ -60,6 +60,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Chat::class);
     }
 
+    public function recipe() {
+        return $this->hasMany(Recipe::class);
+    }
+
     public function isAdmin() {
         return (bool) $this->id === 1;
     }
