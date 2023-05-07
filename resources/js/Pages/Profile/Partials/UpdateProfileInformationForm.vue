@@ -94,16 +94,17 @@ onBeforeUnmount(() => {
         <div class="profile_contents">
             <div v-if="form.recentlySuccessful" class="success text-green-700">保存しました</div>
             <!-- メールアドレス変更 -->
-            <InputLabel v-if="editEmail" for="email" value="メールアドレス" />
-            <TextInput
-                v-if="editEmail"
-                id="email"
-                type="email"
-                v-model="form.email"
-                required
-                autocomplete="username"
-                class="email"
-            />
+            <div v-if="editEmail" class="email_box">
+                <InputLabel for="email" value="メールアドレス"/>
+                <TextInput
+                    id="email"
+                    type="email"
+                    v-model="form.email"
+                    required
+                    autocomplete="username"
+                    class="email"
+                />
+            </div>
             <!-- パスワードを変更 -->
             <div v-if="editPassword" class="change_password">
                 <div>
@@ -171,6 +172,9 @@ onBeforeUnmount(() => {
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
 }
 /* コンテンツ */
+.email_box{
+    margin-top: 10px;
+}
 .email{
     width: 100%;
     font-size: 14px;
@@ -180,6 +184,7 @@ onBeforeUnmount(() => {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 10px;
 }
 /* バリデーション */
 .error{

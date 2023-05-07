@@ -28,6 +28,9 @@ Route::post('/timeline', [App\Http\Controllers\LikeController::class, 'like'])->
 Route::delete('/timeline', [App\Http\Controllers\LikeController::class, 'unlike'])->name('like.destroy');
 Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat_gpt.index');
 Route::post('/chat', [App\Http\Controllers\ChatController::class, 'chat'])->name('chat_gpt.chat');
+Route::get('/recipe', [App\Http\Controllers\RecipeController::class, 'index'])->name('recipe.index');
+Route::get('/recipe/edit', [App\Http\Controllers\RecipeController::class, 'edit'])->name('recipe.edit');
+Route::put('/recipe/edit', [App\Http\Controllers\RecipeController::class, 'update'])->name('recipe.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

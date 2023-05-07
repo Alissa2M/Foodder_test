@@ -49,10 +49,11 @@ const props = defineProps({
     flex-direction: row;
     flex-wrap: nowrap;
     overflow: hidden;
+    align-items: end;
 }
 .shop_icon{
     color: #FF6F00;
-    margin: auto 0;
+    margin-bottom: 3px;
 }
 .shop_name{
     white-space: nowrap;
@@ -62,6 +63,7 @@ const props = defineProps({
     display: block;
     text-align: end;
     color: #908D8D;
+    margin-top: 10px;
 }
 .three_point{
     overflow: hidden;

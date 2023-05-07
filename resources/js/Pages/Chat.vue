@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import {useForm, Head, usePage } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import BaseChat from '@/Components/BaseChat.vue';
@@ -59,11 +59,6 @@ const adjustHeight = () => {
     textarea.value.style.height = textarea.value.scrollHeight + 'px';
 };
 
-// コンポーネントがマウントされた時に実行する処理
-onMounted(() => {
-    adjustHeight();
-});
-
 // footerの表示切り替え
 const displayFooter = ref(false);
 const heightScreen = ref(false);
@@ -96,16 +91,7 @@ const toLogin = () => {
     <ResponsiveHeader :on-chat="true"/>
     <AuthenticatedLayout :href="'/'" :display-curcle="false" :display-footer="displayFooter" :chat-page="true">
         <template #main>
-            <div class="main" v-if="props.count === 6">
-                <div class="foonya_box">
-                    <div class="foonya"></div>
-                    <BaseChatBackground>
-                        <p>AIのふーにゃです。<br>【レシピ検索】が得意です！<br>文脈を理解できるけど…<br>1日<strong>3回</strong>で疲れます。。。</p>
-                    </BaseChatBackground>
-                </div>
-                <BaseChat v-bind:chats-response="props.chat_responses" />
-            </div>
-            <div class="main" :class="{'height_screen':heightScreen,'height_calc':heightCalc}" v-else>
+            <div class="main" :class="{'height_screen':heightScreen,'height_calc':heightCalc}">
                 <div>
                     <div class="foonya_box">
                         <div class="foonya"></div>
@@ -117,7 +103,7 @@ const toLogin = () => {
                     <BaseChat v-bind:chats-response="props.chat_responses"/>
                 </div>
                 <!-- 入力欄 -->
-                <div class="input_content" :class="{'focus_input':foucsInput}">
+                <div class="input_content" :class="{'focus_input':foucsInput}"  v-if="props.count !== 6">
                     <form @submit.prevent="submit" class="input_box">
                         <span class="hidden" :class="{'loading':loadingCss}">・・・考え中・・・</span>
                         <span class="text_length">{{inputMessage.length}}/100文字</span>
