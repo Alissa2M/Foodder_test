@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use App\Models\Chat;
+use App\Models\Recipe;
 
 class ChatController extends Controller
 {
@@ -40,6 +41,13 @@ class ChatController extends Controller
      */
     public function chat(Request $request)
     {
+        if($request->recipe){
+            $request->validate([
+                'title' => 'required|max:30',
+            ]);
+            $this->store($request->title, $request->recipe);
+            return Inertia::render('Chat');
+        }
 
         // バリデーション
         $request->validate([
@@ -172,5 +180,14 @@ class ChatController extends Controller
         $messages[] = $choices;
 
         return $messages;
+    }
+
+    public function store($title, $recipe)
+    {
+        Recipe::create([
+            'user_id' => Auth::id(),
+            'title' => $title,
+            'recipe' => $recipe,
+        ]);
     }
 }
