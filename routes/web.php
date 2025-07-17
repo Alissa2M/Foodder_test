@@ -45,5 +45,6 @@ Route::get('/login/google/callback', [App\Http\Controllers\LoginController::clas
 // Route::get('login/facebook/callback', [App\Http\Controllers\LoginController::class, 'handleProviderCallback']);
 
 Route::inertia('/policy', 'Policy');
+Route::inertia('/help', 'Help');
 
 require __DIR__.'/auth.php';
